@@ -26,8 +26,15 @@ Criteo Conversion Logs（KDD 2014，Chapelle et al.）
 
 FDAM vs ES-DFM: **+1.79 千分点**（p=0.032）
 
-### 全量数据（待更新）
-见 `results/metrics_fulldata.md`
+### 全量数据（15,898,883 行）
+| 模型 | AUC |
+|------|-----|
+| Naive | 0.7450 |
+| DFM | 0.7473 |
+| ES-DFM | 0.7402 |
+| **FDAM（ours）** | **0.7289** |
+
+详见 `results/metrics_fulldata.md`
 
 ## 运行方式
 ```bash

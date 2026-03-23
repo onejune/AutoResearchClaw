@@ -10,7 +10,7 @@ from sklearn.metrics import roc_auc_score
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 DATA_PATH = "/mnt/data/oss_wanjun/pai_work/open_research/dataset/criteo_dataset/data.txt"
-MAX_ROWS = 500_000
+MAX_ROWS = 16_000_000  # 全量数据（原为 500_000 快速验证）
 HIDDEN_DIM = 64
 EPOCHS = 3
 BATCH_SIZE = 512
