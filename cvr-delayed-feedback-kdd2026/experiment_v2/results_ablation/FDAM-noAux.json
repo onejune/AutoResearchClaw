@@ -1,0 +1,9 @@
+{
+  "method": "FDAM-noAux",
+  "auc": 0.8154782184952033,
+  "pr_auc": 0.55898416678506,
+  "logloss": 0.37162283278683095,
+  "time_minutes": 0.96340385278066,
+  "n_samples": 476966,
+  "sample_ratio": 0.03
+}

@@ -1,0 +1,9 @@
+{
+  "method": "DEFER-fixed",
+  "auc": 0.8211019617657282,
+  "pr_auc": 0.5669821849154729,
+  "logloss": 0.4317005021107081,
+  "time_minutes": 1.5092602054278055,
+  "n_samples": 476966,
+  "sample_ratio": 0.03
+}

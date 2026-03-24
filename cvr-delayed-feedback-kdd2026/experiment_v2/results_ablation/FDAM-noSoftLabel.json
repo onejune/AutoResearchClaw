@@ -1,0 +1,9 @@
+{
+  "method": "FDAM-noSoftLabel",
+  "auc": 0.8109908199174566,
+  "pr_auc": 0.5535917256128478,
+  "logloss": 0.37417984835745455,
+  "time_minutes": 1.238197656472524,
+  "n_samples": 476966,
+  "sample_ratio": 0.03
+}
