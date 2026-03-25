@@ -379,14 +379,61 @@ class ESCM2(BaseMultiTaskModel):
 
 
 # ─────────────────────────────────────────────────────────────
+# 5. DirectCTCVR
+# ─────────────────────────────────────────────────────────────
+
+class DirectCTCVR(BaseMultiTaskModel):
+    """
+    直接建模 P(buy|imp) 的单任务 DNN。
+    输入：曝光特征，标签：buy（ctcvr_label）。
+    用于与多任务模型对比。
+
+    评估时：ctr_auc=0.0（不预测CTR），cvr_auc=0.0，ctcvr_auc=正常计算。
+    """
+
+    def __init__(self, feature_info: Dict, config):
+        super().__init__()
+        self.embedding = EmbeddingLayer(
+            sparse_vocab  = feature_info["sparse_vocab"],
+            sparse_feats  = feature_info["sparse_feats"],
+            dense_dim     = feature_info["dense_dim"],
+            embedding_dim = config.embedding_dim,
+        )
+        input_dim = self.embedding.output_dim
+
+        self.mlp = MLP(
+            input_dim, config.mlp_dims, output_dim=1,
+            dropout=config.dropout, output_activation="sigmoid",
+        )
+
+    def forward(self, x):
+        emb      = self.embedding(x)
+        p_ctcvr  = self.mlp(emb).squeeze(-1)
+        # ctr / cvr 输出占位（不参与训练，评估时忽略）
+        p_ctr    = torch.zeros_like(p_ctcvr)
+        p_cvr    = torch.zeros_like(p_ctcvr)
+        return {"ctr": p_ctr, "cvr": p_cvr, "ctcvr": p_ctcvr}
+
+    def compute_loss(self, preds, ctr_label, cvr_label, ctcvr_label):
+        loss_ctcvr = self._bce(preds["ctcvr"], ctcvr_label)
+        return {
+            "total":  loss_ctcvr,
+            "ctr":    torch.tensor(0.0, device=loss_ctcvr.device),
+            "cvr":    torch.tensor(0.0, device=loss_ctcvr.device),
+            "ctcvr":  loss_ctcvr,
+        }
+
+
+# ─────────────────────────────────────────────────────────────
 # 工厂函数
 # ─────────────────────────────────────────────────────────────
 
 MODEL_REGISTRY = {
-    "shared_bottom": SharedBottom,
-    "esmm":          ESMM,
-    "mmoe":          MMoE,
-    "escm2":         ESCM2,
+    "shared_bottom":  SharedBottom,
+    "esmm":           ESMM,
+    "mmoe":           MMoE,
+    "escm2":          ESCM2,
+    "direct_ctcvr":   DirectCTCVR,
 }
 
 

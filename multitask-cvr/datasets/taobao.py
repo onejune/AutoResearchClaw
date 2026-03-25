@@ -13,10 +13,15 @@ behavior_type：pv / cart / fav / buy
 
 特征：
   稀疏：user_id, item_id, category_id（hash 截断）
-  数值：hour（0-23）, dayofweek（0-6）,
-        u_pv_cnt, u_buy_cnt, u_cart_cnt, u_buy_rate, u_cart_rate,
-        i_pv_cnt, i_buy_cnt, i_buy_rate, i_cart_rate,
-        c_buy_rate
+  数值（20维）：
+    hour（0-23）, dayofweek（0-6）,
+    u_pv_cnt, u_buy_cnt, u_cart_cnt, u_buy_rate, u_cart_rate,
+    i_pv_cnt, i_buy_cnt, i_buy_rate, i_cart_rate,
+    c_buy_rate,
+    uc_buy_rate, uc_cart_rate,          # 用户-类目交叉特征
+    i_fav_cnt, i_fav_rate,              # 物品热度特征
+    u_fav_cnt, u_active_score,          # 用户活跃度特征
+    c_pv_cnt, c_cart_rate               # 类目热度特征
 """
 import logging
 from datetime import datetime
@@ -44,8 +49,12 @@ DENSE_FEATS  = [
     "u_pv_cnt", "u_buy_cnt", "u_cart_cnt", "u_buy_rate", "u_cart_rate",
     "i_pv_cnt", "i_buy_cnt", "i_buy_rate", "i_cart_rate",
     "c_buy_rate",
+    "uc_buy_rate", "uc_cart_rate",
+    "i_fav_cnt", "i_fav_rate",
+    "u_fav_cnt", "u_active_score",
+    "c_pv_cnt", "c_cart_rate",
 ]
-DENSE_DIM    = 12
+DENSE_DIM    = 20
 
 SPARSE_VOCAB = {
     "user_id":     USER_VOCAB_SIZE,
@@ -66,7 +75,7 @@ class _TaobaoTorchDataset(Dataset):
         user_ids:    np.ndarray,   # (N,) int64
         item_ids:    np.ndarray,   # (N,) int64
         cat_ids:     np.ndarray,   # (N,) int64
-        dense:       np.ndarray,   # (N, 12) float32
+        dense:       np.ndarray,   # (N, 20) float32
         ctr_labels:  np.ndarray,   # (N,) float32
         cvr_labels:  np.ndarray,   # (N,) float32
         ctcvr_labels: np.ndarray,  # (N,) float32
@@ -290,7 +299,7 @@ def _load_taobao(
     Returns
     -------
     (user_ids, item_ids, cat_ids, dense, ctr_labels, cvr_labels, ctcvr_labels)
-    每个均为 numpy array，长度相同。dense shape: (N, 12)
+    每个均为 numpy array，长度相同。dense shape: (N, 20)
     """
     logger.info("开始读取 Taobao UserBehavior 数据（pandas）: %s", data_path)
 
@@ -328,8 +337,9 @@ def _load_taobao(
     u_pv_s   = df[df["behavior_type"] == "pv"].groupby("user_id").size().rename("u_pv")
     u_buy_s  = df[df["behavior_type"] == "buy"].groupby("user_id").size().rename("u_buy")
     u_cart_s = df[df["behavior_type"] == "cart"].groupby("user_id").size().rename("u_cart")
+    u_fav_s  = df[df["behavior_type"] == "fav"].groupby("user_id").size().rename("u_fav")
 
-    u_stats = pd.concat([u_pv_s, u_buy_s, u_cart_s], axis=1).fillna(0).astype(np.float32)
+    u_stats = pd.concat([u_pv_s, u_buy_s, u_cart_s, u_fav_s], axis=1).fillna(0).astype(np.float32)
     u_stats["u_pv_log"]   = np.log1p(u_stats["u_pv"].values)
     u_stats["u_buy_log"]  = np.log1p(u_stats["u_buy"].values)
     u_stats["u_cart_log"] = np.log1p(u_stats["u_cart"].values)
@@ -343,12 +353,23 @@ def _load_taobao(
     u_stats["u_buy_rate"]  = u_stats["u_buy"]  / (u_stats["u_pv"] + 1.0)
     u_stats["u_cart_rate"] = u_stats["u_cart"] / (u_stats["u_pv"] + 1.0)
 
+    # 用户活跃度特征
+    u_fav_log = np.log1p(u_stats["u_fav"].values)
+    mu, sigma = u_fav_log.mean(), u_fav_log.std()
+    u_stats["u_fav_cnt"] = (u_fav_log - mu) / (sigma + 1e-8)
+
+    # u_active_score = (buy*3 + cart*2 + fav*1) / (pv+1)，min-max 标准化
+    active_raw = (u_stats["u_buy"].values * 3 + u_stats["u_cart"].values * 2 + u_stats["u_fav"].values) / (u_stats["u_pv"].values + 1.0)
+    a_min, a_max = active_raw.min(), active_raw.max()
+    u_stats["u_active_score"] = (active_raw - a_min) / (a_max - a_min + 1e-8)
+
     # 物品统计
     i_pv_s   = df[df["behavior_type"] == "pv"].groupby("item_id").size().rename("i_pv")
     i_buy_s  = df[df["behavior_type"] == "buy"].groupby("item_id").size().rename("i_buy")
     i_cart_s = df[df["behavior_type"] == "cart"].groupby("item_id").size().rename("i_cart")
+    i_fav_s  = df[df["behavior_type"] == "fav"].groupby("item_id").size().rename("i_fav")
 
-    i_stats = pd.concat([i_pv_s, i_buy_s, i_cart_s], axis=1).fillna(0).astype(np.float32)
+    i_stats = pd.concat([i_pv_s, i_buy_s, i_cart_s, i_fav_s], axis=1).fillna(0).astype(np.float32)
     i_stats["i_pv_log"]  = np.log1p(i_stats["i_pv"].values)
     i_stats["i_buy_log"] = np.log1p(i_stats["i_buy"].values)
 
@@ -360,14 +381,36 @@ def _load_taobao(
     i_stats["i_buy_rate"]  = i_stats["i_buy"]  / (i_stats["i_pv"] + 1.0)
     i_stats["i_cart_rate"] = i_stats["i_cart"] / (i_stats["i_pv"] + 1.0)
 
-    # 类目统计
-    c_pv_s  = df[df["behavior_type"] == "pv"].groupby("category_id").size().rename("c_pv")
-    c_buy_s = df[df["behavior_type"] == "buy"].groupby("category_id").size().rename("c_buy")
-    c_stats = pd.concat([c_pv_s, c_buy_s], axis=1).fillna(0).astype(np.float32)
-    c_stats["c_buy_rate"] = c_stats["c_buy"] / (c_stats["c_pv"] + 1.0)
+    # 物品热度特征
+    i_fav_log = np.log1p(i_stats["i_fav"].values)
+    mu, sigma = i_fav_log.mean(), i_fav_log.std()
+    i_stats["i_fav_cnt"] = (i_fav_log - mu) / (sigma + 1e-8)
+    i_stats["i_fav_rate"] = i_stats["i_fav"] / (i_stats["i_pv"] + 1.0)
 
-    logger.info("统计特征计算完成 | 用户数=%d | 物品数=%d | 类目数=%d",
-                len(u_stats), len(i_stats), len(c_stats))
+    # 类目统计
+    c_pv_s   = df[df["behavior_type"] == "pv"].groupby("category_id").size().rename("c_pv")
+    c_buy_s  = df[df["behavior_type"] == "buy"].groupby("category_id").size().rename("c_buy")
+    c_cart_s = df[df["behavior_type"] == "cart"].groupby("category_id").size().rename("c_cart")
+    c_stats  = pd.concat([c_pv_s, c_buy_s, c_cart_s], axis=1).fillna(0).astype(np.float32)
+    c_stats["c_buy_rate"]  = c_stats["c_buy"]  / (c_stats["c_pv"] + 1.0)
+    c_stats["c_cart_rate"] = c_stats["c_cart"] / (c_stats["c_pv"] + 1.0)
+
+    # 类目热度特征
+    c_pv_log = np.log1p(c_stats["c_pv"].values)
+    mu, sigma = c_pv_log.mean(), c_pv_log.std()
+    c_stats["c_pv_cnt"] = (c_pv_log - mu) / (sigma + 1e-8)
+
+    # 用户-类目交叉特征
+    logger.info("计算用户-类目交叉特征...")
+    uc_pv_s   = df[df["behavior_type"] == "pv"].groupby(["user_id", "category_id"]).size().rename("uc_pv")
+    uc_buy_s  = df[df["behavior_type"] == "buy"].groupby(["user_id", "category_id"]).size().rename("uc_buy")
+    uc_cart_s = df[df["behavior_type"] == "cart"].groupby(["user_id", "category_id"]).size().rename("uc_cart")
+    uc_stats  = pd.concat([uc_pv_s, uc_buy_s, uc_cart_s], axis=1).fillna(0).astype(np.float32)
+    uc_stats["uc_buy_rate"]  = uc_stats["uc_buy"]  / (uc_stats["uc_pv"] + 1.0)
+    uc_stats["uc_cart_rate"] = uc_stats["uc_cart"] / (uc_stats["uc_pv"] + 1.0)
+
+    logger.info("统计特征计算完成 | 用户数=%d | 物品数=%d | 类目数=%d | 用户-类目对数=%d",
+                len(u_stats), len(i_stats), len(c_stats), len(uc_stats))
 
     # ── 取 pv 样本 ────────────────────────────────────────
     pv_df = df[df["behavior_type"] == "pv"].copy()
@@ -379,21 +422,31 @@ def _load_taobao(
 
     # ── join 统计特征 ─────────────────────────────────────
     pv_df = pv_df.join(
-        u_stats[["u_pv_log", "u_buy_log", "u_cart_log", "u_buy_rate", "u_cart_rate"]],
+        u_stats[["u_pv_log", "u_buy_log", "u_cart_log", "u_buy_rate", "u_cart_rate",
+                 "u_fav_cnt", "u_active_score"]],
         on="user_id", how="left",
     )
     pv_df = pv_df.join(
-        i_stats[["i_pv_log", "i_buy_log", "i_buy_rate", "i_cart_rate"]],
+        i_stats[["i_pv_log", "i_buy_log", "i_buy_rate", "i_cart_rate",
+                 "i_fav_cnt", "i_fav_rate"]],
         on="item_id", how="left",
     )
     pv_df = pv_df.join(
-        c_stats[["c_buy_rate"]],
+        c_stats[["c_buy_rate", "c_cart_rate", "c_pv_cnt"]],
         on="category_id", how="left",
     )
 
+    # 用户-类目交叉特征 merge（MultiIndex 需用 merge）
+    uc_merge = uc_stats[["uc_buy_rate", "uc_cart_rate"]].reset_index()
+    pv_df = pv_df.merge(uc_merge, on=["user_id", "category_id"], how="left")
+
     # 填充 NaN（未见过的 id）
     stat_cols = ["u_pv_log", "u_buy_log", "u_cart_log", "u_buy_rate", "u_cart_rate",
-                 "i_pv_log", "i_buy_log", "i_buy_rate", "i_cart_rate", "c_buy_rate"]
+                 "u_fav_cnt", "u_active_score",
+                 "i_pv_log", "i_buy_log", "i_buy_rate", "i_cart_rate",
+                 "i_fav_cnt", "i_fav_rate",
+                 "c_buy_rate", "c_cart_rate", "c_pv_cnt",
+                 "uc_buy_rate", "uc_cart_rate"]
     pv_df[stat_cols] = pv_df[stat_cols].fillna(0.0)
 
     # ── 时间特征 ──────────────────────────────────────────
@@ -423,6 +476,14 @@ def _load_taobao(
         pv_df["i_buy_rate"].values.astype(np.float32),
         pv_df["i_cart_rate"].values.astype(np.float32),
         pv_df["c_buy_rate"].values.astype(np.float32),
+        pv_df["uc_buy_rate"].values.astype(np.float32),
+        pv_df["uc_cart_rate"].values.astype(np.float32),
+        pv_df["i_fav_cnt"].values.astype(np.float32),
+        pv_df["i_fav_rate"].values.astype(np.float32),
+        pv_df["u_fav_cnt"].values.astype(np.float32),
+        pv_df["u_active_score"].values.astype(np.float32),
+        pv_df["c_pv_cnt"].values.astype(np.float32),
+        pv_df["c_cart_rate"].values.astype(np.float32),
     ]).astype(np.float32)
 
     # ── 稀疏特征（hash 截断）─────────────────────────────
