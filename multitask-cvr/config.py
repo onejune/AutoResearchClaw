@@ -32,5 +32,8 @@ class Config:
     seed: int = 42
     early_stopping_patience: int = 3
 
+    # ── Taobao 时序切分 ────────────────────────────────────
+    taobao_temporal: bool = False   # True=时序切分（无穿越），False=随机切分（默认）
+
     # ── 输出 ──────────────────────────────────────────────
     output_dir: str = "results"
