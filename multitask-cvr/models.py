@@ -46,7 +46,7 @@ class EmbeddingLayer(nn.Module):
         self.dense_dim     = dense_dim
 
         self.embeddings = nn.ModuleDict({
-            feat: nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
+            feat: nn.Embedding(vocab_size + 1, embedding_dim, padding_idx=0)
             for feat, vocab_size in sparse_vocab.items()
             if feat in sparse_feats
         })
@@ -55,20 +55,26 @@ class EmbeddingLayer(nn.Module):
 
     def forward(self, x: Dict[str, torch.Tensor]) -> torch.Tensor:
         """
-        x : dict 包含 sparse 特征（long tensor）和 "dense"（float tensor）
+        x : dict 包含 sparse 特征（long tensor）和可选的 "dense"（float tensor）
         返回 shape: (batch, output_dim)
         """
+        # 确定 device
+        ref_key = list(x.keys())[0]
+        device = x[ref_key].device
+
         emb_list = []
         for feat in self.sparse_feats:
             if feat in self.embeddings:
                 emb_list.append(self.embeddings[feat](x[feat]))   # (B, emb_dim)
             else:
                 # 缺失特征用零向量
-                B = x[list(x.keys())[0]].size(0)
-                emb_list.append(torch.zeros(B, self.embedding_dim, device=x["dense"].device))
+                B = x[ref_key].size(0)
+                emb_list.append(torch.zeros(B, self.embedding_dim, device=device))
 
-        dense = x["dense"]   # (B, dense_dim)
-        return torch.cat(emb_list + [dense], dim=-1)   # (B, output_dim)
+        parts = emb_list
+        if self.dense_dim > 0 and "dense" in x:
+            parts = emb_list + [x["dense"]]   # (B, dense_dim)
+        return torch.cat(parts, dim=-1)   # (B, output_dim)
 
 
 class MLP(nn.Module):

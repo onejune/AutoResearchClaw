@@ -136,6 +136,50 @@ def _sample_skeleton_lines(path: str, sample_size: Optional[int], seed: int):
     return sampled, user_ids_set
 
 
+def _stratified_sample_skeleton_lines(path: str,
+                                       neg_sample_rate: float,
+                                       click_sample_rate: float,
+                                       seed: int):
+    """
+    分层采样扫描 skeleton（第一遍）：
+    - click=0：以 neg_sample_rate 概率保留
+    - click=1, buy=0：以 click_sample_rate 概率保留
+    - buy=1：全部保留
+    返回 (sampled_set, user_ids_set)
+    """
+    logger.info("分层采样扫描 skeleton: %s (neg_rate=%.3f, click_rate=%.3f)",
+                path, neg_sample_rate, click_sample_rate)
+    rng = np.random.default_rng(seed)
+    sampled: set = set()
+    user_ids_set: set = set()
+
+    with open(path, 'r', encoding='utf-8') as f:
+        for idx, line in enumerate(f):
+            p = line.split(',', 5)
+            if len(p) < 4:
+                continue
+            try:
+                click = int(p[1])
+                buy   = int(p[2])
+            except ValueError:
+                continue
+
+            if buy == 1:
+                keep = True
+            elif click == 1:
+                keep = rng.random() < click_sample_rate
+            else:
+                keep = rng.random() < neg_sample_rate
+
+            if keep:
+                sampled.add(idx)
+                user_ids_set.add(p[3])
+
+    logger.info("分层采样完成：保留 %d 行，涉及 %d 个唯一 user_id",
+                len(sampled), len(user_ids_set))
+    return sampled, user_ids_set
+
+
 def _load_skeleton(path: str, sampled: Optional[set],
                    key_ids: set, user_feat_map: dict):
     """
@@ -227,9 +271,20 @@ class AliCCPDataset(BaseMultiTaskDataset):
 
         # ── 第一遍：采样 skeleton，收集涉及的 user_id ────────
         sk_path = os.path.join(data_dir, "sample_skeleton_train.csv")
-        sampled, user_ids_set = _sample_skeleton_lines(
-            sk_path, config.sample_size, config.seed
-        )
+
+        neg_rate   = getattr(config, 'ali_ccp_neg_sample_rate', None)
+        click_rate = getattr(config, 'ali_ccp_click_sample_rate', None)
+        use_stratified = (neg_rate is not None and click_rate is not None
+                          and neg_rate > 0 and click_rate > 0)
+
+        if use_stratified:
+            sampled, user_ids_set = _stratified_sample_skeleton_lines(
+                sk_path, neg_rate, click_rate, config.seed
+            )
+        else:
+            sampled, user_ids_set = _sample_skeleton_lines(
+                sk_path, config.sample_size, config.seed
+            )
 
         # ── 只加载采样行涉及的 common_features ───────────
         cf_path = os.path.join(data_dir, "common_features_train.csv")
@@ -272,10 +327,15 @@ class AliCCPDataset(BaseMultiTaskDataset):
         test_sk = os.path.join(data_dir, "sample_skeleton_test.csv")
         test_cf = os.path.join(data_dir, "common_features_test.csv")
         if os.path.exists(test_sk) and os.path.exists(test_cf):
-            test_sample = (config.sample_size // 5) if config.sample_size else None
-            test_sampled, test_uids = _sample_skeleton_lines(
-                test_sk, test_sample, config.seed + 1
-            )
+            if use_stratified:
+                test_sampled, test_uids = _stratified_sample_skeleton_lines(
+                    test_sk, neg_rate, click_rate, config.seed + 1
+                )
+            else:
+                test_sample = (config.sample_size // 5) if config.sample_size else None
+                test_sampled, test_uids = _sample_skeleton_lines(
+                    test_sk, test_sample, config.seed + 1
+                )
             test_user_map = _load_common_features(test_cf, KEY_FEATURE_IDS,
                                                   filter_users=test_uids)
             test_records, test_labels = _load_skeleton(

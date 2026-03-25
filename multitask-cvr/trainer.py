@@ -110,6 +110,18 @@ class Trainer:
 
         return history
 
+    def fit(
+        self,
+        train_loader: DataLoader,
+        val_loader:   DataLoader,
+        test_loader:  DataLoader,
+    ) -> Dict[str, float]:
+        """
+        训练并在 test_loader 上评估，返回 test 指标字典。
+        """
+        self.train(train_loader, val_loader)
+        return self.evaluate(test_loader)
+
     def _train_epoch(self, loader: DataLoader) -> float:
         self.model.train()
         total_loss = 0.0

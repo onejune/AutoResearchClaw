@@ -8,10 +8,15 @@ from typing import Optional, Tuple
 @dataclass
 class Config:
     # ── 数据 ──────────────────────────────────────────────
-    dataset: str = "synthetic"      # 数据集名称：synthetic / ali_ccp
+    dataset: str = "synthetic"      # 数据集名称：synthetic / ali_ccp / taobao
     data_dir: str = ""              # 数据目录（ali_ccp 必填）
-    sample_size: Optional[int] = 500_000   # 采样数，None=全量
+    data_path: str = ""             # 单文件路径（taobao 必填）
+    sample_size: Optional[int] = None      # 采样数，None=全量（分层采样时忽略）
     batch_size: int = 4096
+
+    # ── Ali-CCP 分层采样 ───────────────────────────────────
+    ali_ccp_neg_sample_rate: float = 0.05    # click=0 样本采样率
+    ali_ccp_click_sample_rate: float = 0.5   # click=1, buy=0 样本采样率
 
     # ── 模型 ──────────────────────────────────────────────
     model_name: str = "esmm"        # shared_bottom / esmm / mmoe / escm2
