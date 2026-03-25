@@ -8,7 +8,8 @@ from typing import Optional, Tuple
 @dataclass
 class Config:
     # ── 数据 ──────────────────────────────────────────────
-    data_dir: str = ""              # Ali-CCP 数据目录，空字符串 = 使用合成数据
+    dataset: str = "synthetic"      # 数据集名称：synthetic / ali_ccp
+    data_dir: str = ""              # 数据目录（ali_ccp 必填）
     sample_size: Optional[int] = 500_000   # 采样数，None=全量
     batch_size: int = 4096
 

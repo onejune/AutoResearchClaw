@@ -32,18 +32,18 @@ def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 config = Config()
-config.sample_size = 999_999_999  # 全量（大于实际行数，不采样）
+config.sample_size = 0  # 全量（0 表示不采样）
 config.dataset = "criteo_std"
 config.encoder = "fttransformer"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"设备: {device}")
-print(f"数据集: {config.dataset}, sample_size={config.sample_size} (全量)")
+print(f"设备: {device}", flush=True)
+print(f"数据集: {config.dataset}, sample_size={config.sample_size} (全量)", flush=True)
 
-print("加载数据...")
+print("加载数据...", flush=True)
 train_loader, test_loader, dataset = get_dataloaders(config)
-print(f"连续特征: {config.n_continuous}, 类别特征: {config.n_categorical}")
-print(f"训练集: {len(train_loader.dataset):,}, 测试集: {len(test_loader.dataset):,}")
+print(f"连续特征: {config.n_continuous}, 类别特征: {config.n_categorical}", flush=True)
+print(f"训练集: {len(train_loader.dataset):,}, 测试集: {len(test_loader.dataset):,}", flush=True)
 
 set_seed(config.seed)
 
@@ -58,9 +58,15 @@ model = DeepFM(
 )
 
 n_params = count_parameters(model)
-print(f"参数量: {n_params:,} ({n_params/1000:.1f} K)")
+print(f"参数量: {n_params:,} ({n_params/1000:.1f} K)", flush=True)
 
 trainer = Trainer(model, config, device)
 best_auc, total_time = trainer.fit(train_loader, test_loader)
 
-print(f"\nFTTransformer AUC={best_auc:.4f}  params={n_params/1000:.0f}K  time={total_time:.0f}s")
+result_line = f"FTTransformer AUC={best_auc:.4f}  params={n_params/1000:.0f}K  time={total_time:.0f}s"
+print(f"\n{result_line}", flush=True)
+
+# 写入结果文件以防万一
+with open("/tmp/fttransformer_result.txt", "w") as f:
+    f.write(result_line + "\n")
+print("结果已写入 /tmp/fttransformer_result.txt", flush=True)

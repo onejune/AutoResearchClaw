@@ -15,7 +15,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from config import Config
 from data import get_dataloaders
-from feature_encoders import build_encoder, BucketEncoder
+from feature_encoders import (
+    build_encoder, BucketEncoder, MinMaxEncoder, StandardScalerEncoder
+)
 from models import DeepFM
 from trainer import Trainer
 
@@ -51,9 +53,9 @@ def run_experiment(encoder_name: str, config: Config, train_loader, test_loader,
     # 构建编码器（n_continuous 已由 get_dataloaders 写入 config）
     encoder = build_encoder(config)
 
-    # BucketEncoder 需要先 fit 分桶边界
-    if isinstance(encoder, BucketEncoder):
-        print("  拟合分桶边界...")
+    # 需要 fit 的编码器：BucketEncoder / MinMaxEncoder / StandardScalerEncoder
+    if isinstance(encoder, (BucketEncoder, MinMaxEncoder, StandardScalerEncoder)):
+        print("  拟合统计参数（分桶边界 / min-max / mean-std）...")
         train_subset = train_loader.dataset
         n_fit = min(100_000, len(train_subset))
         cont_data = []
@@ -108,6 +110,11 @@ def main():
         "numeric",
         "fttransformer",
         "periodic",
+        "field",
+        "dlrm",
+        "minmax",
+        "standard",
+        "log",
     ]
     encoder_display_names = {
         "none": "NoneEncoder(ablation)",
@@ -117,6 +124,11 @@ def main():
         "numeric": "NumericEmbedding",
         "fttransformer": "FTTransformer",
         "periodic": "PeriodicEncoder",
+        "field": "FieldEmbedding",
+        "dlrm": "DLRMEncoder",
+        "minmax": "MinMaxNorm",
+        "standard": "StandardScaler",
+        "log": "LogTransform",
     }
 
     results = {}

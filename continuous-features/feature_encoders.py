@@ -333,6 +333,352 @@ class PeriodicEncoder(BaseEncoder):
 
 
 # ─────────────────────────────────────────────
+# 方法 7：FieldEmbeddingEncoder（域嵌入）
+# 参考：FM/DeepFM 中连续特征处理方式
+# ─────────────────────────────────────────────
+class FieldEmbeddingEncoder(BaseEncoder):
+    """
+    域嵌入：每个特征域学一个共享 embedding 向量 v_i，
+    输出 = v_i * x_i（标量缩放）。
+    这是 FM/DeepFM 处理连续特征的经典做法。
+    参数量极少：n_continuous * embedding_dim
+    """
+
+    def __init__(self, n_continuous: int = 8, embedding_dim: int = 16):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.embedding_dim = embedding_dim
+        # 每个特征一个 embedding 向量，shape: (n_continuous, embedding_dim)
+        self.field_embeddings = nn.Parameter(
+            torch.randn(n_continuous, embedding_dim) * 0.01
+        )
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous * self.embedding_dim
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x: (batch, n_continuous)
+        # x.unsqueeze(-1): (batch, n_continuous, 1)
+        # field_embeddings: (n_continuous, embedding_dim) → (1, n_continuous, embedding_dim)
+        out = x.unsqueeze(-1) * self.field_embeddings.unsqueeze(0)
+        # out: (batch, n_continuous, embedding_dim)
+        return out.reshape(out.shape[0], -1)  # (batch, n_continuous * embedding_dim)
+
+
+# ─────────────────────────────────────────────
+# 方法 8：DLRMEncoder（神经网络压缩）
+# 参考：DLRM (Facebook, 2019) https://arxiv.org/abs/1906.00091
+# ─────────────────────────────────────────────
+class DLRMEncoder(BaseEncoder):
+    """
+    DLRM 风格：所有连续特征一起输入一个共享 MLP，
+    压缩成固定维度的 embedding 向量。
+    与 NumericEmbedding 的区别：所有特征共享同一个 MLP（而非各自独立）。
+    """
+
+    def __init__(
+        self,
+        n_continuous: int = 8,
+        embedding_dim: int = 16,
+        hidden_dim: int = 64,
+    ):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.embedding_dim = embedding_dim
+
+        self.mlp = nn.Sequential(
+            nn.Linear(n_continuous, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, embedding_dim),
+        )
+
+    @property
+    def output_dim(self) -> int:
+        return self.embedding_dim  # 所有特征压缩成一个向量
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x: (batch, n_continuous)
+        return self.mlp(x)  # (batch, embedding_dim)
+
+
+# ─────────────────────────────────────────────
+# 方法 9：MinMaxEncoder（归一化预处理 + ScalarEncoder）
+# ─────────────────────────────────────────────
+class MinMaxEncoder(BaseEncoder):
+    """
+    Min-Max 归一化：x' = (x - min) / (max - min + eps)
+    将特征缩放到 [0, 1]，再直接输入网络。
+    min/max 在 fit() 时由训练数据确定。
+    """
+
+    def __init__(self, n_continuous: int = 8):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.register_buffer("x_min", torch.zeros(n_continuous))
+        self.register_buffer("x_max", torch.ones(n_continuous))
+        self._fitted = False
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous
+
+    def fit(self, x: np.ndarray):
+        self.x_min = torch.tensor(x.min(axis=0), dtype=torch.float32)
+        self.x_max = torch.tensor(x.max(axis=0), dtype=torch.float32)
+        self._fitted = True
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x_min = self.x_min.to(x.device)
+        x_max = self.x_max.to(x.device)
+        return (x - x_min) / (x_max - x_min + 1e-8)
+
+
+# ─────────────────────────────────────────────
+# 方法 10：StandardScalerEncoder（标准化预处理 + ScalarEncoder）
+# ─────────────────────────────────────────────
+class StandardScalerEncoder(BaseEncoder):
+    """
+    Z-score 标准化：x' = (x - μ) / σ
+    将特征变换为均值0、标准差1的分布。
+    μ/σ 在 fit() 时由训练数据确定。
+    """
+
+    def __init__(self, n_continuous: int = 8):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.register_buffer("mean", torch.zeros(n_continuous))
+        self.register_buffer("std", torch.ones(n_continuous))
+        self._fitted = False
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous
+
+    def fit(self, x: np.ndarray):
+        self.mean = torch.tensor(x.mean(axis=0), dtype=torch.float32)
+        self.std = torch.tensor(x.std(axis=0), dtype=torch.float32)
+        self._fitted = True
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        mean = self.mean.to(x.device)
+        std = self.std.to(x.device)
+        return (x - mean) / (std + 1e-8)
+
+
+# ─────────────────────────────────────────────
+# 方法 11：LogTransformEncoder（非线性变换：log1p）
+# ─────────────────────────────────────────────
+class LogTransformEncoder(BaseEncoder):
+    """
+    对数变换：x' = log(x + 1)
+    适用于长尾分布（如点击次数、曝光量），压缩数据尺度。
+    Criteo 数据中大量连续特征为计数类，长尾分布严重，此方法尤其适用。
+    无需 fit，直接变换。
+    """
+
+    def __init__(self, n_continuous: int = 8):
+        super().__init__()
+        self.n_continuous = n_continuous
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # 先 clamp 避免负值（Criteo 数据有少量负值）
+        return torch.log1p(x.clamp(min=0.0))
+
+
+# ─────────────────────────────────────────────
+# NumericEmbedding 变体系列
+# ─────────────────────────────────────────────
+
+# 变体1：加深版（3层MLP）
+class NumericEmbeddingDeepEncoder(BaseEncoder):
+    """
+    NumericEmbedding 加深版：每个特征独立 3 层 MLP
+    Linear(1→hidden) → ReLU → Linear(hidden→hidden) → ReLU → Linear(hidden→emb_dim)
+    比原版多一层，表达能力更强。
+    """
+
+    def __init__(self, n_continuous: int = 8, embedding_dim: int = 16, hidden_dim: int = 64):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.embedding_dim = embedding_dim
+        self.mlps = nn.ModuleList([
+            nn.Sequential(
+                nn.Linear(1, hidden_dim),
+                nn.ReLU(),
+                nn.Linear(hidden_dim, hidden_dim),
+                nn.ReLU(),
+                nn.Linear(hidden_dim, embedding_dim),
+            )
+            for _ in range(n_continuous)
+        ])
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous * self.embedding_dim
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        outputs = [self.mlps[i](x[:, i:i+1]) for i in range(self.n_continuous)]
+        return torch.cat(outputs, dim=-1)
+
+
+# 变体2：SiLU激活版
+class NumericEmbeddingSiLUEncoder(BaseEncoder):
+    """
+    NumericEmbedding SiLU 激活版：把 ReLU 换成 SiLU（Swish）
+    SiLU(x) = x * sigmoid(x)，更平滑，Transformer/BERT 系常用。
+    """
+
+    def __init__(self, n_continuous: int = 8, embedding_dim: int = 16, hidden_dim: int = 64):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.embedding_dim = embedding_dim
+        self.mlps = nn.ModuleList([
+            nn.Sequential(
+                nn.Linear(1, hidden_dim),
+                nn.SiLU(),
+                nn.Linear(hidden_dim, embedding_dim),
+            )
+            for _ in range(n_continuous)
+        ])
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous * self.embedding_dim
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        outputs = [self.mlps[i](x[:, i:i+1]) for i in range(self.n_continuous)]
+        return torch.cat(outputs, dim=-1)
+
+
+# 变体3：LayerNorm版
+class NumericEmbeddingLNEncoder(BaseEncoder):
+    """
+    NumericEmbedding + LayerNorm 版：在 MLP 内部加 LayerNorm 稳定训练
+    Linear(1→hidden) → LayerNorm → ReLU → Linear(hidden→emb_dim)
+    对长尾分布（如 Criteo 计数特征）特别有效。
+    """
+
+    def __init__(self, n_continuous: int = 8, embedding_dim: int = 16, hidden_dim: int = 64):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.embedding_dim = embedding_dim
+        self.mlps = nn.ModuleList([
+            nn.Sequential(
+                nn.Linear(1, hidden_dim),
+                nn.LayerNorm(hidden_dim),
+                nn.ReLU(),
+                nn.Linear(hidden_dim, embedding_dim),
+            )
+            for _ in range(n_continuous)
+        ])
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous * self.embedding_dim
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        outputs = [self.mlps[i](x[:, i:i+1]) for i in range(self.n_continuous)]
+        return torch.cat(outputs, dim=-1)
+
+
+# 变体4：Contextual版（NumericEmbedding + FieldEmbedding 组合）
+# 参考：FIVES (SIGIR 2022)
+class NumericEmbeddingContextualEncoder(BaseEncoder):
+    """
+    Contextual NumericEmbedding：MLP 映射 + 特征域 embedding 相加
+    output_i = MLP(x_i) + v_i  （v_i 是可学习的域 embedding）
+    既有非线性变换，又有特征身份信息。参考 FIVES (SIGIR 2022)。
+    """
+
+    def __init__(self, n_continuous: int = 8, embedding_dim: int = 16, hidden_dim: int = 64):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.embedding_dim = embedding_dim
+        self.mlps = nn.ModuleList([
+            nn.Sequential(
+                nn.Linear(1, hidden_dim),
+                nn.ReLU(),
+                nn.Linear(hidden_dim, embedding_dim),
+            )
+            for _ in range(n_continuous)
+        ])
+        # 每个特征的域 embedding（偏置项）
+        self.field_bias = nn.Parameter(torch.randn(n_continuous, embedding_dim) * 0.01)
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous * self.embedding_dim
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        outputs = []
+        for i in range(self.n_continuous):
+            mlp_out = self.mlps[i](x[:, i:i+1])          # (batch, emb_dim)
+            out = mlp_out + self.field_bias[i].unsqueeze(0)  # + 域 embedding
+            outputs.append(out)
+        return torch.cat(outputs, dim=-1)
+
+
+# 变体5：PLR（分段线性 + Linear）
+# 参考：On Embeddings for Numerical Features (NeurIPS 2022)
+# https://arxiv.org/abs/2203.05556
+class PLREncoder(BaseEncoder):
+    """
+    PLR（Piecewise Linear Representation）：
+    先用 T 个分段线性函数将标量映射到 T 维，再过 Linear 映射到 embedding。
+    分段线性边界可学习（软分桶），兼顾局部性和连续性。
+    参考：On Embeddings for Numerical Features in Tabular Deep Learning (NeurIPS 2022)
+    https://arxiv.org/abs/2203.05556
+    """
+
+    def __init__(
+        self,
+        n_continuous: int = 8,
+        embedding_dim: int = 16,
+        n_bins: int = 16,  # 分段数 T
+    ):
+        super().__init__()
+        self.n_continuous = n_continuous
+        self.embedding_dim = embedding_dim
+        self.n_bins = n_bins
+
+        # 每个特征独立的分段线性权重和偏置
+        # w: (n_continuous, T), b: (n_continuous, T)
+        self.w = nn.Parameter(torch.randn(n_continuous, n_bins) * 0.01)
+        self.b = nn.Parameter(torch.zeros(n_continuous, n_bins))
+
+        # 每个特征独立的 Linear 投影：T → emb_dim
+        self.linears = nn.ModuleList([
+            nn.Linear(n_bins, embedding_dim)
+            for _ in range(n_continuous)
+        ])
+
+    @property
+    def output_dim(self) -> int:
+        return self.n_continuous * self.embedding_dim
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x: (batch, n_continuous)
+        # 分段线性：z_i = ReLU(x_i * w_i + b_i)
+        # x.unsqueeze(-1): (batch, n_continuous, 1)
+        # w: (n_continuous, T) → (1, n_continuous, T)
+        z = x.unsqueeze(-1) * self.w.unsqueeze(0) + self.b.unsqueeze(0)
+        z = torch.relu(z)  # (batch, n_continuous, T)
+
+        outputs = []
+        for i in range(self.n_continuous):
+            out = self.linears[i](z[:, i, :])  # (batch, emb_dim)
+            outputs.append(out)
+        return torch.cat(outputs, dim=-1)  # (batch, n_continuous * emb_dim)
+
+
+# ─────────────────────────────────────────────
 # 工厂函数
 # ─────────────────────────────────────────────
 def build_encoder(config) -> BaseEncoder:
@@ -380,5 +726,35 @@ def build_encoder(config) -> BaseEncoder:
             n_continuous=n_cont,
             n_frequencies=config.n_frequencies,
         )
+    elif name == "field":
+        return FieldEmbeddingEncoder(
+            n_continuous=n_cont,
+            embedding_dim=emb_dim,
+        )
+    elif name == "dlrm":
+        return DLRMEncoder(
+            n_continuous=n_cont,
+            embedding_dim=emb_dim,
+        )
+    elif name == "minmax":
+        return MinMaxEncoder(n_continuous=n_cont)
+    elif name == "standard":
+        return StandardScalerEncoder(n_continuous=n_cont)
+    elif name == "log":
+        return LogTransformEncoder(n_continuous=n_cont)
+    elif name == "numeric_deep":
+        return NumericEmbeddingDeepEncoder(n_continuous=n_cont, embedding_dim=emb_dim)
+    elif name == "numeric_silu":
+        return NumericEmbeddingSiLUEncoder(n_continuous=n_cont, embedding_dim=emb_dim)
+    elif name == "numeric_ln":
+        return NumericEmbeddingLNEncoder(n_continuous=n_cont, embedding_dim=emb_dim)
+    elif name == "numeric_ctx":
+        return NumericEmbeddingContextualEncoder(n_continuous=n_cont, embedding_dim=emb_dim)
+    elif name == "plr":
+        return PLREncoder(n_continuous=n_cont, embedding_dim=emb_dim)
     else:
-        raise ValueError(f"未知编码器：{name}，可选：none/scalar/bucket/autodis/numeric/fttransformer/periodic")
+        raise ValueError(
+            f"未知编码器：{name}，可选：none/scalar/bucket/autodis/numeric/"
+            f"fttransformer/periodic/field/dlrm/minmax/standard/log/"
+            f"numeric_deep/numeric_silu/numeric_ln/numeric_ctx/plr"
+        )
