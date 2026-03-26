@@ -127,7 +127,11 @@ class Trainer:
             val_metrics = self.evaluate(val_loader)
             overall_auc = val_metrics.get("Overall", {}).get("auc", 0.0)
 
-            logger.info(f"Epoch {epoch}/{epochs} | train_loss={train_loss:.4f} | val_auc={overall_auc:.4f}")
+            overall_pcoc = val_metrics.get("Overall", {}).get("pcoc", 0.0)
+            logger.info(
+                f"Epoch {epoch}/{epochs} | train_loss={train_loss:.4f} | "
+                f"val_auc={overall_auc:.4f} | val_pcoc={overall_pcoc:.4f}"
+            )
             logger.info("\n" + format_metrics_table(val_metrics))
 
             if self.early_stopper.step(overall_auc, self.model.state_dict()):
@@ -142,7 +146,11 @@ class Trainer:
             best_metrics = self.evaluate(val_loader)
 
         elapsed = round((time.time() - t0) / 60, 1)
-        logger.info(f"训练完成，耗时 {elapsed} 分钟，best_auc={self.early_stopper.best_auc:.4f}")
+        best_pcoc = best_metrics.get("Overall", {}).get("pcoc", 0.0) if best_metrics else 0.0
+        logger.info(
+            f"训练完成，耗时 {elapsed} 分钟 | "
+            f"best_auc={self.early_stopper.best_auc:.4f} | best_pcoc={best_pcoc:.4f}"
+        )
 
         self._save_results(best_metrics, elapsed)
         return best_metrics
@@ -174,14 +182,17 @@ class Trainer:
             lb = {"experiments": []}
 
         # 更新或插入
-        overall_auc = result["metrics"].get("Overall", {}).get("auc", 0.0)
+        overall = result["metrics"].get("Overall", {})
+        overall_auc = overall.get("auc", 0.0)
+        overall_pcoc = overall.get("pcoc", 0.0)
         entry = {
             "exp_name": result["exp_name"],
             "timestamp": result["timestamp"],
             "overall_auc": overall_auc,
+            "overall_pcoc": overall_pcoc,
             "elapsed_min": result["elapsed_min"],
-            "domain_auc": {
-                k: v.get("auc", 0.0)
+            "domain_metrics": {
+                k: {"auc": v.get("auc", 0.0), "pcoc": v.get("pcoc", 0.0)}
                 for k, v in result["metrics"].items()
                 if k != "Overall"
             },

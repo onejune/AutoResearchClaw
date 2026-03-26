@@ -79,17 +79,30 @@ def evaluate_by_domain(
 
 
 def format_metrics_table(results: Dict[str, dict]) -> str:
-    """将 evaluate_by_domain 结果格式化为可读表格字符串。"""
+    """将 evaluate_by_domain 结果格式化为可读表格字符串。
+    核心指标：AUC（越高越好）、PCOC（越接近1.0越好）。
+    """
     header = f"{'Domain':<20} {'AUC':>8} {'PCOC':>8} {'LogLoss':>10} {'Pos':>8} {'Total':>10}"
-    sep = "-" * len(header)
-    lines = [header, sep]
-    # Overall 排第一
-    for key in ["Overall"] + [k for k in results if k != "Overall"]:
+    sep = "=" * len(header)
+    inner_sep = "-" * len(header)
+    lines = [sep, header, sep]
+    # Overall 排第一，其余按 domain 名排序
+    ordered_keys = ["Overall"] + sorted(k for k in results if k != "Overall")
+    for i, key in enumerate(ordered_keys):
         if key not in results:
             continue
         r = results[key]
+        pcoc_str = f"{r['pcoc']:>8.4f}"
+        # PCOC 偏离 1.0 超过 0.1 时加警告标记
+        if abs(r['pcoc'] - 1.0) > 0.1:
+            pcoc_str = pcoc_str + " !"
+        else:
+            pcoc_str = pcoc_str + "  "
         lines.append(
-            f"{key:<20} {r['auc']:>8.4f} {r['pcoc']:>8.4f} {r['logloss']:>10.4f} "
+            f"{key:<20} {r['auc']:>8.4f} {pcoc_str} {r['logloss']:>10.4f} "
             f"{r['pos']:>8d} {r['total']:>10d}"
         )
+        if i == 0:  # Overall 后加分隔线
+            lines.append(inner_sep)
+    lines.append(sep)
     return "\n".join(lines)
