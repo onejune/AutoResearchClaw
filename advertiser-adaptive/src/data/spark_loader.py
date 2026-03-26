@@ -18,6 +18,9 @@ DOMAIN_PREFIX_MAP = [
 ]
 DEFAULT_DOMAIN = 0
 
+# 目标广告主白名单前缀（只保留这些 business_type 的样本）
+ADVERTISER_WHITELIST_PREFIXES = ("shein", "ae", "shopee", "lazada")
+
 # 采样率
 SHEIN_NEG_RATIO = 0.01
 OTHER_NEG_RATIO = 0.10
@@ -113,12 +116,20 @@ def load_data_spark(
             else:
                 df = df.withColumn(col, F.col(col).cast("string"))
 
-        # 采样：正样本全保留，负样本按 business_type 采样
+        # ── 广告主白名单过滤（只保留 shein / ae* / shopee* / lazada*）──────
+        # 用 startswith 前缀匹配，过滤掉其他广告主
+        whitelist_cond = F.lit(False)
+        for prefix in ADVERTISER_WHITELIST_PREFIXES:
+            whitelist_cond = whitelist_cond | F.lower(F.col("business_type")).startswith(prefix)
+        df = df.filter(whitelist_cond)
+
+        # ── 采样：正样本全保留，负样本按广告主差异化采样 ─────────────────
+        # shein（或 SALES_WEBSITE 目标）负样本 1%，其他 10%
         df = df.filter(
             (F.col(label_col) == 1) | (
                 (F.col(label_col) == 0) &
                 F.when(
-                    (F.col("business_type") == "shein") |
+                    F.lower(F.col("business_type")).startswith("shein") |
                     (F.col("objective_type") == "SALES_WEBSITE"),
                     F.rand(seed=42) < SHEIN_NEG_RATIO
                 ).otherwise(F.rand(seed=42) < OTHER_NEG_RATIO)
@@ -148,6 +159,9 @@ def load_data_spark(
     keep_cols = [c for c in keep_cols if c in pdf.columns]
     pdf = pdf[keep_cols].fillna("none")
 
+    domain_id_to_name = {0: "shein", 1: "aliexpress", 2: "shopee", 3: "lazada"}
+    domain_dist = {domain_id_to_name.get(k, k): v
+                   for k, v in pdf["domain_indicator"].value_counts().to_dict().items()}
     print(f"[INFO] 加载完成：{len(pdf)} 行，正样本 {int(pdf[label_col].sum())}，"
-          f"domain 分布：{pdf['domain_indicator'].value_counts().to_dict()}")
+          f"domain 分布：{domain_dist}")
     return pdf
