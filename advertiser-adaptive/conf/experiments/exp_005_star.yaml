@@ -1,0 +1,15 @@
+exp_name: exp_005_star
+description: "STAR：Star Topology FCN + Domain Normalization + 辅助网络，核心方案"
+model_type: star
+dates:
+  train_start: "2025-01-01"
+  train_end: "2025-01-07"
+  val_date: "2025-01-08"
+model_params:
+  fcn_dims: [512, 256, 64]
+  aux_dims: [256, 64]
+  dropout: 0.3
+training:
+  batch_size: 1024
+  learning_rate: 5.0e-5
+  epochs: 5

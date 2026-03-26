@@ -1,0 +1,10 @@
+dataset/
+experiments/
+logs/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+*.egg-info/
+*.pt
+*.pth

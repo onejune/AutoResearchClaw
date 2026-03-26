@@ -1,0 +1,16 @@
+exp_name: exp_003_mmoe
+description: "MMoE：4个 expert + 每个 domain 独立 gate + tower"
+model_type: mmoe
+dates:
+  train_start: "2025-01-01"
+  train_end: "2025-01-07"
+  val_date: "2025-01-08"
+model_params:
+  n_expert: 4
+  expert_dims: [256, 128]
+  tower_dims: [128, 64]
+  dropout: 0.3
+training:
+  batch_size: 1024
+  learning_rate: 5.0e-5
+  epochs: 5
