@@ -2,9 +2,9 @@ exp_name: exp_004_ple
 description: "PLE：CGC 结构，domain-specific expert + shared expert，1层 CGC"
 model_type: ple
 dates:
-  train_start: "2025-01-01"
-  train_end: "2025-01-07"
-  val_date: "2025-01-08"
+  train_start: "2026-01-01"
+  train_end: "2026-01-14"
+  val_date: "2026-01-15,2026-01-17"
 model_params:
   n_level: 1
   n_expert_specific: 2

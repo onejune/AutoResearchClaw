@@ -2,9 +2,9 @@ exp_name: exp_003_mmoe
 description: "MMoE：4个 expert + 每个 domain 独立 gate + tower"
 model_type: mmoe
 dates:
-  train_start: "2025-01-01"
-  train_end: "2025-01-07"
-  val_date: "2025-01-08"
+  train_start: "2026-01-01"
+  train_end: "2026-01-14"
+  val_date: "2026-01-15,2026-01-17"
 model_params:
   n_expert: 4
   expert_dims: [256, 128]

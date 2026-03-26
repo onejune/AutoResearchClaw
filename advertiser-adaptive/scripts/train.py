@@ -52,15 +52,21 @@ def load_config(conf_path: str) -> dict:
 
 
 def build_dataset_paths(cfg: dict) -> tuple:
-    """根据配置推断训练集/验证集 parquet 路径。"""
+    """根据配置推断训练集/验证集 parquet 路径。
+    val_date 支持单天或逗号分隔多天（与 prepare_dataset.py 保持一致）。
+    """
     dates = cfg.get("dates", {})
     start = dates.get("train_start", "")
     end = dates.get("train_end", "")
-    val = dates.get("val_date", "")
+    val_raw = str(dates.get("val_date", ""))
     cache_dir = cfg.get("data", {}).get("dataset_cache_dir", "./dataset")
 
     train_path = os.path.join(cache_dir, f"train_{start}_{end}", "data.parquet")
-    val_path = os.path.join(cache_dir, f"val_{val}", "data.parquet")
+
+    val_dates = [d.strip() for d in val_raw.split(",") if d.strip()]
+    val_tag = "_".join(val_dates) if len(val_dates) > 1 else val_dates[0] if val_dates else val_raw
+    val_path = os.path.join(cache_dir, f"val_{val_tag}", "data.parquet")
+
     return train_path, val_path
 
 

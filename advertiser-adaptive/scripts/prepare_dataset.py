@@ -29,7 +29,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="IVR 数据预处理")
     parser.add_argument("--start_date", required=True, help="训练开始日期 YYYY-MM-DD")
     parser.add_argument("--end_date", required=True, help="训练结束日期 YYYY-MM-DD")
-    parser.add_argument("--val_date", required=True, help="验证日期 YYYY-MM-DD")
+    parser.add_argument("--val_date", required=True,
+                        help="验证日期，单天 YYYY-MM-DD 或多天逗号分隔 YYYY-MM-DD,YYYY-MM-DD")
     parser.add_argument("--output_dir", default="./dataset", help="输出目录")
     parser.add_argument("--schema_path", default="./combine_schema", help="特征配置文件路径")
     parser.add_argument("--data_path",
@@ -64,20 +65,28 @@ def main():
         IVRDataset.save_parquet(df_train, train_path)
         logger.info(f"训练集已保存：{train_path}，共 {len(df_train)} 行")
 
-    # ── 验证集 ────────────────────────────────────────────────────────────
-    val_dir = os.path.join(args.output_dir, f"val_{args.val_date}")
+    # ── 验证集（支持多天，逗号分隔） ─────────────────────────────────────
+    val_dates = [d.strip() for d in args.val_date.split(",") if d.strip()]
+    # 用所有验证日期拼成目录名，如 val_2026-01-15_2026-01-17
+    val_tag = "_".join(val_dates) if len(val_dates) > 1 else val_dates[0]
+    val_dir = os.path.join(args.output_dir, f"val_{val_tag}")
     val_path = os.path.join(val_dir, "data.parquet")
 
     if os.path.exists(val_path) and not args.force:
         logger.info(f"验证集缓存已存在，跳过：{val_path}")
     else:
-        logger.info(f"开始处理验证集：{args.val_date}")
-        df_val = load_data_spark(
-            base_path=args.data_path,
-            feature_cols=feature_cols,
-            start_date=args.val_date,
-            end_date=args.val_date,
-        )
+        import pandas as pd
+        dfs = []
+        for vd in val_dates:
+            logger.info(f"开始处理验证集：{vd}")
+            df_v = load_data_spark(
+                base_path=args.data_path,
+                feature_cols=feature_cols,
+                start_date=vd,
+                end_date=vd,
+            )
+            dfs.append(df_v)
+        df_val = pd.concat(dfs, ignore_index=True) if len(dfs) > 1 else dfs[0]
         os.makedirs(val_dir, exist_ok=True)
         IVRDataset.save_parquet(df_val, val_path)
         logger.info(f"验证集已保存：{val_path}，共 {len(df_val)} 行")
