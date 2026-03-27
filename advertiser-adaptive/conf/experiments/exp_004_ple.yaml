@@ -1,0 +1,18 @@
+exp_name: exp_004_ple
+description: "PLE：CGC 结构，domain-specific expert + shared expert，1层 CGC"
+model_type: ple
+dates:
+  train_start: "2026-03-01"
+  train_end: "2026-03-14"
+  val_date: "2026-03-15,2026-03-16,2026-03-17"
+model_params:
+  n_level: 1
+  n_expert_specific: 2
+  n_expert_shared: 1
+  expert_dims: [256, 128]
+  tower_dims: [128, 64]
+  dropout: 0.3
+training:
+  batch_size: 1024
+  learning_rate: 5.0e-5
+  epochs: 3

@@ -1,0 +1,47 @@
+## ============================================================
+## advertiser-adaptive 基础配置
+## ============================================================
+
+data:
+  train_path_prefix: /mnt/data/oss_dsp_algo/ivr/sample/ivr_sample_v16/parquet
+  schema_path: ./combine_schema
+  dataset_cache_dir: ./dataset
+  label_col: label
+
+spark:
+  app_name: advertiser_adaptive
+  local_spark: local
+  worker_count: 6
+  server_count: 2
+  worker_memory: 8G
+  server_memory: 8G
+  coordinator_memory: 10G
+
+model:
+  embed_dim: 8
+  vocab_size: 100000
+  domain_num: 4
+
+# domain 映射规则（前缀匹配）
+domain_map:
+  shein: 0
+  ae: 1       # aliexpress，前缀匹配
+  shopee: 2
+  lazada: 3
+  default: 0  # fallback
+
+# 采样策略
+sampling:
+  shein_neg_ratio: 0.01
+  other_neg_ratio: 0.10
+
+training:
+  batch_size: 1024
+  learning_rate: 0.001
+  weight_decay: 1.0e-5
+  epochs: 5
+  early_stop_patience: 3
+  device: cpu   # cpu / cuda:0
+
+output:
+  experiments_dir: ./experiments
