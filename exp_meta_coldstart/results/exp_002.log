@@ -1,0 +1,46 @@
+10:59:51 [INFO] Device: cpu
+10:59:51 [INFO] Loading data...
+10:59:53 [INFO] Total samples: 864,196, features: 124
+10:59:54 [INFO] Valid campaignsets: 265
+10:59:54 [INFO] Meta-train tasks: 212, Meta-test tasks: 53
+10:59:58 [INFO] ==================================================
+10:59:58 [INFO] Meta-training MAML...
+10:59:58 [INFO] [MAML] meta_epochs=50, inner_steps=5, inner_lr=0.01
+11:00:03 [INFO] [MAML] epoch=10/50 outer_loss=0.7005
+11:00:08 [INFO] [MAML] epoch=20/50 outer_loss=0.7023
+11:00:12 [INFO] [MAML] epoch=30/50 outer_loss=0.7112
+11:00:17 [INFO] [MAML] epoch=40/50 outer_loss=0.7033
+11:00:22 [INFO] [MAML] epoch=50/50 outer_loss=0.7061
+11:00:22 [INFO] Evaluating MAML...
+11:00:26 [INFO] MAML: AUC=0.5148, PCOC=46.213 (24s)
+11:00:26 [INFO] ==================================================
+11:00:26 [INFO] Meta-training FOMAML...
+11:00:26 [INFO] [FOMAML] meta_epochs=50, inner_steps=5, inner_lr=0.01
+11:00:31 [INFO] [FOMAML] epoch=10/50 outer_loss=0.5466
+11:00:35 [INFO] [FOMAML] epoch=20/50 outer_loss=0.6897
+11:00:40 [INFO] [FOMAML] epoch=30/50 outer_loss=0.6392
+11:00:44 [INFO] [FOMAML] epoch=40/50 outer_loss=0.6393
+11:00:49 [INFO] [FOMAML] epoch=50/50 outer_loss=0.6353
+11:00:49 [INFO] Evaluating FOMAML...
+11:00:53 [INFO] FOMAML: AUC=0.5336, PCOC=42.568 (23s)
+11:00:53 [INFO] ==================================================
+11:00:53 [INFO] Meta-training ANIL...
+11:00:53 [INFO] [ANIL] meta_epochs=50
+11:00:56 [INFO] [ANIL] epoch=10/50 outer_loss=0.6595
+11:00:59 [INFO] [ANIL] epoch=20/50 outer_loss=0.6534
+11:01:02 [INFO] [ANIL] epoch=30/50 outer_loss=0.6971
+11:01:05 [INFO] [ANIL] epoch=40/50 outer_loss=0.6560
+11:01:08 [INFO] [ANIL] epoch=50/50 outer_loss=0.6881
+11:01:08 [INFO] Evaluating ANIL...
+11:01:11 [INFO] ANIL: AUC=0.5126, PCOC=45.739 (15s)
+11:01:11 [INFO] ==================================================
+11:01:11 [INFO] Meta-training ProtoNet...
+11:01:11 [INFO] [ProtoNet] meta_epochs=50
+11:01:12 [INFO] [ProtoNet] epoch=10/50 loss=0.6840
+11:01:14 [INFO] [ProtoNet] epoch=20/50 loss=0.6831
+11:01:15 [INFO] [ProtoNet] epoch=30/50 loss=0.6641
+11:01:17 [INFO] [ProtoNet] epoch=40/50 loss=0.6681
+11:01:18 [INFO] [ProtoNet] epoch=50/50 loss=0.6897
+11:01:18 [INFO] Evaluating ProtoNet...
+11:01:20 [INFO] ProtoNet: AUC=0.5927, PCOC=39.000 (7s)
+11:01:20 [INFO] Results saved to /mnt/workspace/open_research/autoresearch/exp_meta_coldstart/results/exp_002_maml.md
