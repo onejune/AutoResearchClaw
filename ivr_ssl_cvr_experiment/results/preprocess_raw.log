@@ -1,55 +1,0 @@
-============================================================
-重新预处理 ivr_sample_v16_ctcvr（无采样）
-============================================================
-
-[1/5] 读取所有 parquet 文件...
-训练集: 1 files
-测试集: 1 files
-
-[2/5] 建立编码器...
-采样统计字符串特征 vocab 大小...
-  adid: vocab=11637 (实测 11636)
-  adsize: vocab=4333 (实测 4332)
-  adx: vocab=46 (实测 45)
-  bundle: vocab=30648 (实测 30647)
-  campaignid: vocab=4441 (实测 4440)
-  campaignsetid: vocab=1054 (实测 1053)
-  carrier: vocab=8191 (实测 8190)
-  city: vocab=42856 (实测 42855)
-  connectiontype: vocab=10 (实测 9)
-  country: vocab=47 (实测 46)
-  country-hour: vocab=1102 (实测 1101)
-  demand_pkgname: vocab=13 (实测 12)
-  devicetype: vocab=9 (实测 8)
-  language: vocab=329 (实测 328)
-  make: vocab=781 (实测 780)
-  model: vocab=12699 (实测 12698)
-  os: vocab=3 (实测 2)
-  osv: vocab=180 (实测 179)
-  offerid: vocab=41 (实测 40)
-  imptype: vocab=4 (实测 3)
-  subcategory_id: vocab=67 (实测 66)
-  is_interstitial_ad: vocab=3 (实测 2)
-  is_reward_ad: vocab=3 (实测 2)
-收集全部 business_type 和 deviceid...
-
-business_type classes: 19
-unique deviceid: 3,118,638
-
-[3/5] 处理训练集...
-Train:   0%|                                                                                                                                                                           | 0/1 [00:00<?, ?it/s]Train: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [02:25<00:00, 145.82s/it]Train: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [02:25<00:00, 145.82s/it]
-
-训练集: 3,265,331 行, 正样本 371,334 (11.37%)
-
-[4/5] 处理测试集...
-Test:   0%|                                                                                                                                                                            | 0/1 [00:00<?, ?it/s]Test: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:55<00:00, 55.62s/it]Test: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:55<00:00, 55.62s/it]
-
-测试集: 1,231,453 行, 正样本 137,197 (11.14%)
-
-[5/5] 写入 parquet...
-
-完成！
-  训练集: /mnt/workspace/open_research/autoresearch/ivr_ssl_cvr/data_raw/train.parquet (0.2GB)
-  测试集: /mnt/workspace/open_research/autoresearch/ivr_ssl_cvr/data_raw/test.parquet (0.1GB)
-  特征数: 124 (str=23, num=101)
-  vocab_sizes: {'adid': 11637, 'adsize': 4333, 'adx': 46, 'bundle': 30648, 'campaignid': 4441, 'campaignsetid': 1054, 'carrier': 8191, 'city': 42856, 'connectiontype': 10, 'country': 47, 'country-hour': 1102, 'demand_pkgname': 13, 'devicetype': 9, 'language': 329, 'make': 781, 'model': 12699, 'os': 3, 'osv': 180, 'offerid': 41, 'imptype': 4, 'subcategory_id': 67, 'is_interstitial_ad': 3, 'is_reward_ad': 3}
