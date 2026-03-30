@@ -1,0 +1,99 @@
+Device: cpu
+============================================================
+data_raw 全实验 V3（共10个配置）
+============================================================
+
+加载数据...
+训练: 3,265,331, 测试: 1,231,453
+str_feat=23, num_feat=101, n_domains=19
+
+============================================================
+训练: baseline
+============================================================
+参数量: 4,387,307
+Overall AUC: 0.8425
+
+============================================================
+训练: bt_contrastive_cw0.1
+============================================================
+参数量: 4,387,307
+Overall AUC: 0.8412
+
+============================================================
+训练: bt_contrastive_cw0.05
+============================================================
+参数量: 4,387,307
+Overall AUC: 0.8429
+
+============================================================
+训练: augment_contrastive_cw0.1
+============================================================
+参数量: 4,387,307
+Overall AUC: 0.8390
+
+============================================================
+训练: mlora_rank4
+============================================================
+参数量: 5,012,555
+Overall AUC: 0.7892
+
+============================================================
+训练: mlora_rank8
+============================================================
+参数量: 5,739,723
+Overall AUC: 0.7694
+
+============================================================
+训练: mlora_rank12
+============================================================
+参数量: 6,466,891
+Overall AUC: 0.7540
+
+============================================================
+训练: user_contrastive
+============================================================
+参数量: 5,012,555
+Overall AUC: 0.7825
+
+============================================================
+训练: mlora_rank4_user_cl0.1
+============================================================
+参数量: 5,012,555
+训练: mlora_rank4_user_cl0.1
+参数量: 5,012,555
+训练: mlora_rank4_user_cl0.1
+参数量: 5,012,555
+Traceback (most recent call last):
+  File "<string>", line 139, in <module>
+  File "<string>", line 123, in train_mlora
+  File "/usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 94, in forward
+  File "<string>", line 94, in <listcomp>
+  File "/usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 79, in forward
+  File "/usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 68, in forward
+  File "/usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py", line 1695, in __getattr__
+    raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+AttributeError: 'LoRALinear' object has no attribute 'out_f'
+训练: mlora_rank4_user_cl0.1
+参数量: 5,012,555
+============================================================
+训练: mlora_rank4_user_cl0.1
+============================================================
+参数量: 5,012,555
