@@ -1,54 +1,0 @@
-
-============================================================
-诊断1: Vocab 大小对泛化能力的影响
-============================================================
-强制 vocab=1000, 测试特征范围: [0, 999]
-强制 vocab=1000, 训练100batch后 AUC: 0.4998
-预测范围: [0.0003, 0.6873]
-
-============================================================
-诊断2: 单特征 AUC（找出哪些特征有预测能力）
-============================================================
-Computing single-feature AUC:   0%|                                                                                                                                                  | 0/124 [00:00<?, ?it/s]Computing single-feature AUC:   7%|██████████                                                                                                                                | 9/124 [00:00<00:01, 82.10it/s]Computing single-feature AUC:  15%|███████████████████▉                                                                                                                     | 18/124 [00:00<00:01, 81.79it/s]Computing single-feature AUC:  22%|█████████████████████████████▊                                                                                                           | 27/124 [00:00<00:01, 79.60it/s]Computing single-feature AUC:  28%|██████████████████████████████████████▋                                                                                                  | 35/124 [00:00<00:01, 77.94it/s]Computing single-feature AUC:  35%|███████████████████████████████████████████████▌                                                                                         | 43/124 [00:00<00:01, 78.52it/s]Computing single-feature AUC:  42%|█████████████████████████████████████████████████████████▍                                                                               | 52/124 [00:00<00:00, 80.26it/s]Computing single-feature AUC:  49%|███████████████████████████████████████████████████████████████████▍                                                                     | 61/124 [00:00<00:00, 81.29it/s]Computing single-feature AUC:  56%|█████████████████████████████████████████████████████████████████████████████▎                                                           | 70/124 [00:00<00:00, 81.98it/s]Computing single-feature AUC:  64%|███████████████████████████████████████████████████████████████████████████████████████▎                                                 | 79/124 [00:00<00:00, 82.81it/s]Computing single-feature AUC:  71%|█████████████████████████████████████████████████████████████████████████████████████████████████▏                                       | 88/124 [00:01<00:00, 82.04it/s]Computing single-feature AUC:  78%|███████████████████████████████████████████████████████████████████████████████████████████████████████████▏                             | 97/124 [00:01<00:00, 81.41it/s]Computing single-feature AUC:  85%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                   | 106/124 [00:01<00:00, 79.47it/s]Computing single-feature AUC:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████           | 114/124 [00:01<00:00, 79.38it/s]Computing single-feature AUC:  99%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉ | 123/124 [00:01<00:00, 79.86it/s]Computing single-feature AUC: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 124/124 [00:01<00:00, 80.42it/s]
-
-单特征 AUC（Top 20）:
-  devicetype                                         AUC=0.5135 ↑ (|Δ|=0.0135)
-  duf_inner_dev_pkg_pur_7d                           AUC=0.4875 ↓ (|Δ|=0.0125)
-  duf_inner_dev_pkg_open_60d                         AUC=0.4904 ↓ (|Δ|=0.0096)
-  huf_deviceid_demand_pkgname_imp_24h                AUC=0.5093 ↑ (|Δ|=0.0093)
-  duf_inner_dev_pkg_cv_7d                            AUC=0.4908 ↓ (|Δ|=0.0092)
-  duf_outer_dev_pkg_open_31_60d                      AUC=0.4916 ↓ (|Δ|=0.0084)
-  duf_inner_dev_pkg_cv_3d                            AUC=0.4919 ↓ (|Δ|=0.0081)
-  duf_inner_dev_pkg_open_180d                        AUC=0.4921 ↓ (|Δ|=0.0079)
-  duf_inner_dev_pkg_re_bucket_3d                     AUC=0.4924 ↓ (|Δ|=0.0076)
-  adx                                                AUC=0.4924 ↓ (|Δ|=0.0076)
-  duf_inner_dev_pkg_open_90d                         AUC=0.4927 ↓ (|Δ|=0.0073)
-  duf_inner_dev_pkg_pur_15d                          AUC=0.4928 ↓ (|Δ|=0.0072)
-  duf_inner_dev_pkg_open_11_30d                      AUC=0.4929 ↓ (|Δ|=0.0071)
-  huf_deviceid_demand_pkgname_imp_12h                AUC=0.5071 ↑ (|Δ|=0.0071)
-  campaignid                                         AUC=0.4931 ↓ (|Δ|=0.0069)
-  duf_inner_dev_pkg_pur_61_180d                      AUC=0.4931 ↓ (|Δ|=0.0069)
-  huf_deviceid_demand_pkgname_pur_24h                AUC=0.5067 ↑ (|Δ|=0.0067)
-  osv                                                AUC=0.4936 ↓ (|Δ|=0.0064)
-  duf_inner_dev_pkg_re_7d                            AUC=0.4936 ↓ (|Δ|=0.0064)
-  duf_inner_dev_pkg_open_4_10d                       AUC=0.4938 ↓ (|Δ|=0.0062)
-
-特征 AUC 分布:
-  >0.52 (有信号): 0
-  0.50~0.52 (弱): 42
-  ≈0.50 (无信号): 82
-
-============================================================
-诊断3: 完整 baseline 模型 (1 epoch)
-============================================================
-训练 500,000 样本, 测试 200,000 样本
-Traceback (most recent call last):
-  File "/mnt/workspace/open_research/autoresearch/ivr_ssl_cvr/scripts/diagnose_v3.py", line 223, in <module>
-    diag_full_baseline()
-  File "/mnt/workspace/open_research/autoresearch/ivr_ssl_cvr/scripts/diagnose_v3.py", line 183, in diag_full_baseline
-    x_dict = {feat_cols[i]: bx[:, i] for i in range(len(feat_cols))}
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/workspace/open_research/autoresearch/ivr_ssl_cvr/scripts/diagnose_v3.py", line 183, in <dictcomp>
-    x_dict = {feat_cols[i]: bx[:, i] for i in range(len(feat_cols))}
-                            ~~^^^^^^
-IndexError: too many indices for tensor of dimension 1

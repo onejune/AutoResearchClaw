@@ -1,0 +1,34 @@
+{
+    "dataset": {
+        "path": "/mnt/data/oss_dsp_algo/ivr/sample/ivr_sample_v16/",
+        "train_file_pattern": "parquet/*",
+        "test_file_pattern": "parquet/*",
+        "date_range": ["2025-11-01", "2026-03-09"],
+        "features": [
+            "business_type",
+            "click",
+            "purchase"
+        ],
+        "negative_sampling_ratio": null
+    },
+    "model": {
+        "embedding_dim": 64,
+        "hidden_dim": 256,
+        "num_layers": 2,
+        "dropout": 0.1
+    },
+    "training": {
+        "epochs": 1,
+        "batch_size": 4096,
+        "learning_rate": 0.001,
+        "weight_decay": 1e-5,
+        "ssl_weight": 0.1,
+        "temperature": 0.1
+    },
+    "ssl_methods": [
+        "SimCLR",
+        "SupervisedContrastive",
+        "TemporalContrastive",
+        "BusinessTypeContrastive"
+    ]
+}
