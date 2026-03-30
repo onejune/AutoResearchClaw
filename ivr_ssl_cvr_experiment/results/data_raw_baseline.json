@@ -1,0 +1,113 @@
+{
+  "model": "baseline",
+  "overall_auc": 0.8418,
+  "per_bt": {
+    "aecps": {
+      "auc": 0.835,
+      "n": 131326,
+      "n_pos": 8153,
+      "pos_rate": 0.0621
+    },
+    "aedsp": {
+      "auc": 0.8161,
+      "n": 131062,
+      "n_pos": 2420,
+      "pos_rate": 0.0185
+    },
+    "aedsp_cc": {
+      "auc": 0.7321,
+      "n": 1869,
+      "n_pos": 112,
+      "pos_rate": 0.0599
+    },
+    "aedsp_mc": {
+      "auc": 0.7412,
+      "n": 1483,
+      "n_pos": 70,
+      "pos_rate": 0.0472
+    },
+    "aemc": {
+      "auc": 0.7787,
+      "n": 19769,
+      "n_pos": 897,
+      "pos_rate": 0.0454
+    },
+    "aerta": {
+      "auc": 0.7753,
+      "n": 37268,
+      "n_pos": 1662,
+      "pos_rate": 0.0446
+    },
+    "alibaba": {
+      "auc": 0.9268,
+      "n": 869,
+      "n_pos": 62,
+      "pos_rate": 0.0713
+    },
+    "bk": {
+      "auc": 0.481,
+      "n": 2537,
+      "n_pos": 5,
+      "pos_rate": 0.002
+    },
+    "everglowly": {
+      "auc": 0.6441,
+      "n": 4030,
+      "n_pos": 1226,
+      "pos_rate": 0.3042
+    },
+    "lazada_cps": {
+      "auc": 0.798,
+      "n": 128449,
+      "n_pos": 15093,
+      "pos_rate": 0.1175
+    },
+    "lazada_rta": {
+      "auc": 0.7574,
+      "n": 56176,
+      "n_pos": 8781,
+      "pos_rate": 0.1563
+    },
+    "mena_ae_cps": {
+      "auc": 0.8781,
+      "n": 9611,
+      "n_pos": 298,
+      "pos_rate": 0.031
+    },
+    "mobplus": {
+      "auc": 0.6961,
+      "n": 88228,
+      "n_pos": 8598,
+      "pos_rate": 0.0975
+    },
+    "novabeyond": {
+      "auc": 0.8377,
+      "n": 63945,
+      "n_pos": 8359,
+      "pos_rate": 0.1307
+    },
+    "shein": {
+      "auc": 0.6992,
+      "n": 151591,
+      "n_pos": 904,
+      "pos_rate": 0.006
+    },
+    "shopee_cps": {
+      "auc": 0.7763,
+      "n": 403102,
+      "n_pos": 80557,
+      "pos_rate": 0.1998
+    }
+  },
+  "avg_train_loss": 0.2818,
+  "config": {
+    "embed_dim": 32,
+    "hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "lr": 0.001,
+    "batch_size": 8192
+  }
+}

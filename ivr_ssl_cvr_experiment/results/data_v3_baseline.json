@@ -1,0 +1,59 @@
+{
+  "model": "baseline",
+  "overall_auc": 0.5786,
+  "per_bt": {
+    "aecps": {
+      "auc": 0.5336,
+      "n": 127931,
+      "n_pos": 4812,
+      "pos_rate": 0.0376
+    },
+    "aedsp": {
+      "auc": 0.5062,
+      "n": 130231,
+      "n_pos": 1391,
+      "pos_rate": 0.0107
+    },
+    "aerta": {
+      "auc": 0.5317,
+      "n": 36395,
+      "n_pos": 1037,
+      "pos_rate": 0.0285
+    },
+    "lazada_cps": {
+      "auc": 0.5446,
+      "n": 122419,
+      "n_pos": 8901,
+      "pos_rate": 0.0727
+    },
+    "lazada_rta": {
+      "auc": 0.5455,
+      "n": 52461,
+      "n_pos": 5159,
+      "pos_rate": 0.0983
+    },
+    "shein": {
+      "auc": 0.4985,
+      "n": 152003,
+      "n_pos": 526,
+      "pos_rate": 0.0035
+    },
+    "shopee_cps": {
+      "auc": 0.5351,
+      "n": 370645,
+      "n_pos": 48033,
+      "pos_rate": 0.1296
+    }
+  },
+  "avg_train_loss": 0.2763,
+  "config": {
+    "embed_dim": 32,
+    "hidden_dims": [
+      256,
+      128
+    ],
+    "vocab_cap": 5000,
+    "lr": 0.001,
+    "batch_size": 8192
+  }
+}

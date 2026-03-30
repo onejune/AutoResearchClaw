@@ -1,0 +1,86 @@
+[
+  {
+    "model": "baseline",
+    "cl_weight": 0.0,
+    "overall_auc": 0.4883,
+    "bt_aucs": {
+      "aecps": 0.5343,
+      "aedsp": 0.5595,
+      "aerta": 0.5359,
+      "lazada_cps": 0.5153,
+      "lazada_rta": 0.5179,
+      "shein": 0.471,
+      "shopee_cps": 0.5039
+    }
+  },
+  {
+    "model": "mlora_rank8",
+    "cl_weight": 0.0,
+    "overall_auc": 0.4935,
+    "bt_aucs": {
+      "aecps": 0.527,
+      "aedsp": 0.5539,
+      "aerta": 0.5391,
+      "lazada_cps": 0.514,
+      "lazada_rta": 0.514,
+      "shein": 0.4994,
+      "shopee_cps": 0.5057
+    }
+  },
+  {
+    "model": "mlora_rank12",
+    "cl_weight": 0.0,
+    "overall_auc": 0.489,
+    "bt_aucs": {
+      "aecps": 0.5517,
+      "aedsp": 0.5777,
+      "aerta": 0.5615,
+      "lazada_cps": 0.5262,
+      "lazada_rta": 0.5108,
+      "shein": 0.485,
+      "shopee_cps": 0.5075
+    }
+  },
+  {
+    "model": "user_contrastive",
+    "cl_weight": 0.1,
+    "overall_auc": 0.4944,
+    "bt_aucs": {
+      "aecps": 0.5292,
+      "aedsp": 0.5482,
+      "aerta": 0.5406,
+      "lazada_cps": 0.5168,
+      "lazada_rta": 0.5119,
+      "shein": 0.4985,
+      "shopee_cps": 0.5065
+    }
+  },
+  {
+    "model": "mlora_rank8_user_cl0.1",
+    "cl_weight": 0.1,
+    "overall_auc": 0.494,
+    "bt_aucs": {
+      "aecps": 0.5285,
+      "aedsp": 0.5555,
+      "aerta": 0.5269,
+      "lazada_cps": 0.515,
+      "lazada_rta": 0.5182,
+      "shein": 0.505,
+      "shopee_cps": 0.5074
+    }
+  },
+  {
+    "model": "mlora_rank12_user_cl0.1",
+    "cl_weight": 0.1,
+    "overall_auc": 0.4935,
+    "bt_aucs": {
+      "aecps": 0.5358,
+      "aedsp": 0.5429,
+      "aerta": 0.535,
+      "lazada_cps": 0.5138,
+      "lazada_rta": 0.5164,
+      "shein": 0.503,
+      "shopee_cps": 0.5063
+    }
+  }
+]
