@@ -19,7 +19,7 @@
 | P7 | 延迟奖励 CVR 建模（RL） | 📋 待排期 | Ali-CCP / Criteo | KDD / AAAI | - |
 | P8 | 频次控制 RL 策略 | 📋 待排期 | Ali-CCP | KDD / WWW | - |
 | P9 | DSP 分广告主自适应建模 | 🔬 调研中 | ivr_sample_v16（内部） | KDD / WWW / RecSys | - |
-| P10 | IVR 自监督对比学习 | 🔬 实验中 | ivr_sample_v16_ctcvr | KDD / WWW | `ivr_ssl_cvr/` |
+| P10 | IVR 自监督对比学习 | ✅ 完成 | ivr_sample_v16_ctcvr | KDD / WWW | `ivr_ssl_cvr/` |
 | P10 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
 | ~~P-1~~ | ~~CVR 延迟反馈（FDAM）~~ | ~~⛔ 暂停~~ | ~~Criteo KDD 2014~~ | ~~KDD 2026~~ | ~~-~~ |
 
@@ -215,10 +215,10 @@
 | **方法** | 对比学习（Contrastive Learning）增强 CVR 预估模型的特征表示能力 |
 | **对比方法** | Baseline（DeepFM）/ SimGCL（扰动对比）/ SupCon（监督对比）/ DomainCL（域对比）/ FeatureMask（特征掩码）/ DirectAU（Alignment+Uniformity）/ MoCo（动量对比）/ Hybrid（混合方法） |
 | **数据集** | ivr_sample_v16_ctcvr（326万训练，123万测试，126个类别特征，business_type 作为域标签） |
-| **当前状态** | 实验完成（SupCon 最优，AUC 0.8490） |
+| **当前状态** | ✅ 完成（SupCon 最优，AUC 0.8490） |
 | **关键突破** | 解决 GPU 训练数值稳定性问题（DataLoader + Xavier init + Dropout + Grad clipping） |
 | **最终结果** | SupCon: AUC 0.8490（vs Baseline 0.8484，+0.06‰），参数调优后 SupCon 达 0.8488（Temp=0.2, CL_Weight=0.1） |
-| **分析** | 对比学习在当前数据集上增益有限，可能是由于 DeepFM 已经是相对有效的模型架构 |
+| **重要发现** | 1. SupCon 为最优方法，但提升幅度有限（+0.06‰）；2. 对比学习在当前数据集上收益有限，可能是由于 DeepFM 已经是相对有效的模型架构；3. 参数调优对性能有一定影响；4. 复杂方法（MoCo、混合）表现不如简单方法 |
 | **代码路径** | `ivr_ssl_cvr/` |
 | **目标会议** | KDD / WWW |
 
