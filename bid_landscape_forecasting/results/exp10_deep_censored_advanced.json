@@ -1,0 +1,21 @@
+{
+  "experiment": "exp10_deep_censored_advanced",
+  "method": "Advanced Deep Censored Learning (Deep Cox PH) for Win Rate Estimation",
+  "metrics": {
+    "auc": 0.8616783378979368,
+    "rmse": 0.4306454360485077,
+    "ece": 0.15972159896194935
+  },
+  "config": {
+    "n_samples": 50000,
+    "epochs": 20,
+    "hidden_dims": [
+      128,
+      64,
+      32
+    ],
+    "device": "cuda",
+    "model_type": "Deep Cox Proportional Hazards"
+  },
+  "elapsed_seconds": 17.71463656425476
+}

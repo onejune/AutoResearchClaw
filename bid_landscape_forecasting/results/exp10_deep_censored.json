@@ -1,0 +1,21 @@
+{
+  "experiment": "exp10_deep_censored",
+  "method": "Deep Censored Learning for Win Rate Estimation",
+  "metrics": {
+    "auc": 0.8649383945975357,
+    "rmse": 0.4465230703353882,
+    "ece": 0.1427928485661745,
+    "avg_censor_prob": 0.5252653956413269
+  },
+  "config": {
+    "n_samples": 100000,
+    "epochs": 30,
+    "hidden_dims": [
+      128,
+      64,
+      32
+    ],
+    "device": "cuda"
+  },
+  "elapsed_seconds": 34.98355722427368
+}
