@@ -1,0 +1,32 @@
+{
+  "experiment": "exp11_quantile_forest_fixed",
+  "method": "Quantile Random Forest for Auction Win Rate Estimation",
+  "metrics": {
+    "auc": 0.8589534227321951,
+    "rmse": 0.39167346380823864,
+    "ece": 0.018823591047870552,
+    "avg_calibration_error": 0.24619999999999997,
+    "quantile_coverages": {
+      "q10_coverage": 0.4968,
+      "q25_coverage": 0.4968,
+      "q50_coverage": 0.497,
+      "q75_coverage": 0.5046,
+      "q90_coverage": 0.561
+    }
+  },
+  "config": {
+    "n_samples": 50000,
+    "n_estimators": 100,
+    "max_depth": 10,
+    "target_quantiles": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "train_size": 40000,
+    "test_size": 10000
+  },
+  "elapsed_seconds": 0.7378582954406738
+}
