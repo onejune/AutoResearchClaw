@@ -1,0 +1,23 @@
+{
+  "dataset": "IVR Sample v16 CTCVR",
+  "samples": 3265331,
+  "features": 126,
+  "labels": {
+    "click_label": {
+      "mean": 0.41485533118247986,
+      "sum": 1354640
+    },
+    "ctcvr_label": {
+      "mean": 0.11372017115354538,
+      "sum": 371334
+    }
+  },
+  "vocab_sizes": {
+    "min": 3,
+    "max": 2383974,
+    "mean": 19883.404761904763,
+    "median": 17.0
+  },
+  "missing_rate": {},
+  "warnings": []
+}

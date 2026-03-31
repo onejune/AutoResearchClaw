@@ -1,0 +1,90 @@
+================================================================================
+实验 05: Label Smoothing 训练时校准
+================================================================================
+
+============================================================
+硬件资源监控
+============================================================
+
+💻 CPU:
+   名称: CPU (24 cores)
+   利用率: 4.8%
+   内存: 27635MB / 187168MB
+   可用: 158556MB
+
+🎮 GPU (2 个):
+   GPU 0: Tesla T4
+      利用率: 82.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+   GPU 1: Tesla T4
+      利用率: 82.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+
+✅ 选中设备: Tesla T4
+   类型: cuda
+   原因: GPU 0 空闲且显存充足
+============================================================
+
+
+使用设备: cuda:0
+
+加载数据...
+Loading data from /mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/train/...
+  Loaded 3265331 samples
+  Label mean: 0.4149
+  Business types: 19 unique
+  Top 5 business_type: {1: 1097581, 11: 488377, 6: 315616, 4: 300593, 2: 278231}
+
+Dataset split:
+  Train: 2612264
+  Val: 326533
+  Test: 326534
+训练集: 2612264 样本
+验证集: 326533 样本
+测试集: 326534 样本
+
+================================================================================
+Label Smoothing = 0.0
+================================================================================
+
+训练中 (BCE (baseline))...
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 1: Loss=0.5444, Val AUC=0.7932, Val ECE=0.0269
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 2: Loss=0.5286, Val AUC=0.7981, Val ECE=0.0065
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 3: Loss=0.5221, Val AUC=0.7992, Val ECE=0.0087
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+
+测试集: AUC=0.8010, ECE=0.0076, PCOC=1.0172
+
+================================================================================
+Label Smoothing = 0.05
+================================================================================
+
+训练中 (LS_0.05)...
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 1: Loss=0.5643, Val AUC=0.7921, Val ECE=0.0259
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 2: Loss=0.5503, Val AUC=0.7979, Val ECE=0.0217
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 3: Loss=0.5447, Val AUC=0.7992, Val ECE=0.0162
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+
+测试集: AUC=0.8007, ECE=0.0169, PCOC=1.0223
+
+================================================================================
+Label Smoothing = 0.1
+================================================================================
+
+训练中 (LS_0.1)...

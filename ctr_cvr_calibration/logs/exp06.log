@@ -1,0 +1,40 @@
+================================================================================
+实验 06: 按 business_type 分组训练
+================================================================================
+
+============================================================
+硬件资源监控
+============================================================
+
+💻 CPU:
+   名称: CPU (24 cores)
+   利用率: 2.7%
+   内存: 17106MB / 187168MB
+   可用: 169099MB
+
+🎮 GPU (2 个):
+   GPU 0: Tesla T4
+      利用率: 0.0% [✅ 空闲]
+      显存: 4MB / 14931MB
+      可用: 14927MB
+   GPU 1: Tesla T4
+      利用率: 83.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+
+✅ 选中设备: Tesla T4
+   类型: cuda
+   原因: GPU 0 空闲且显存充足
+============================================================
+
+
+使用设备：cuda:0
+
+加载数据...
+Traceback (most recent call last):
+  File "/mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/experiments/exp06_grouped_training.py", line 272, in <module>
+    main()
+  File "/mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/experiments/exp06_grouped_training.py", line 113, in main
+    csv_path=TrainConfig.data_path,
+             ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'TrainConfig' has no attribute 'data_path'

@@ -1,0 +1,9 @@
+{
+  "auc": 0.801,
+  "logloss": 0.5228,
+  "ece": 0.0076,
+  "mce": 0.0452,
+  "pcoc": 1.0172,
+  "predicted_ctr": 0.4234,
+  "actual_ctr": 0.4163
+}

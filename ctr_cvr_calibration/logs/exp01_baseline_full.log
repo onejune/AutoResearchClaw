@@ -1,0 +1,126 @@
+============================================================
+实验 01: 基线模型校准性能评估
+============================================================
+
+============================================================
+硬件资源监控
+============================================================
+
+💻 CPU:
+   名称: CPU (24 cores)
+   利用率: 2.3%
+   内存: 16992MB / 187168MB
+   可用: 169213MB
+
+🎮 GPU (2 个):
+   GPU 1: Tesla T4
+      利用率: 0.0% [✅ 空闲]
+      显存: 4MB / 14931MB
+      可用: 14927MB
+   GPU 0: Tesla T4
+      利用率: 82.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+
+✅ 选中设备: Tesla T4
+   类型: cuda
+   原因: GPU 1 空闲且显存充足
+============================================================
+
+
+使用设备: cuda:1
+
+加载数据...
+Loading data from /mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/train/...
+  Loaded 3265331 samples
+  Label mean: 0.4149
+
+Dataset split:
+  Train: 2612264
+  Val: 326533
+  Test: 326534
+训练集: 2612264 样本
+验证集: 326533 样本
+测试集: 326534 样本
+
+创建模型...
+模型参数量: 4,099,825
+
+开始训练...
+  Batch 200/2552, Loss: 0.5636
+  Batch 400/2552, Loss: 0.5528
+  Batch 600/2552, Loss: 0.5576
+  Batch 800/2552, Loss: 0.5476
+  Batch 1000/2552, Loss: 0.5279
+  Batch 1200/2552, Loss: 0.5682
+  Batch 1400/2552, Loss: 0.5418
+  Batch 1600/2552, Loss: 0.5266
+  Batch 1800/2552, Loss: 0.5406
+  Batch 2000/2552, Loss: 0.5144
+  Batch 2200/2552, Loss: 0.5264
+  Batch 2400/2552, Loss: 0.5430
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch  1/3: Loss=0.5444, Train AUC=0.7797, Val AUC=0.7932, Val ECE=0.0269, Time=59.2s
+  Batch 200/2552, Loss: 0.5185
+  Batch 400/2552, Loss: 0.5301
+  Batch 600/2552, Loss: 0.5241
+  Batch 800/2552, Loss: 0.5293
+  Batch 1000/2552, Loss: 0.5015
+  Batch 1200/2552, Loss: 0.5240
+  Batch 1400/2552, Loss: 0.5271
+  Batch 1600/2552, Loss: 0.5279
+  Batch 1800/2552, Loss: 0.5404
+  Batch 2000/2552, Loss: 0.5241
+  Batch 2200/2552, Loss: 0.5301
+  Batch 2400/2552, Loss: 0.5116
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch  2/3: Loss=0.5286, Train AUC=0.7954, Val AUC=0.7981, Val ECE=0.0065, Time=57.7s
+  Batch 200/2552, Loss: 0.5236
+  Batch 400/2552, Loss: 0.5237
+  Batch 600/2552, Loss: 0.5379
+  Batch 800/2552, Loss: 0.5086
+  Batch 1000/2552, Loss: 0.5277
+  Batch 1200/2552, Loss: 0.5244
+  Batch 1400/2552, Loss: 0.5362
+  Batch 1600/2552, Loss: 0.5458
+  Batch 1800/2552, Loss: 0.5554
+  Batch 2000/2552, Loss: 0.5254
+  Batch 2200/2552, Loss: 0.5261
+  Batch 2400/2552, Loss: 0.5087
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch  3/3: Loss=0.5221, Train AUC=0.8019, Val AUC=0.7992, Val ECE=0.0087, Time=57.9s
+
+最佳验证 AUC: 0.7992 (Epoch 3)
+
+在测试集上评估最佳模型...
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+
+测试集 校准指标:
+  AUC:    0.8010
+  LogLoss: 0.5228
+  ECE:    0.0076
+  MCE:    0.0452
+  PCOC:   1.0172
+  预测 CTR: 0.4234
+  实际 CTR: 0.4163
+Traceback (most recent call last):
+  File "/mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/experiments/exp01_baseline.py", line 235, in <module>
+    main()
+  File "/mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/experiments/exp01_baseline.py", line 185, in main
+    json.dump(test_metrics, f, indent=2)
+  File "/usr/lib/python3.11/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.11/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.11/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/usr/lib/python3.11/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type float32 is not JSON serializable
