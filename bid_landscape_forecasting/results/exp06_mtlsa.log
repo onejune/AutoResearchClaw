@@ -1,0 +1,23 @@
+设备: cuda
+加载数据...
+数据: 200,000 组, 每组 5 个 bid levels
+Win rate: 0.5006
+
+模型参数量: 20,309
+训练集: 160,000, 验证集: 40,000
+Epoch   5: loss=0.4560, val_auc=0.8687, val_rmse=0.3840
+Epoch  10: loss=0.4547, val_auc=0.8691, val_rmse=0.3836
+Epoch  15: loss=0.4544, val_auc=0.8692, val_rmse=0.3835
+Epoch  20: loss=0.4539, val_auc=0.8693, val_rmse=0.3835
+Epoch  25: loss=0.4534, val_auc=0.8693, val_rmse=0.3835
+Epoch  30: loss=0.4533, val_auc=0.8693, val_rmse=0.3835
+
+=== MTLSA 评估结果 ===
+AUC:          0.8694
+RMSE:         0.3834
+ECE:          0.0023
+Monotonicity: 0.9973
+Per-task AUC: ['0.7536', '0.7104', '0.7046', '0.7166', '0.7570']
+
+总耗时: 96.0s
+✅ 结果已保存: results/exp06_mtlsa.json + .md

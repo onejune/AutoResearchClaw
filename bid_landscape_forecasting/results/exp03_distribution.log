@@ -1,0 +1,41 @@
+================================================================================
+实验 03: Distribution Modeling for Bid Landscape Forecasting
+================================================================================
+
+Loaded 500000 samples
+Train: 400000, Val: 100000
+Input dimension: 3
+Using device: cuda
+
+============================================================
+1. Beta Regression
+============================================================
+  Epoch 10: Train Loss=2.3110, Val AUC=0.8716
+  Epoch 20: Train Loss=2.2968, Val AUC=0.8717
+  Epoch 30: Train Loss=2.2884, Val AUC=0.8718
+  Epoch 40: Train Loss=2.2865, Val AUC=0.8717
+  Epoch 50: Train Loss=2.2838, Val AUC=0.8717
+
+Final Results:
+  AUC:  0.8718
+  RMSE: 0.4087
+  ECE:  0.1221
+  Mean Variance: 0.201657
+
+Uncertainty Analysis:
+Traceback (most recent call last):
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp03_distribution.py", line 350, in <module>
+    main()
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp03_distribution.py", line 287, in main
+    unc_analysis = analyze_uncertainty(model, X_val, y_val, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp03_distribution.py", line 212, in analyze_uncertainty
+    corr = np.corrcoef(variance, errors)[0, 1]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/numpy/lib/function_base.py", line 2889, in corrcoef
+    c = cov(x, y, rowvar, dtype=dtype)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/numpy/lib/function_base.py", line 2683, in cov
+    X = np.concatenate((X, y), axis=0)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: all the input array dimensions except for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 1 and the array at index 1 has size 100000

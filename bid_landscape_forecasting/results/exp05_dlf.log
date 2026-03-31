@@ -1,0 +1,25 @@
+设备: cuda
+加载数据...
+使用 1,000,000 行 = 200,000 个原始样本 × 5 bids
+数据形状: context=(200000, 5), bids=(200000, 5), wins=(200000, 5)
+Win rate: 0.5006
+
+模型参数量: 15,777
+训练集: 160,000 样本, 验证集: 40,000 样本
+训练 30 epochs...
+Epoch   5: loss=0.4558, val_auc=0.8684, val_rmse=0.3843
+Epoch  10: loss=0.4543, val_auc=0.8686, val_rmse=0.3844
+Epoch  15: loss=0.4541, val_auc=0.8686, val_rmse=0.3842
+Epoch  20: loss=0.4538, val_auc=0.8686, val_rmse=0.3840
+Epoch  25: loss=0.4536, val_auc=0.8687, val_rmse=0.3840
+Epoch  30: loss=0.4534, val_auc=0.8687, val_rmse=0.3840
+
+=== DLF 评估结果 ===
+AUC:          0.8687
+RMSE:         0.3841
+ECE:          0.0052
+Monotonicity: 0.9997 (bid↑ → win_prob↑ 的比例)
+
+总耗时: 85.8s
+✅ JSON 已保存: /mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/results/exp05_dlf.json
+✅ MD 报告已保存: /mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/results/exp05_dlf.md

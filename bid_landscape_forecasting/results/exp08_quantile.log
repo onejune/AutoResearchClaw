@@ -1,0 +1,32 @@
+设备: cuda
+加载数据...
+样本数: 200,000, Win rate: 0.5017
+Market price range: [0.0000, 1.0000]
+
+模型参数量: 9,993
+训练 30 epochs, 9 个分位数...
+Epoch   5: train_loss=0.0593, val_loss=0.0418
+Epoch  10: train_loss=0.0418, val_loss=0.0286
+Epoch  15: train_loss=0.0312, val_loss=0.0242
+Epoch  20: train_loss=0.0272, val_loss=0.0234
+Epoch  25: train_loss=0.0255, val_loss=0.0229
+Epoch  30: train_loss=0.0238, val_loss=0.0225
+
+=== Quantile Regression NN 评估 ===
+AUC:  0.8627
+RMSE: 0.4187
+ECE:  0.1249
+
+分位数统计 (val set 均值):
+  Q0.1: 0.8168 ± 0.1233
+  Q0.2: 0.8649 ± 0.1241
+  Q0.3: 0.8908 ± 0.1276
+  Q0.4: 0.8998 ± 0.1287
+  Q0.5: 0.9089 ± 0.1300
+  Q0.6: 0.9198 ± 0.1314
+  Q0.7: 0.9303 ± 0.1330
+  Q0.8: 0.9485 ± 0.1357
+  Q0.9: 0.9746 ± 0.1394
+
+总耗时: 78.4s
+✅ 结果已保存: results/exp08_quantile.json + .md
