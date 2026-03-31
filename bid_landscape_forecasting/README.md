@@ -1,6 +1,11 @@
-# Bid Landscape Forecasting Research - COMPLETED ✅
+# 🚀 Bid Landscape Forecasting Research - COMPLETED ✅
 
-Comprehensive research study on bid landscape forecasting methods for RTB (Real-Time Bidding) environments. Successfully implemented and evaluated 14 different approaches for win rate estimation with uncertainty quantification.
+Comprehensive research study on bid landscape forecasting methods for RTB (Real-Time Bidding) environments. Successfully implemented and evaluated **14 different approaches** for win rate estimation with uncertainty quantification.
+
+## 📊 Main Experiment Report
+**📊 View Full Results: [EXPERIMENT_REPORT.md](./EXPERIMENT_REPORT.md)** - Complete comparison of all 14 methods with detailed analysis
+
+---
 
 ## 📋 Project Summary
 
@@ -53,12 +58,14 @@ Comprehensive research study on bid landscape forecasting methods for RTB (Real-
 ```
 bid_landscape_forecasting/
 ├── README.md                          # Project overview (this file)
+├── EXPERIMENT_REPORT.md               # 📊 MAIN EXPERIMENT REPORT (KEY FILE!)
 ├── PROJECT_KICKOFF.md                 # Initial project plan
 ├── STARTUP_REPORT.md                  # Technical setup report
 ├── FINAL_SUMMARY.md                   # Comprehensive results summary
 ├── WWW2023_REPRODUCTION.md            # WWW 2023 paper reproduction
 ├── QUANTILE_FOREST_REPRODUCTION.md    # Quantile Forest paper reproduction
 ├── DEEP_CENSORED_ANALYSIS.md          # Deep censored learning analysis
+├── FINAL_PROJECT_OVERVIEW.md          # Executive summary
 ├── data/                             # Processed datasets
 ├── experiments/                      # Individual experiment scripts (exp01-exp11)
 │   ├── exp01_baseline.py
@@ -72,8 +79,8 @@ bid_landscape_forecasting/
 │   ├── exp09_conformal_simple.py
 │   ├── exp10_deep_censored.py
 │   └── exp11_quantile_forest_fixed.py
-├── results/                          # Experiment results and reports
-│   ├── EXPERIMENT_REPORT.md          # Detailed comparison report
+├── results/                          # Detailed experiment results
+│   ├── EXPERIMENT_REPORT.md          # Original experiment report
 │   ├── exp01_baseline.json
 │   ├── exp01_baseline.md
 │   ├── ...
@@ -86,8 +93,9 @@ bid_landscape_forecasting/
 
 ## 📊 Key Reports
 
+- `EXPERIMENT_REPORT.md` - 📊 **MAIN EXPERIMENT REPORT** (primary results file!)
 - `FINAL_SUMMARY.md` - Executive summary of all experiments
-- `results/EXPERIMENT_REPORT.md` - Comprehensive comparison table with all 14 methods
+- `FINAL_PROJECT_OVERVIEW.md` - Comprehensive project overview
 - `WWW2023_REPRODUCTION.md` - Conformal prediction paper reproduction
 - `QUANTILE_FOREST_REPRODUCTION.md` - Quantile forest paper reproduction
 - `DEEP_CENSORED_ANALYSIS.md` - Analysis of censored learning approaches
