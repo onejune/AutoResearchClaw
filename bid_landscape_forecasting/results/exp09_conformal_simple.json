@@ -1,0 +1,21 @@
+{
+  "experiment": "exp09_conformal_simple",
+  "method": "Residual-Based Conformal Prediction for Win Rate Estimation",
+  "metrics": {
+    "auc": 0.8654879628724336,
+    "rmse": 0.3862884247199992,
+    "ece": 0.0078593766321972,
+    "coverage_rate": 0.89965,
+    "avg_interval_width": 0.8713916294099266,
+    "bandwidth": 0.0005774347511520173
+  },
+  "config": {
+    "n_samples": 100000,
+    "alpha": 0.1,
+    "base_model": "LogisticRegression",
+    "train_ratio": 0.6,
+    "cal_ratio": 0.2,
+    "test_ratio": 0.2
+  },
+  "elapsed_seconds": 0.2980053424835205
+}

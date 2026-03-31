@@ -1,0 +1,16 @@
+设备: CPU (保形预测主要是统计方法)
+加载数据用于保形预测...
+样本数: 100,000, 特征数: 6
+Win rate: 0.5024
+训练集: 60000, 校准集: 20000, 测试集: 20000
+
+=== Simple Conformal Prediction 评估 ===
+AUC: 0.8655
+RMSE: 0.3863
+ECE: 0.0079
+Coverage Rate: 0.8996
+Average Interval Width: 0.8714
+Conformity Bandwidth: ±0.0006
+
+总耗时: 0.3s
+✅ 结果已保存: results/exp09_conformal_simple.json + .md
