@@ -1,7 +1,7 @@
 # Research List
 
 > 所有研究方向的状态追踪与核心内容记录。及时更新。
-> 最后更新：2026-03-27
+> 最后更新：2026-03-31
 
 ---
 
@@ -20,7 +20,8 @@
 | P8 | 频次控制 RL 策略 | 📋 待排期 | Ali-CCP | KDD / WWW | - |
 | P9 | DSP 分广告主自适应建模 | 🔬 调研中 | ivr_sample_v16（内部） | KDD / WWW / RecSys | - |
 | P10 | IVR 自监督对比学习 | ✅ 完成 | ivr_sample_v16_ctcvr | KDD / WWW | `ivr_ssl_cvr/` |
-| P10 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
+| P11 | CTR/CVR预估校准研究 | ✅ 完成 | IVR (326 万样本) | KDD / WWW | `ctr_cvr_calibration/` |
+| P12 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
 | ~~P-1~~ | ~~CVR 延迟反馈（FDAM）~~ | ~~⛔ 暂停~~ | ~~Criteo KDD 2014~~ | ~~KDD 2026~~ | ~~-~~ |
 
 **状态说明：** 🔬 实验中 / ⏳ 等数据/条件 / 📋 待启动 / ✅ 完成 / ⛔ 暂停
