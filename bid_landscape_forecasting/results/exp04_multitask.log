@@ -1,0 +1,56 @@
+================================================================================
+实验 04: Multi-task Learning for CTR + Bid Landscape
+================================================================================
+
+Loaded 200000 samples
+Click rate: 0.9778
+Win rate: 0.5017
+Train: 160000, Val: 40000
+Input dimension: 3
+Using device: cuda
+
+============================================================
+Multi-task Learning (alpha=0.5)
+============================================================
+  Epoch 10: CTR Loss=0.0019, Win Loss=0.4470, Val CTR AUC=1.0000, Val Win AUC=0.8724
+  Epoch 20: CTR Loss=0.0009, Win Loss=0.4463, Val CTR AUC=1.0000, Val Win AUC=0.8723
+  Epoch 30: CTR Loss=0.0008, Win Loss=0.4461, Val CTR AUC=1.0000, Val Win AUC=0.8722
+
+Final Results (alpha=0.5):
+  CTR AUC:  1.0000, ECE: 0.0001
+  Win AUC:  0.8725, ECE: 0.0052, RMSE: 0.3809
+  Combined Score: 0.9363
+
+================================================================================
+SUMMARY
+================================================================================
+Best alpha: alpha_0.5
+CTR AUC:  1.0000
+Win AUC:  0.8725
+
+Comparison with Single-task Models:
+  CTR (MLP baseline): ~0.XXXX (需要单独训练)
+  Win (MLP exp02):    0.8718
+  Win (Multi-task):   0.8725
+Traceback (most recent call last):
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp04_multitask.py", line 403, in <module>
+    main()
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp04_multitask.py", line 323, in main
+    json.dump(summary, f, indent=2)
+  File "/usr/lib/python3.11/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.11/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  [Previous line repeated 1 more time]
+  File "/usr/lib/python3.11/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/usr/lib/python3.11/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type float32 is not JSON serializable

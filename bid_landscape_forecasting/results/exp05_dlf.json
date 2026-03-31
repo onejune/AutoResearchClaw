@@ -1,0 +1,18 @@
+{
+  "experiment": "exp05_dlf",
+  "method": "Deep Landscape Forecasting (GRU-based)",
+  "metrics": {
+    "auc": 0.8686621353151011,
+    "rmse": 0.38405027985572815,
+    "ece": 0.005157243665065616,
+    "monotonicity": 0.99965
+  },
+  "config": {
+    "n_samples": 200000,
+    "epochs": 30,
+    "hidden_dim": 64,
+    "rnn_hidden": 32,
+    "n_bids": 5
+  },
+  "elapsed_seconds": 85.8497006893158
+}

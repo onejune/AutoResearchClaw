@@ -1,0 +1,4 @@
+Preflight check... Model qwen3-coder-plus failed: HTTP Error 401: Unauthorized. Trying next.
+Model qwen3.5-plus failed: HTTP Error 401: Unauthorized. Trying next.
+Model Kimi-K2.5-thinking failed: HTTP Error 401: Unauthorized. Trying next.
+FAILED — Invalid API key

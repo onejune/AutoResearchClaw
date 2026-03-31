@@ -1,0 +1,23 @@
+{
+  "experiment": "exp06_mtlsa",
+  "method": "Multi-Task Learning for Sequence Attention",
+  "metrics": {
+    "auc": 0.8693593409823446,
+    "rmse": 0.38337424397468567,
+    "ece": 0.002339738396704197,
+    "monotonicity": 0.99733125,
+    "per_task_auc": [
+      0.7535928671888261,
+      0.7104449089100542,
+      0.7045920220225834,
+      0.7166275768769148,
+      0.7570445919029105
+    ]
+  },
+  "config": {
+    "n_samples": 200000,
+    "epochs": 30,
+    "n_tasks": 5
+  },
+  "elapsed_seconds": 96.00105452537537
+}

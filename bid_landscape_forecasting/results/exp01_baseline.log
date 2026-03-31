@@ -1,0 +1,80 @@
+/usr/local/lib/python3.11/dist-packages/xgboost/core.py:158: UserWarning: [18:52:05] WARNING: /workspace/src/learner.cc:740: 
+Parameters: { "use_label_encoder" } are not used.
+
+  warnings.warn(smsg, UserWarning)
+/usr/local/lib/python3.11/dist-packages/sklearn/base.py:465: UserWarning: X does not have valid feature names, but LogisticRegression was fitted with feature names
+  warnings.warn(
+================================================================================
+实验 01: Bid Landscape Forecasting Baseline
+================================================================================
+Loading data from /mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/data/bid_landscape_train.parquet...
+  Using 500000 samples
+  Loaded 500000 samples
+  Features: 9
+  Win rate: 0.5015
+
+Dataset split:
+  Train: 400000
+  Val:   100000
+
+============================================================
+1. Logistic Regression
+============================================================
+AUC:  0.8718
+RMSE: 0.4620
+MAE:  0.2135
+ECE:  0.0036
+
+============================================================
+2. XGBoost Classifier
+============================================================
+AUC:  0.8714
+RMSE: 0.4625
+MAE:  0.2139
+ECE:  0.0050
+
+Top 5 Features:
+  bid_amount: 0.9295
+  true_value: 0.0656
+  business_type: 0.0048
+
+============================================================
+3. Quantile Regression
+============================================================
+Quantile 0.25: Pinball Loss = 0.0825
+Quantile 0.5: Pinball Loss = 0.2492
+Quantile 0.75: Pinball Loss = 0.1246
+
+Median Prediction:
+AUC:  0.5000
+RMSE: 0.7060
+
+================================================================================
+Per Business Type Evaluation
+================================================================================
+
+Logistic Regression - By Business Type (Top 5)
+------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp01_baseline.py", line 320, in <module>
+    main()
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp01_baseline.py", line 267, in main
+    lr_by_bt = evaluate_by_business_type(df_val, lr_model, "Logistic Regression")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp01_baseline.py", line 209, in evaluate_by_business_type
+    y_prob = model.predict_proba(X_val.values)[:, 1] if hasattr(model, 'predict_proba') else model.predict(X_val.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/sklearn/linear_model/_logistic.py", line 1384, in predict_proba
+    return super()._predict_proba_lr(X)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/sklearn/linear_model/_base.py", line 466, in _predict_proba_lr
+    prob = self.decision_function(X)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/sklearn/linear_model/_base.py", line 432, in decision_function
+    X = self._validate_data(X, accept_sparse="csr", reset=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/sklearn/base.py", line 626, in _validate_data
+    self._check_n_features(X, reset=reset)
+  File "/usr/local/lib/python3.11/dist-packages/sklearn/base.py", line 415, in _check_n_features
+    raise ValueError(
+ValueError: X has 19 features, but LogisticRegression is expecting 3 features as input.

@@ -1,0 +1,17 @@
+{
+  "experiment": "exp07_censored",
+  "method": "Censored Regression (Tobit Model)",
+  "results": {
+    "censored": {
+      "auc": 0.8674103140449955,
+      "rmse": 0.38482242822647095,
+      "ece": 0.003991524450294674
+    },
+    "oracle": {
+      "auc": 0.8656267592774466,
+      "rmse": 0.3861824870109558,
+      "ece": 0.007410259481146932
+    }
+  },
+  "elapsed_seconds": 226.70952248573303
+}

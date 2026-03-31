@@ -1,0 +1,41 @@
+================================================================================
+实验 02: Deep Learning Models for Bid Landscape Forecasting
+================================================================================
+
+Loaded 500000 samples
+Train: 400000, Val: 100000
+Input dimension: 3
+Using device: cuda
+
+============================================================
+1. MLP (Multi-Layer Perceptron)
+============================================================
+  Epoch 10: Train Loss=0.4473, Val AUC=0.8717
+  Epoch 20: Train Loss=0.4470, Val AUC=0.8717
+  Epoch 30: Train Loss=0.4468, Val AUC=0.8717
+  Epoch 40: Train Loss=0.4466, Val AUC=0.8718
+  Epoch 50: Train Loss=0.4464, Val AUC=0.8718
+
+Final Results:
+  AUC:  0.8718
+  RMSE: 0.3816
+  ECE:  0.0056
+Traceback (most recent call last):
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp02_deep_learning.py", line 262, in <module>
+    main()
+  File "/mnt/workspace/open_research/autoresearch/bid_landscape_forecasting/experiments/exp02_deep_learning.py", line 223, in main
+    json.dump(results, f, indent=2)
+  File "/usr/lib/python3.11/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.11/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.11/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/usr/lib/python3.11/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type float32 is not JSON serializable

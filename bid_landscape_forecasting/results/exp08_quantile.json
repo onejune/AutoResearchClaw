@@ -1,0 +1,26 @@
+{
+  "experiment": "exp08_quantile",
+  "method": "Quantile Regression Neural Network",
+  "metrics": {
+    "auc": 0.8626555462059694,
+    "rmse": 0.418708726425443,
+    "ece": 0.12486273824803966
+  },
+  "config": {
+    "n_samples": 200000,
+    "epochs": 30,
+    "n_quantiles": 9,
+    "quantile_levels": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ]
+  },
+  "elapsed_seconds": 78.3862509727478
+}

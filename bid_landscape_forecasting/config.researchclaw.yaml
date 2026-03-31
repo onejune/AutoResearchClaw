@@ -1,0 +1,115 @@
+# AutoResearchClaw Configuration for Bid Landscape Forecasting
+
+project:
+  name: "bid-landscape-forecasting"
+  mode: "full-auto"
+
+research:
+  # 研究主题 - 明确数据集和任务
+  topic: |
+    Bid Landscape Forecasting in Online Advertising
+    
+    Task: Predict the win probability distribution across different bid amounts
+    Input: User features, ad features, context features, bid amount
+    Output: Win probability (or CDF of winning bid)
+    
+    Dataset: IVR Sample v16 CTCVR 
+    Path: /mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/
+    
+    Key Requirements:
+    1. Data must contain bid amount and win/loss labels
+    2. If no explicit bid data, simulate bid landscape from CTR/CVR data
+    3. Evaluate using AUC, RMSE, and calibration metrics
+    
+    Target: KDD / WWW / RecSys 2026
+
+  domains:
+    - "machine-learning"
+    - "advertising"
+    - "recommendation-systems"
+  
+  daily_paper_count: 15
+  quality_threshold: 4.0
+
+runtime:
+  timezone: "Asia/Shanghai"
+  max_parallel_tasks: 3
+  approval_timeout_hours: 24
+  retry_limit: 2
+
+notifications:
+  channel: "console"
+  target: ""
+  on_stage_start: true
+  on_stage_fail: true
+  on_gate_required: true
+
+knowledge_base:
+  backend: "markdown"
+  root: "references"
+
+llm:
+  provider: "openai-compatible"
+  base_url: "https://api.aihubmix.com/v1"
+  wire_api: "chat_completions"
+  api_key_env: "AIHUB_API_KEY"
+  primary_model: "qwen3-coder-plus"
+  fallback_models:
+    - "qwen3.5-plus"
+    - "Kimi-K2.5-thinking"
+
+security:
+  hitl_required_stages: [5, 9, 15, 20]  # 关键节点需要人工审核
+  allow_publish_without_approval: false
+  redact_sensitive_logs: true
+
+experiment:
+  # 使用 sandbox 模式在本地执行真实代码
+  mode: "sandbox"
+  time_budget_sec: 600  # 每个实验最多 10 分钟
+  max_iterations: 15
+  metric_key: "auc"  # 主要优化指标
+  metric_direction: "maximize"
+  
+  sandbox:
+    python_path: "/usr/bin/python3"
+    gpu_required: true  # 需要 GPU
+    max_memory_mb: 16384  # 16GB 内存限制
+    
+  docker:
+    image: "researchclaw/experiment:latest"
+    gpu_enabled: true
+    memory_limit_mb: 16384
+    network_policy: "pip_only"  # 允许 pip install
+    auto_install_deps: true
+    shm_size_mb: 4096
+
+# 自定义提示词覆盖 (可选)
+prompts:
+  custom_constraints: |
+    Important constraints for this research:
+    
+    1. DATA REQUIREMENTS:
+       - Must use IVR dataset at /mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/
+       - Check if bid_amount feature exists; if not, propose simulation strategy
+       - Data quality check is mandatory before any experiment
+    
+    2. MODEL REQUIREMENTS:
+       - Start with simple baselines (Linear, XGBoost)
+       - Progress to deep learning (MLP, TabNet, FT-Transformer)
+       - Consider distribution modeling (Quantile Regression, Beta Regression)
+    
+    3. EVALUATION:
+       - Primary metric: AUC (ranking ability)
+       - Secondary metrics: RMSE, MAE, Calibration (ECE, PCOC)
+       - Must report per-segment results (by business_type, advertiser, etc.)
+    
+    4. CODE QUALITY:
+       - Follow the project structure from ctr_cvr_calibration/
+       - Each experiment must have corresponding .md report
+       - All results saved to JSON + visualization
+    
+    5. PAPER WRITING:
+       - Focus on practical value for advertising industry
+       - Compare with existing bid optimization methods
+       - Include ablation studies and analysis
