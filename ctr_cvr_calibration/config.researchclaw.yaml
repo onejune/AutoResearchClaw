@@ -1,0 +1,187 @@
+# CTR/CVR 预估校准研究
+
+project:
+  name: "ctr-cvr-calibration"
+  mode: "full-auto"
+
+research:
+  topic: |
+    CTR/CVR 预估模型的概率校准方法研究
+    
+    研究问题:
+    1. 深度学习模型在 CTR/CVR 预估中的校准性能如何？
+    2. 不同校准方法（Temperature Scaling, Isotonic Regression, Focal Loss 等）的效果对比
+    3. 校准与排序能力的关系：校准是否影响 AUC？
+    4. 多任务学习（CTR + CVR）下的联合校准策略
+    
+    数据集: IVR Sample v16 CTCVR
+    - 3,265,331 样本
+    - 126 个类别特征（不做任何处理）
+    - 点击率 41.49%, CTCVR 11.37%
+    
+    核心指标: ECE, MCE, PCOC, AUC
+    
+    目标会议: KDD 2026
+    
+  domains:
+    - "machine-learning"
+    - "recommendation-systems"
+  daily_paper_count: 5
+  quality_threshold: 4.0
+
+runtime:
+  timezone: "Asia/Shanghai"
+  max_parallel_tasks: 2
+  approval_timeout_hours: 24
+  retry_limit: 3
+
+notifications:
+  channel: "console"
+  target: ""
+  on_stage_start: true
+  on_stage_fail: true
+  on_gate_required: true
+
+knowledge_base:
+  backend: "markdown"
+  root: "docs/kb"
+
+openclaw_bridge:
+  use_cron: false
+  use_message: false
+  use_memory: false
+  use_sessions_spawn: false
+  use_web_fetch: true
+  use_browser: false
+
+llm:
+  provider: "openai-compatible"
+  base_url: "https://api.openai.com/v1"
+  wire_api: "chat_completions"
+  api_key_env: "OPENAI_API_KEY"
+  api_key: ""
+  primary_model: "qwen3-coder-plus"
+  fallback_models:
+    - "Kimi-K2.5-thinking"
+  temperature: 0.7
+
+security:
+  hitl_required_stages: [5, 9, 20]
+  allow_publish_without_approval: false
+  redact_sensitive_logs: true
+
+experiment:
+  mode: "sandbox"
+  time_budget_sec: 600
+  max_iterations: 20
+  metric_key: "ece"
+  metric_direction: "minimize"
+  sandbox:
+    python_path: ".venv/bin/python3"
+    gpu_required: true
+    max_memory_mb: 16384
+
+data:
+  # 数据集配置
+  dataset_path: "/mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/"
+  train_file: "train/"
+  test_file: "test/"
+  vocab_file: "vocab_sizes.json"
+  meta_file: "meta.json"
+  
+  # 特征处理
+  feature_processing: "none"  # 所有特征当作类别特征，不做任何处理
+  
+  # 标签
+  label_cols:
+    - "click_label"   # CTR
+    - "ctcvr_label"   # CTCVR
+  
+  # 数据划分
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+
+model:
+  # 模型配置
+  model_type: "mlp"  # mlp, deepfm, dcn, autoint
+  embed_dim: 16
+  hidden_dims: [256, 128, 64]
+  dropout: 0.2
+  
+  # 多任务
+  multitask: true
+  tasks:
+    - "ctr"
+    - "cvr"
+
+calibration:
+  # 校准方法
+  methods:
+    - "none"              # 基线
+    - "temperature"       # Temperature Scaling
+    - "isotonic"          # Isotonic Regression
+    - "histogram"         # Histogram Binning
+    - "focal_loss"        # Focal Loss (训练时)
+    - "label_smoothing"   # Label Smoothing (训练时)
+  
+  # Temperature Scaling
+  temperature_lr: 0.01
+  temperature_epochs: 100
+  
+  # Histogram Binning
+  num_bins: 20
+  
+  # Focal Loss
+  focal_gamma: 2.0
+  focal_alpha: 0.25
+  
+  # Label Smoothing
+  smoothing_factor: 0.1
+  
+  # 评估
+  ece_bins: 20
+
+training:
+  # 训练配置
+  epochs: 10
+  batch_size: 1024
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  optimizer: "adam"
+  scheduler: "cosine"
+  early_stopping: true
+  patience: 3
+  
+  # 设备
+  device: "cuda"
+  num_workers: 4
+  
+  # 日志
+  log_interval: 100
+  save_dir: "checkpoints"
+
+evaluation:
+  # 评估指标
+  metrics:
+    - "auc"
+    - "logloss"
+    - "ece"
+    - "mce"
+    - "pcoc"
+  
+  # 分组评估
+  group_by:
+    - "business_type"
+    - "hour"
+  
+  # 可视化
+  plot_reliability: true
+  plot_comparison: true
+
+output:
+  # 输出配置
+  results_dir: "results"
+  logs_dir: "logs"
+  figures_dir: "results/figures"
+  checkpoints_dir: "checkpoints"

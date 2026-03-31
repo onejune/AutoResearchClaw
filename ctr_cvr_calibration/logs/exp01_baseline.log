@@ -1,0 +1,130 @@
+============================================================
+实验 01: 基线模型校准性能评估
+============================================================
+
+============================================================
+硬件资源监控
+============================================================
+
+💻 CPU:
+   名称: CPU (24 cores)
+   利用率: 2.7%
+   内存: 16985MB / 187168MB
+   可用: 169220MB
+
+🎮 GPU (2 个):
+   GPU 1: Tesla T4
+      利用率: 0.0% [✅ 空闲]
+      显存: 4MB / 14931MB
+      可用: 14927MB
+   GPU 0: Tesla T4
+      利用率: 82.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+
+✅ 选中设备: Tesla T4
+   类型: cuda
+   原因: GPU 1 空闲且显存充足
+============================================================
+
+
+使用设备: cuda:1
+
+加载数据...
+Loading data from /mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/train/...
+  Loaded 3265331 samples
+  Label mean: 0.4149
+
+Dataset split:
+  Train: 2612264
+  Val: 326533
+  Test: 326534
+训练集: 2612264 样本
+验证集: 326533 样本
+测试集: 326534 样本
+
+创建模型...
+模型参数量: 4,099,825
+
+开始训练...
+  Batch 100/2552, Loss: 0.5547
+  Batch 200/2552, Loss: 0.5636
+  Batch 300/2552, Loss: 0.5502
+  Batch 400/2552, Loss: 0.5528
+  Batch 500/2552, Loss: 0.5750
+  Batch 600/2552, Loss: 0.5576
+  Batch 700/2552, Loss: 0.5630
+  Batch 800/2552, Loss: 0.5476
+  Batch 900/2552, Loss: 0.5457
+  Batch 1000/2552, Loss: 0.5279
+  Batch 1100/2552, Loss: 0.5590
+  Batch 1200/2552, Loss: 0.5682
+  Batch 1300/2552, Loss: 0.5392
+  Batch 1400/2552, Loss: 0.5418
+  Batch 1500/2552, Loss: 0.5316
+  Batch 1600/2552, Loss: 0.5266
+  Batch 1700/2552, Loss: 0.5457
+  Batch 1800/2552, Loss: 0.5406
+  Batch 1900/2552, Loss: 0.5265
+  Batch 2000/2552, Loss: 0.5144
+  Batch 2100/2552, Loss: 0.5592
+  Batch 2200/2552, Loss: 0.5264
+  Batch 2300/2552, Loss: 0.5382
+  Batch 2400/2552, Loss: 0.5430
+  Batch 2500/2552, Loss: 0.5428
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch  1/10: Loss=0.5444, Train AUC=0.7797, Val AUC=0.7932, Val ECE=0.0269, Time=58.8s
+  Batch 100/2552, Loss: 0.5175
+  Batch 200/2552, Loss: 0.5185
+  Batch 300/2552, Loss: 0.5148
+  Batch 400/2552, Loss: 0.5301
+  Batch 500/2552, Loss: 0.5074
+  Batch 600/2552, Loss: 0.5241
+  Batch 700/2552, Loss: 0.5260
+  Batch 800/2552, Loss: 0.5293
+  Batch 900/2552, Loss: 0.5014
+  Batch 1000/2552, Loss: 0.5015
+  Batch 1100/2552, Loss: 0.5193
+  Batch 1200/2552, Loss: 0.5240
+  Batch 1300/2552, Loss: 0.5282
+  Batch 1400/2552, Loss: 0.5271
+  Batch 1500/2552, Loss: 0.5338
+  Batch 1600/2552, Loss: 0.5279
+  Batch 1700/2552, Loss: 0.5394
+  Batch 1800/2552, Loss: 0.5404
+  Batch 1900/2552, Loss: 0.5542
+  Batch 2000/2552, Loss: 0.5241
+  Batch 2100/2552, Loss: 0.5245
+  Batch 2200/2552, Loss: 0.5301
+  Batch 2300/2552, Loss: 0.5455
+  Batch 2400/2552, Loss: 0.5116
+  Batch 2500/2552, Loss: 0.5123
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch  2/10: Loss=0.5286, Train AUC=0.7954, Val AUC=0.7981, Val ECE=0.0065, Time=57.3s
+  Batch 100/2552, Loss: 0.5520
+  Batch 200/2552, Loss: 0.5236
+  Batch 300/2552, Loss: 0.5216
+  Batch 400/2552, Loss: 0.5237
+  Batch 500/2552, Loss: 0.5242
+  Batch 600/2552, Loss: 0.5379
+  Batch 700/2552, Loss: 0.5284
+  Batch 800/2552, Loss: 0.5086
+  Batch 900/2552, Loss: 0.5282
+  Batch 1000/2552, Loss: 0.5277
+  Batch 1100/2552, Loss: 0.4982
+  Batch 1200/2552, Loss: 0.5244
+  Batch 1300/2552, Loss: 0.5199
+  Batch 1400/2552, Loss: 0.5362
+  Batch 1500/2552, Loss: 0.5214
+  Batch 1600/2552, Loss: 0.5458
+  Batch 1700/2552, Loss: 0.5055
+  Batch 1800/2552, Loss: 0.5554
+  Batch 1900/2552, Loss: 0.5394
+  Batch 2000/2552, Loss: 0.5254
+  Batch 2100/2552, Loss: 0.5102
+  Batch 2200/2552, Loss: 0.5261
+  Batch 2300/2552, Loss: 0.5307
+  Batch 2400/2552, Loss: 0.5087
+  Batch 2500/2552, Loss: 0.5136

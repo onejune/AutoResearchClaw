@@ -1,0 +1,102 @@
+================================================================================
+实验 04: Focal Loss 训练时校准
+================================================================================
+
+============================================================
+硬件资源监控
+============================================================
+
+💻 CPU:
+   名称: CPU (24 cores)
+   利用率: 4.8%
+   内存: 27607MB / 187168MB
+   可用: 158584MB
+
+🎮 GPU (2 个):
+   GPU 0: Tesla T4
+      利用率: 82.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+   GPU 1: Tesla T4
+      利用率: 82.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+
+✅ 选中设备: Tesla T4
+   类型: cuda
+   原因: GPU 0 空闲且显存充足
+============================================================
+
+
+使用设备: cuda:0
+
+加载数据...
+Loading data from /mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/train/...
+  Loaded 3265331 samples
+  Label mean: 0.4149
+  Business types: 19 unique
+  Top 5 business_type: {1: 1097581, 11: 488377, 6: 315616, 4: 300593, 2: 278231}
+
+Dataset split:
+  Train: 2612264
+  Val: 326533
+  Test: 326534
+训练集: 2612264 样本
+验证集: 326533 样本
+测试集: 326534 样本
+
+================================================================================
+1. BCE Loss (Baseline)
+================================================================================
+
+训练中...
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 1: Loss=0.5444, Train AUC=0.7797, Val AUC=0.7932, Val ECE=0.0269
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 2: Loss=0.5286, Train AUC=0.7954, Val AUC=0.7981, Val ECE=0.0065
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 3: Loss=0.5221, Train AUC=0.8019, Val AUC=0.7992, Val ECE=0.0087
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+
+BCE 测试集: AUC=0.8010, ECE=0.0076, PCOC=1.0172
+
+================================================================================
+2. Focal Loss
+================================================================================
+
+训练中...
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 1: Loss=0.0579, Train AUC=0.7696, Val AUC=0.7910, Val ECE=0.1217
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 2: Loss=0.0556, Train AUC=0.7930, Val AUC=0.7971, Val ECE=0.1233
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+Epoch 3: Loss=0.0550, Train AUC=0.7995, Val AUC=0.7989, Val ECE=0.1241
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+
+Focal 测试集: AUC=0.8004, ECE=0.1263, PCOC=0.8547
+
+================================================================================
+BCE vs Focal Loss 对比
+================================================================================
+
+指标                    BCE        Focal           差异
+------------------------------------------------------------
+AUC                0.8010       0.8004      -0.0006
+LOGLOSS            0.5228       0.5791      +0.0563
+ECE                0.0076       0.1263      +0.1187
+MCE                0.0452       0.3392      +0.2940
+PCOC               1.0172       0.8547      -0.1626
+
+结果已保存到 /mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/results
+
+================================================================================
+实验 04 完成!
+================================================================================

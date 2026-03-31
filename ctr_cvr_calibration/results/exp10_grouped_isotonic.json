@@ -1,0 +1,13 @@
+{
+  "standard": {
+    "auc": 0.8012,
+    "ece": 0.0,
+    "pcoc": 1.0
+  },
+  "grouped": {
+    "auc": 0.8025,
+    "ece": 1.8e-05,
+    "pcoc": 1.0
+  },
+  "summary": "Grouped Isotonic improves AUC from 0.8012 to 0.8025 (+13bp)"
+}

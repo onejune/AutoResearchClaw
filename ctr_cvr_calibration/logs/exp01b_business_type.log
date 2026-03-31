@@ -1,0 +1,123 @@
+================================================================================
+实验 01B: 基线模型校准性能评估（按 business_type 分组）
+================================================================================
+
+============================================================
+硬件资源监控
+============================================================
+
+💻 CPU:
+   名称: CPU (24 cores)
+   利用率: 5.0%
+   内存: 17046MB / 187168MB
+   可用: 169158MB
+
+🎮 GPU (2 个):
+   GPU 1: Tesla T4
+      利用率: 0.0% [✅ 空闲]
+      显存: 4MB / 14931MB
+      可用: 14927MB
+   GPU 0: Tesla T4
+      利用率: 82.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+
+✅ 选中设备: Tesla T4
+   类型: cuda
+   原因: GPU 1 空闲且显存充足
+============================================================
+
+
+使用设备: cuda:1
+
+加载数据...
+Loading data from /mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/train/...
+  Loaded 3265331 samples
+  Label mean: 0.4149
+  Business types: 19 unique
+  Top 5 business_type: {1: 1097581, 11: 488377, 6: 315616, 4: 300593, 2: 278231}
+
+Dataset split:
+  Train: 2612264
+  Val: 326533
+  Test: 326534
+
+加载模型...
+已加载模型: /mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/checkpoints/exp01_baseline_best.pth
+
+评估中...
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+
+================================================================================
+整体评估
+================================================================================
+  AUC:    0.8010
+  LogLoss: 0.5228
+  ECE:    0.0076
+  MCE:    0.0452
+  PCOC:   1.0172
+  样本数: 326,534
+
+================================================================================
+按 business_type 分组评估 (Top 10)
+================================================================================
+  BT      样本数    占比%    AUC    ECE   PCOC    预测CTR    实际CTR
+--------------------------------------------------------------------------------
+   1  109,989  33.68 0.7997 0.0147 1.0296   0.4863   0.4723
+  11   48,798  14.94 0.7584 0.0102 1.0385   0.2563   0.2468
+   6   31,475   9.64 0.7359 0.0113 1.0000   0.4763   0.4763
+   4   30,090   9.21 0.7879 0.0099 1.0050   0.4397   0.4376
+   2   27,791   8.51 0.7738 0.0091 0.9980   0.4343   0.4351
+   0   27,586   8.45 0.7318 0.0077 1.0026   0.5528   0.5513
+   3   18,146   5.56 0.7808 0.0222 1.0784   0.1933   0.1792
+   8   11,839   3.63 0.8599 0.0113 0.9760   0.2431   0.2491
+   5   10,720   3.28 0.7395 0.0141 1.0086   0.5377   0.5331
+  10    5,073   1.55 0.6760 0.0237 1.0009   0.4814   0.4810
+
+================================================================================
+统计信息
+================================================================================
+AUC 范围: [0.5847, 0.9282]
+ECE 范围: [0.0077, 0.1088]
+PCOC 范围: [0.9637, 1.1281]
+
+结果已保存到 /mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/results
+
+================================================================================
+实验 01B 完成!
+================================================================================

@@ -1,0 +1,66 @@
+/usr/local/lib/python3.11/dist-packages/sklearn/metrics/_classification.py:2851: FutureWarning: Setting the eps parameter is deprecated and will be removed in 1.5. Instead eps will always havea default value of `np.finfo(y_pred.dtype).eps`.
+  warnings.warn(
+================================================================================
+实验 02: Temperature Scaling 校准
+================================================================================
+
+============================================================
+硬件资源监控
+============================================================
+
+💻 CPU:
+   名称: CPU (24 cores)
+   利用率: 5.2%
+   内存: 27801MB / 187168MB
+   可用: 158390MB
+
+🎮 GPU (2 个):
+   GPU 0: Tesla T4
+      利用率: 83.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+   GPU 1: Tesla T4
+      利用率: 83.0% [✅ 空闲]
+      显存: 2570MB / 14931MB
+      可用: 12361MB
+
+✅ 选中设备: Tesla T4
+   类型: cuda
+   原因: GPU 0 空闲且显存充足
+============================================================
+
+
+使用设备: cuda:0
+
+加载预测结果...
+  加载 326534 条预测结果
+  校准前 PCOC: 1.0172
+  校准前 ECE: 0.0076
+
+================================================================================
+1. 整体 Temperature Scaling
+================================================================================
+
+整体 Temperature Scaling...
+Optimal temperature: 1.0111
+
+整体温度: 1.0111
+校准后 PCOC: 1.0174
+校准后 ECE: 0.0077
+
+================================================================================
+2. 按 business_type 分组 Temperature Scaling
+================================================================================
+
+按 business_type 分组 Temperature Scaling...
+Optimal temperature: 1.0222
+Traceback (most recent call last):
+  File "/mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/experiments/exp02_temperature_scaling.py", line 339, in <module>
+    main()
+  File "/mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/experiments/exp02_temperature_scaling.py", line 247, in main
+    calibrated_df, bt_overall, bt_metrics, bt_temperatures = calibrate_by_business_type(df)
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/workspace/open_research/autoresearch/ctr_cvr_calibration/experiments/exp02_temperature_scaling.py", line 95, in calibrate_by_business_type
+    calibrated_probs = temp_scaling(logits_tensor).numpy()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
