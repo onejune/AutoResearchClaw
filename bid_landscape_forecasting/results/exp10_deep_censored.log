@@ -1,0 +1,21 @@
+设备: cuda
+加载数据用于深度删失学习...
+样本数: 100,000, 特征数: 6
+Win rate: 0.5024
+
+模型参数量: 12,770
+训练集: 80,000, 验证集: 20,000
+Epoch   5: loss=1.1534, val_auc=0.8647, val_rmse=0.4466
+Epoch  10: loss=1.1515, val_auc=0.8634, val_rmse=0.4465
+Epoch  15: loss=1.1499, val_auc=0.8637, val_rmse=0.4466
+Epoch  20: loss=1.1497, val_auc=0.8649, val_rmse=0.4463
+Epoch  25: loss=1.1495, val_auc=0.8584, val_rmse=0.4464
+Epoch  30: loss=1.1480, val_auc=0.8644, val_rmse=0.4463
+
+=== Deep Censored Learning 评估 ===
+AUC:  0.8649
+RMSE: 0.4465
+ECE:  0.1428
+
+总耗时: 35.0s
+✅ 结果已保存: results/exp10_deep_censored.json + .md
