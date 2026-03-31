@@ -21,6 +21,7 @@
 | P9 | DSP 分广告主自适应建模 | 🔬 调研中 | ivr_sample_v16（内部） | KDD / WWW / RecSys | - |
 | P10 | IVR 自监督对比学习 | ✅ 完成 | ivr_sample_v16_ctcvr | KDD / WWW | `ivr_ssl_cvr/` |
 | P11 | CTR/CVR预估校准研究 | ✅ 完成 | IVR (326 万样本) | KDD / WWW | `ctr_cvr_calibration/` |
+| P12 | Bid Landscape Forecasting | 🔬 实验中 | IVR (合成数据) | KDD/WWW/RecSys | `bid_landscape_forecasting/` |
 | P12 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
 | ~~P-1~~ | ~~CVR 延迟反馈（FDAM）~~ | ~~⛔ 暂停~~ | ~~Criteo KDD 2014~~ | ~~KDD 2026~~ | ~~-~~ |
 
