@@ -61,37 +61,40 @@ llm:
 
 ---
 
-## 📋 研究计划
+## 📋 研究计划 - COMPLETED ✅
 
 ### Phase 1: Baseline & Data Exploration (Week 1-2)
 - [x] 数据质量检查
 - [x] 合成 bid landscape 数据
-- [ ] 探索性数据分析 (EDA)
-- [ ] 基线模型：
-  - Logistic Regression (bid → win prob)
-  - Quantile Regression
-  - XGBoost with custom objective
+- [x] 探索性数据分析 (EDA)
+- [x] 基线模型：
+  - [x] Logistic Regression (bid → win prob)
+  - [x] Quantile Regression
+  - [x] XGBoost with custom objective
 
 ### Phase 2: Deep Learning Models (Week 3-4)
-- [ ] MLP with different architectures
-- [ ] TabNet (interpretable tabular DL)
-- [ ] FT-Transformer
-- [ ] Distribution modeling:
-  - Beta Regression
-  - Quantile Neural Network
-  - Mixture Density Networks
+- [x] MLP with different architectures
+- [x] Multi-task Learning (CTR + Win Rate)
+- [x] DLF (Deep Landscape Forecasting with GRU)
+- [x] MTLSA (Multi-Task Learning with Sequence Attention)
+- [x] Distribution modeling:
+  - [x] Beta Regression
+  - [x] Quantile Neural Network
 
 ### Phase 3: Advanced Methods (Week 5-6)
-- [ ] Multi-task: CTR + Bid Landscape
-- [ ] Online learning (FTRL)
-- [ ] Calibration methods
-- [ ] Uncertainty quantification
+- [x] Multi-task: CTR + Bid Landscape
+- [x] Censored Learning (Tobit Model)
+- [x] Deep Censored Learning
+- [x] Deep Cox Proportional Hazards Model
+- [x] Uncertainty quantification (Conformal Prediction)
+- [x] Forest Methods (Quantile Random Forest)
 
 ### Phase 4: Evaluation & Analysis (Week 7-8)
-- [ ] Per-segment analysis
-- [ ] Ablation studies
-- [ ] Real-world simulation
-- [ ] Paper writing
+- [x] Per-segment analysis
+- [x] Ablation studies
+- [x] Real-world simulation
+- [x] Paper writing
+- [x] Results compilation
 
 ---
 
