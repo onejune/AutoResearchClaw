@@ -4,7 +4,7 @@
 > **日期范围**: 2026-03-31  
 > **数据集**: Synthetic Bid Landscape (50 万样本)  
 > **目标会议**: KDD / WWW / RecSys 2026  
-> **状态**: ✅ 6 个实验完成
+> **状态**: ✅ 10 个实验完成
 
 ---
 
@@ -19,9 +19,13 @@
 | 5 | MLP | 0.8718 | 0.3816 | 0.0056 | - | Probability accuracy |
 | 6 | XGBoost | 0.8714 | 0.4625 | 0.0050 | - | Interpretability |
 | 7 | Censored (Real) | 0.8674 | 0.3848 | 0.0040 | - | Censored regression |
-| 8 | Quantile NN | 0.8627 | 0.4187 | 0.1249 | - | Distribution modeling |
-| 9 | Beta Regression | 0.8718 | 0.4087 | 0.1221 ⚠️ | - | Uncertainty quantification |
-| 10 | Censored (Oracle) | 0.8656 | 0.3862 | 0.0074 | - | With true_value |
+| 8 | Conformal Prediction | 0.8655 | 0.3863 | 0.0079 | **0.8997** | Confidence intervals |
+| 9 | Quantile Random Forest | 0.8590 | 0.3917 | 0.0188 | - | Tree-based quantile prediction |
+| 10 | Deep Censored | 0.8649 | 0.4465 | 0.1428 | - | Deep survival analysis |
+| 11 | Deep Cox PH | 0.8617 | 0.4306 | 0.1597 | - | Advanced censored learning |
+| 12 | Quantile NN | 0.8627 | 0.4187 | 0.1249 | - | Distribution modeling |
+| 13 | Beta Regression | 0.8718 | 0.4087 | 0.1221 ⚠️ | - | Uncertainty quantification |
+| 14 | Censored (Oracle) | 0.8656 | 0.3862 | 0.0074 | - | With true_value |
 
 ---
 
@@ -103,7 +107,65 @@
 
 ---
 
-### 6. Distribution Modeling 的探索
+### 6. Conformal Prediction 的验证
+
+**Conformal Prediction**:
+- **AUC**: 0.8655
+- **Coverage Rate**: 0.8996 (~90%, 接近理论值 1-α=0.9)
+- **ECE**: 0.0079
+- **优势**: 提供理论保证的覆盖率，分布无关性质
+- **应用场景**: 需要可靠置信区间的高风险决策
+
+**关键发现**:
+- Coverage Rate (0.8996) 非常接近目标值 0.9，验证了保形预测的有效性
+- 首个提供理论保证方法的实验
+- 置信区间宽度适中 (0.8714)，平衡了精确性和覆盖性
+
+---
+
+### 7. 深度删失学习的探索
+
+**Deep Censored Learning**:
+- **AUC**: 0.8649
+- **ECE**: 0.1428
+- **方法**: 使用深度神经网络结合删失似然函数
+- **优势**: 结合了深度学习的表达能力和生存分析的删失处理
+- **劣势**: 校准相对较差
+
+**Advanced Deep Censored (Deep Cox PH)**:
+- **AUC**: 0.8617
+- **ECE**: 0.1597
+- **方法**: 深度Cox比例风险模型
+- **优势**: 基于坚实的生存分析理论，处理删失数据能力强
+- **劣势**: 预测精度和校准都略有下降
+
+**关键洞察**:
+- 删失学习方法在RTB场景中有理论优势
+- 但在合成数据上，经典方法仍占优
+- 真实RTB数据中删失特性更明显时，这些方法可能更有效
+
+---
+
+### 8. 基于树的分位数预测
+
+**Quantile Random Forest**:
+- **AUC**: 0.8590
+- **ECE**: 0.0188
+- **方法**: 使用随机森林进行分位数预测，通过聚合所有树的预测分布来构建分位数
+- **优势**: 
+  - 提供完整的 win probability 分布
+  - 对异常值鲁棒
+  - 可解释性强
+- **劣势**: 预测精度略低于最佳方法
+
+**与神经网络分位数对比**:
+- **Quantile RF**: AUC=0.8590, ECE=0.0188
+- **Quantile NN**: AUC=0.8627, ECE=0.1249
+- **结论**: 树模型在校准方面表现更好
+
+---
+
+### 9. Distribution Modeling 的探索
 
 **Beta Regression**:
 - ✅ 成功建模 uncertainty (Mean Var = 0.20)

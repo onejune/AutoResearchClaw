@@ -17,10 +17,14 @@
 | 4 | **DLF** | 0.8687 | 0.3841 | 0.0052 | GRU 序列建模 |
 | 5 | **MLP** | 0.8718 | 0.3816 | 0.0056 | 概率精度最优 |
 | 6 | **Censored (Real)** | 0.8674 | 0.3848 | 0.0040 | 真实 RTB 建模 |
-| 7 | **XGBoost** | 0.8714 | 0.4625 | 0.0050 | 可解释性 |
-| 8 | **Quantile NN** | 0.8627 | 0.4187 | 0.1249 | 完整分布预测 |
-| 9 | **Censored (Oracle)** | 0.8656 | 0.3862 | 0.0074 | 理论上界 |
-| 10 | **Beta Regression** | 0.8718 | 0.4087 | 0.1221 | 不确定性建模 |
+| 7 | **Conformal Prediction** | 0.8655 | 0.3863 | 0.0079 | **0.8996** | 置信区间保证 |
+| 8 | **Quantile Random Forest** | 0.8590 | 0.3917 | 0.0188 | 树模型分位数预测 |
+| 9 | **Deep Censored** | 0.8649 | 0.4465 | 0.1428 | 深度生存分析 |
+| 10 | **Deep Cox PH** | 0.8617 | 0.4306 | 0.1597 | 高级删失学习 |
+| 11 | **XGBoost** | 0.8714 | 0.4625 | 0.0050 | 可解释性 |
+| 12 | **Quantile NN** | 0.8627 | 0.4187 | 0.1249 | 完整分布预测 |
+| 13 | **Censored (Oracle)** | 0.8656 | 0.3862 | 0.0074 | 理论上界 |
+| 14 | **Beta Regression** | 0.8718 | 0.4087 | 0.1221 | 不确定性建模 |
 
 ## 🔍 核心发现
 
@@ -37,7 +41,29 @@
 - **联合学习**: Multi-task 在 AUC 上领先，MTLSA 在校准上领先
 - **分布建模**: Beta/Quantile 等不确定性方法在校准上反而变差
 
-### 3. 数据质量验证
+### 3. 不确定性量化方法对比
+
+**Distribution-Free 方法**:
+- **Conformal Prediction**: AUC=0.8655, Coverage=0.8996
+- 提供理论保证的覆盖率 (接近目标 90%)
+- 首个验证分布无关性质的方法
+
+**Distribution-Based 方法**:
+- **Beta Regression**: AUC=0.8718, ECE=0.1221 (校准差)
+- **Quantile Regression**: AUC=0.8627, ECE=0.1249 (校准差)
+
+**Censored Learning 方法**:
+- **Censored Regression**: AUC=0.8674, ECE=0.0040 (真实场景建模)
+- **Deep Censored**: AUC=0.8649, ECE=0.1428 (深度生存分析)
+- **Deep Cox PH**: AUC=0.8617, ECE=0.1597 (高级删失学习)
+
+**Tree-based Quantile Methods**:
+- **Quantile Random Forest**: AUC=0.8590, ECE=0.0188 (树模型分位数预测)
+- **Quantile NN**: AUC=0.8627, ECE=0.1249 (神经网络分位数预测)
+
+**结论**: 保形预测提供了可靠的置信区间；删失学习方法更适合真实RTB场景；树模型在分位数预测校准方面表现更好
+
+### 4. 数据质量验证
 
 - 合成数据质量高，多种方法都能达到 ~0.87 AUC
 - Sigmoid bid-win 假设合理但可能过于简化真实场景
