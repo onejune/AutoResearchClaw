@@ -1,0 +1,35 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# 数据文件（不入 git）
+data/
+*.parquet
+*.csv
+*.pkl
+*.pickle
+
+# 模型权重（体积大，不入 git）
+results/**/*.pt
+results/**/*.pth
+results/**/*.bin
+
+# 日志
+*.log
+logs/
+
+# 临时文件
+.ipynb_checkpoints/
+*.tmp
+/tmp/
+
+# IDE
+.vscode/
+.idea/
+*.swp

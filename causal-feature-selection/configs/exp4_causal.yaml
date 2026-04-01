@@ -1,0 +1,62 @@
+# Phase 4: 因果特征选择实验配置
+
+experiment:
+  name: "exp4_causal_irm"
+  description: "Invariant Risk Minimization for OOD generalization"
+  phase: 4
+
+data:
+  path: "/mnt/data/oss_dsp_algo/ivr/sample/ivr_sample_v16"
+  days: 31
+  
+  # 构造多个"环境"用于 IRM
+  environments:
+    - name: "time_early"
+      days: [1, 2, 3, 4, 5]
+    - name: "time_mid"
+      days: [6, 7, 8, 9, 10]
+    - name: "time_late"
+      days: [11, 12, 13, 14, 15]
+    - name: "domain_bt1"
+      business_types: ["bt_1"]
+    - name: "domain_bt2"
+      business_types: ["bt_2"]
+
+model:
+  type: "widedeep"
+  args:
+    embedding_size: 8
+    dnn_hidden_units: [1024, 512, 256, 128]
+    dropout: 0.3
+
+causal_method:
+  type: "irm"  # IRM / RML / IPS / DR
+  irm_lambda: 1.0
+  use_gradient_penalty: true
+  
+  # OOD 评估设置
+  ood_evaluation:
+    in_domain_environments: ["time_early", "time_mid"]
+    ood_environments: ["time_late", "domain_bt2"]
+
+training:
+  lr: 5.0e-05
+  batch_size: 256
+  epochs: 1
+  irm_epochs: 5  # IRM 需要额外训练轮次
+
+evaluation:
+  metrics:
+    - "auc"
+    - "ood_gap"  # In-domain AUC - OOD AUC
+    - "feature_stability"  # 不同域的重要特征重叠度
+  
+  # 对比方法
+  baselines_for_comparison:
+    - "empirical_risk_minimization"  # ERM baseline
+    - "domain_adversarial"  # 领域对抗
+
+output:
+  model_save_path: "results/exp4_causal/model.pt"
+  logs_path: "results/exp4_causal/logs.json"
+  feature_importance_path: "results/exp4_causal/feature_importance.json"

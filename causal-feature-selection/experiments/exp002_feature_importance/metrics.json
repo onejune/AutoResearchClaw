@@ -1,0 +1,32 @@
+{
+  "exp_id": "exp002",
+  "name": "feature_importance",
+  "date": "2026-04-01",
+  "methods": ["embedding_norm", "gradient_importance"],
+  "causal_candidates": [
+    "is_interstitial_ad",
+    "business_type",
+    "demand_pkgname",
+    "duf_inner_dev_pkg_imp_31_60d",
+    "connectiontype",
+    "duf_inner_dev_pkg_re_bucket_15d",
+    "duf_inner_dev_pkg_imp_bucket_15d",
+    "offerid",
+    "duf_inner_dev_pkg_imp_bucket_3d",
+    "duf_inner_dev_pkg_imp_bucket_7d",
+    "duf_inner_dev_pkg_re_bucket_7d",
+    "duf_inner_dev_pkg_re_bucket_3d",
+    "duf_inner_dev_pkg_imp_4_10d",
+    "duf_inner_dev_pkg_open_60d",
+    "huf_deviceid_demand_pkgname_re_24h",
+    "duf_inner_dev_pkg_open_4_10d",
+    "adx"
+  ],
+  "spurious_candidates": [
+    "os",
+    "duf_inner_dev_pkg_pur_11_30d",
+    "duf_inner_dev_pkg_pur_61_180d"
+  ],
+  "key_finding": "bucket 特征比原始计数特征跨域更稳定",
+  "results_path": "results/phase1_feature_importance/"
+}
