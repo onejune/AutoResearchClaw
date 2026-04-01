@@ -1,0 +1,48 @@
+# Baseline 实验配置
+# IVR v16 CTCVR Sample (预编码版本)
+
+experiment:
+  name: "baseline_widedeep_click"
+  description: "WideDeep baseline on IVR click prediction task"
+  phase: 0
+
+data:
+  root: "/mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample"
+  label_col: "click_label"  # 或 "ctcvr_label"
+  
+  # 数据划分
+  split:
+    type: "cross_domain"  # "cross_domain" or "random"
+    train_bts: [0, 1, 2, 3, 4, 5, 6, 11]  # Top 8 business types (~90%)
+    test_bts: [7, 8, 10, 13, 16]  # Long-tail 5
+  
+  # 采样比例 (快速验证用)
+  sample_ratio: 1.0  # 1.0 = 全量，0.1 = 10%
+
+model:
+  type: "widedeep"
+  args:
+    embedding_size: 8
+    dnn_hidden_units: [1024, 512, 256, 128]
+    dropout: 0.3
+
+training:
+  lr: 5.0e-05
+  batch_size: 256
+  epochs: 1
+  weight_decay: 0.0
+  early_stopping_patience: 3
+  device: "cuda"
+
+evaluation:
+  metrics:
+    - "auc"
+    - "logloss"
+    - "accuracy"
+  
+  # 按 business_type 分组评估
+  group_by: "business_type"
+
+output:
+  model_save_path: "results/baseline/model.pt"
+  logs_path: "results/baseline/logs.json"

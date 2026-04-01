@@ -1,0 +1,23 @@
+{
+  "exp_id": "exp001",
+  "name": "baseline_widedeep",
+  "date": "2026-04-01",
+  "model": "WideDeep",
+  "train_bts": [0, 1, 2, 3, 4, 5, 6, 11],
+  "test_bts": [7, 8, 10, 13, 16],
+  "train_samples": 3045806,
+  "test_samples": 204951,
+  "overall": {
+    "auc": 0.7545,
+    "pcoc": 0.7297,
+    "logloss": 0.5915
+  },
+  "by_bt": {
+    "bt_7":  {"count": 15031,  "auc": 0.9108, "pcoc": 0.5292, "positive_rate": 0.2855},
+    "bt_8":  {"count": 119026, "auc": 0.7727, "pcoc": 0.4551, "positive_rate": 0.2462},
+    "bt_10": {"count": 50987,  "auc": 0.6468, "pcoc": 1.0979, "positive_rate": 0.4825},
+    "bt_13": {"count": 12343,  "auc": 0.7862, "pcoc": 0.8103, "positive_rate": 0.3728},
+    "bt_16": {"count": 7564,   "auc": 0.5023, "pcoc": 0.6246, "positive_rate": 0.6605}
+  },
+  "model_path": "results/baseline/model.pt"
+}
