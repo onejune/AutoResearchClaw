@@ -1,0 +1,36 @@
+{
+  "data": {
+    "dir": "/mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/",
+    "label_col": "ctcvr_label",
+    "sample_ratio": 0.05,
+    "exclude_features": [
+      "deviceid"
+    ]
+  },
+  "model": {
+    "type": "mlp",
+    "hidden_dims": [
+      256,
+      128,
+      64
+    ],
+    "dropout": 0.3,
+    "embed_dim": 16
+  },
+  "training": {
+    "epochs": 20,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "patience": 5,
+    "num_workers": 4
+  },
+  "gpu": {
+    "device": -1
+  },
+  "loss": {
+    "type": "focal",
+    "gamma": 2.0,
+    "alpha": 0.5
+  },
+  "description": "Focal Loss alpha=0.5"
+}
