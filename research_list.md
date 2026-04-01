@@ -22,7 +22,8 @@
 | P10 | IVR 自监督对比学习 | ✅ 完成 | ivr_sample_v16_ctcvr | KDD / WWW | `ivr_ssl_cvr/` |
 | P11 | CTR/CVR预估校准研究 | ✅ 完成 | IVR (326 万样本) | KDD / WWW | `ctr_cvr_calibration/` |
 | P12 | Bid Landscape Forecasting | 🔬 实验中 | IVR (合成数据) | KDD/WWW/RecSys | `bid_landscape_forecasting/` |
-| P12 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
+| P13 | Focal Loss 及其变体在 CTR 预估类别不均衡问题中的应用研究 | ✅ 完成 | IVR (326 万样本) | KDD / WWW | `imbalance_research/` |
+| P14 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
 | ~~P-1~~ | ~~CVR 延迟反馈（FDAM）~~ | ~~⛔ 暂停~~ | ~~Criteo KDD 2014~~ | ~~KDD 2026~~ | ~~-~~ |
 
 **状态说明：** 🔬 实验中 / ⏳ 等数据/条件 / 📋 待启动 / ✅ 完成 / ⛔ 暂停
@@ -235,6 +236,32 @@
 - GPU 训练数值稳定性（已解决）
 - 大规模 embedding table 优化
 - 对比学习计算效率
+
+---
+
+### P13 · Focal Loss 及其变体在 CTR 预估类别不均衡问题中的应用研究
+
+| 项目 | 内容 |
+|------|------|
+| **核心问题** | CTR/CVR 预估中正负样本极度不均衡（11% CTCVR 正样本率），传统 BCE Loss 导致模型偏向多数类 |
+| **方法** | Focal Loss variants (alpha/gamma 扫描, asymmetric/balanced/dynamic/smoothed) |
+| **数据集** | IVR CTCVR (326万训练 + 123万测试，126个类别特征) |
+| **当前状态** | **✅ 已完成** |
+| **最佳结果** | WideDeep + BCE: 0.8262 AUC / Focal Loss (α=0.25): 0.8259 AUC |
+| **代码路径** | `imbalance_research/` |
+
+**核心发现：**
+- WideDeep 架构相比 MLP 提升约 0.003 AUC，架构优化比 Loss 优化贡献更大
+- α=0.25 的 Focal Loss 在 MLP 上表现最佳 (0.8259)
+- Gamma=1.5-3.0 范围内效果较好，过高或过低均下降
+- Balanced/Asymmetric Focal Loss 效果略低于标准 Focal Loss
+- 排除 deviceid 特征后 AUC 从 0.91+ 降至合理范围 (0.79-0.83)，解决了数据泄露问题
+
+**实验设计：**
+- **Baseline**: MLP/WideDeep + BCE/Focal Loss
+- **Gamma 扫描**: γ=0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0
+- **Alpha 扫描**: α=0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5
+- **变体对比**: Balanced/Asymmetric/Dynamic/Smoothed Focal Loss
 
 ---
 
