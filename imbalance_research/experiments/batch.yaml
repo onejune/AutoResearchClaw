@@ -1,0 +1,23 @@
+# 批量实验配置
+# 用法: python run.py --batch experiments/batch.yaml
+
+experiments:
+  # Baseline
+  - baseline_bce
+  - baseline_focal
+  
+  # Gamma 扫描 (关键参数)
+  - focal_gamma_1_0
+  - focal_gamma_2_0
+  - focal_gamma_3_0
+  
+  # Alpha 扫描
+  - focal_alpha_0_1
+  - focal_alpha_0_25
+  - focal_alpha_0_5
+  
+  # 变体
+  - balanced_focal
+  - asymmetric_focal
+  - dynamic_focal
+  - smoothed_focal
