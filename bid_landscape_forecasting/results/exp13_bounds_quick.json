@@ -1,0 +1,12 @@
+{
+  "results": [
+    {
+      "model": "DeepHit (baseline)",
+      "auc": 0.8561464016266848
+    },
+    {
+      "model": "DeepHit + Bounds",
+      "auc": 0.8547203857820642
+    }
+  ]
+}

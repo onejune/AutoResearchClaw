@@ -1,0 +1,52 @@
+{
+  "results": [
+    {
+      "model": "Multi-task + Counterfactual",
+      "best_auc": 0.8582060130236596,
+      "config": {
+        "lr": 0.001,
+        "batch_size": 256,
+        "epochs": 30,
+        "hidden": [
+          128,
+          64
+        ],
+        "alpha": 0.8,
+        "max_iter": 3
+      },
+      "iteration": 1
+    },
+    {
+      "model": "Multi-task + Counterfactual",
+      "best_auc": 0.8589257718407051,
+      "config": {
+        "lr": 0.001,
+        "batch_size": 256,
+        "epochs": 30,
+        "hidden": [
+          128,
+          64
+        ],
+        "alpha": 0.8,
+        "max_iter": 3
+      },
+      "iteration": 2
+    },
+    {
+      "model": "Multi-task + Counterfactual",
+      "best_auc": 0.8590980239507934,
+      "config": {
+        "lr": 0.001,
+        "batch_size": 256,
+        "epochs": 30,
+        "hidden": [
+          128,
+          64
+        ],
+        "alpha": 0.8,
+        "max_iter": 3
+      },
+      "iteration": 3
+    }
+  ]
+}

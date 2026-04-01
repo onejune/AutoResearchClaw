@@ -1,0 +1,48 @@
+{
+  "model": "Counterfactual Imputation",
+  "history": [
+    {
+      "iteration": 1,
+      "val_loss": 0.14416863024234772,
+      "rmse": "0.39640197",
+      "auc": 0.24102470255260627,
+      "imputed_mean": "0.6909125"
+    },
+    {
+      "iteration": 2,
+      "val_loss": 0.13523761928081512,
+      "rmse": "0.3832054",
+      "auc": 0.2123201009212363,
+      "imputed_mean": "0.7085498"
+    },
+    {
+      "iteration": 3,
+      "val_loss": 0.12560930848121643,
+      "rmse": "0.38438907",
+      "auc": 0.22045045051801881,
+      "imputed_mean": "0.70309496"
+    },
+    {
+      "iteration": 4,
+      "val_loss": 0.12524355947971344,
+      "rmse": "0.38775393",
+      "auc": 0.2623192134103643
+    }
+  ],
+  "final_rmse": "0.38775393",
+  "final_auc": 0.2623192134103643,
+  "config": {
+    "lr": 0.001,
+    "batch_size": 256,
+    "epochs_per_iter": 10,
+    "max_iter": 4,
+    "hidden": [
+      128,
+      64
+    ],
+    "use_uncertainty": true,
+    "imputation_strategy": "conservative",
+    "uncertainty_scale": 0.5,
+    "constraint_weight": 0.1
+  }
+}
