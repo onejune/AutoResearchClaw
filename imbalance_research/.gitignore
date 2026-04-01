@@ -1,0 +1,19 @@
+# 模型检查点
+*.pt
+*.pth
+*.ckpt
+*.bin
+
+# 实验结果目录
+results/experiments/
+results/batch_summary.json
+
+# 日志文件
+*.log
+logs/
+
+# 临时文件
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
