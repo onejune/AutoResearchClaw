@@ -1,0 +1,34 @@
+{
+  "model": "Generative Counterfactual Imputation",
+  "history": [
+    {
+      "iteration": 1,
+      "val_mse": 0.016391336917877197,
+      "auc": 0.720764452938366,
+      "imputed_mean": "0.70603544"
+    },
+    {
+      "iteration": 2,
+      "val_mse": 0.020661896094679832,
+      "auc": 0.7274814164601828,
+      "imputed_mean": "0.71979356"
+    },
+    {
+      "iteration": 3,
+      "val_mse": 0.025959497317671776,
+      "auc": 0.7302205580062,
+      "imputed_mean": "0.7468098"
+    }
+  ],
+  "final_auc": 0.7302205580062,
+  "config": {
+    "lr": 0.001,
+    "batch_size": 256,
+    "epochs": 50,
+    "hidden_dim": 128,
+    "latent_dim": 32,
+    "beta": 0.5,
+    "max_iter": 3,
+    "n_samples": 5
+  }
+}
