@@ -1,6 +1,6 @@
 # 实验 07: Censored Regression (Tobit Model)
 
-> **实验日期**: 2026-03-31 20:25  
+> **实验日期**: 2026-03-31 20:28  
 > **数据集**: Synthetic Bid Landscape (20 万样本)  
 > **设备**: cuda
 
@@ -10,8 +10,8 @@
 
 | 模式 | AUC | RMSE | ECE | 说明 |
 |------|-----|------|-----|------|
-| **Censored** | 0.8674 | 0.3848 | 0.0040 | 真实场景（不用 true_value） |
-| **Oracle** | 0.8656 | 0.3862 | 0.0074 | 使用 true_value（上界） |
+| **Censored** | 0.8700 | 0.3830 | 0.0066 | 真实场景（不用 true_value） |
+| **Oracle** | 0.8663 | 0.3857 | 0.0027 | 使用 true_value（上界） |
 
 ---
 
@@ -44,4 +44,4 @@ L_price      = MSE(price_est, true_value)  (仅 oracle 模式)
 
 ---
 
-*耗时: 226.7s*
+*耗时: 242.5s*

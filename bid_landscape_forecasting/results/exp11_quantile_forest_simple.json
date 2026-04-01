@@ -1,0 +1,32 @@
+{
+  "experiment": "exp11_quantile_forest_simple",
+  "method": "Quantile Gradient Boosting for Auction Win Rate Estimation",
+  "metrics": {
+    "auc": 0.5,
+    "rmse": 0.7048404074682438,
+    "ece": 0.0,
+    "avg_calibration_error": 0.29872000000000004,
+    "quantile_coverages": {
+      "q10_coverage": 0.4968,
+      "q25_coverage": 0.4968,
+      "q50_coverage": 1.0,
+      "q75_coverage": 1.0,
+      "q90_coverage": 1.0
+    }
+  },
+  "config": {
+    "n_samples": 50000,
+    "n_estimators": 100,
+    "max_depth": 6,
+    "target_quantiles": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "train_size": 40000,
+    "test_size": 10000
+  },
+  "elapsed_seconds": 30.689144134521484
+}

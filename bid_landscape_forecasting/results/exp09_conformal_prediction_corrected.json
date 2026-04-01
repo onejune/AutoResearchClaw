@@ -1,0 +1,23 @@
+{
+  "experiment": "exp09_conformal_prediction_corrected",
+  "method": "Conformalized Quantile Regression for Win Rate Estimation",
+  "metrics": {
+    "auc": 0.5,
+    "rmse": 0.5,
+    "ece": 0.0021499991416931152,
+    "coverage_rate": 1.0,
+    "avg_interval_width": 1.0
+  },
+  "config": {
+    "n_samples": 100000,
+    "alpha": 0.1,
+    "quantiles": [
+      0.05,
+      0.95
+    ],
+    "train_ratio": 0.6,
+    "cal_ratio": 0.2,
+    "test_ratio": 0.2
+  },
+  "elapsed_seconds": 60.664469957351685
+}

@@ -1,0 +1,20 @@
+{
+  "experiment": "exp09_conformal_prediction",
+  "method": "Conformal Prediction for Win Rate Estimation",
+  "metrics": {
+    "auc": 0.8654879628724336,
+    "rmse": 0.3870220665464458,
+    "ece": 0.021363627336981217,
+    "coverage_rate": 0.45775,
+    "avg_interval_width": 0.3251692457627244
+  },
+  "config": {
+    "n_samples": 100000,
+    "significance_level": 0.1,
+    "base_model": "LogisticRegression",
+    "train_ratio": 0.6,
+    "cal_ratio": 0.2,
+    "test_ratio": 0.2
+  },
+  "elapsed_seconds": 0.34329843521118164
+}
