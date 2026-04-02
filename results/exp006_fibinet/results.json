@@ -1,0 +1,353 @@
+{
+  "experiment": "exp006_fibinet",
+  "config": {
+    "label_col": "ctcvr_label",
+    "batch_size": 512,
+    "lr": 5e-05,
+    "epochs": 1,
+    "embedding_size": 64,
+    "dnn_hidden_units": [
+      1024,
+      512,
+      256,
+      128
+    ],
+    "dropout": 0.3,
+    "bilinear_type": "field_all",
+    "use_senet": true,
+    "use_autofis": true,
+    "senet_reduction": 4,
+    "autofis_temperature": 1.0,
+    "seed": 42
+  },
+  "selected_features": [
+    "city",
+    "bundle",
+    "model",
+    "adid",
+    "carrier",
+    "campaignid",
+    "adsize",
+    "country-hour",
+    "campaignsetid",
+    "make",
+    "language",
+    "osv",
+    "huf_deviceid_demand_pkgname_gmv_24h",
+    "duf_outer_dev_pkg_cv_90d",
+    "duf_outer_dev_pkg_cv_60d",
+    "duf_outer_dev_pkg_cv_30d",
+    "duf_outer_dev_pkg_atc_90d",
+    "duf_outer_dev_pkg_atc_60d",
+    "duf_inner_dev_pkg_imp_30d",
+    "duf_inner_dev_pkg_re_30d",
+    "duf_inner_dev_pkg_cv_30d",
+    "duf_inner_dev_pkg_imp_15d",
+    "duf_outer_dev_pkg_atc_30d",
+    "duf_inner_dev_pkg_imp_7d",
+    "subcategory_id",
+    "duf_inner_dev_pkg_re_15d",
+    "duf_inner_dev_pkg_cv_15d",
+    "duf_inner_dev_pkg_imp_3d",
+    "duf_inner_dev_pkg_re_7d",
+    "duf_inner_dev_pkg_cv_7d"
+  ],
+  "device": "cuda:0",
+  "baseline": {
+    "auc": 0.8458612654559977,
+    "pcoc": 1.082139492034912,
+    "logloss": 0.2648220437052084,
+    "training_time_sec": 882.2977237701416,
+    "device": "cuda:0",
+    "device_name": "Tesla T4"
+  },
+  "baseline_bt": {
+    "bt_0": {
+      "count": 56176,
+      "auc": 0.763120103935961,
+      "pcoc": 1.5726850032806396
+    },
+    "bt_1": {
+      "count": 403102,
+      "auc": 0.7795187713985161,
+      "pcoc": 1.0323346853256226
+    },
+    "bt_2": {
+      "count": 128449,
+      "auc": 0.8005968053527626,
+      "pcoc": 1.1682054996490479
+    },
+    "bt_3": {
+      "count": 88228,
+      "auc": 0.719817523982824,
+      "pcoc": 0.9491618871688843
+    },
+    "bt_4": {
+      "count": 131326,
+      "auc": 0.8415611526930802,
+      "pcoc": 1.0574684143066406
+    },
+    "bt_5": {
+      "count": 37268,
+      "auc": 0.7785625257658477,
+      "pcoc": 1.1809401512145996
+    },
+    "bt_6": {
+      "count": 131062,
+      "auc": 0.7935337157086981,
+      "pcoc": 1.222317099571228
+    },
+    "bt_8": {
+      "count": 63945,
+      "auc": 0.8382386961575394,
+      "pcoc": 0.9169312715530396
+    },
+    "bt_9": {
+      "count": 4030,
+      "auc": 0.610733064859569,
+      "pcoc": 1.539242148399353
+    },
+    "bt_10": {
+      "count": 19769,
+      "auc": 0.7861244596585197,
+      "pcoc": 1.2314199209213257
+    },
+    "bt_11": {
+      "count": 151591,
+      "auc": 0.7010864870163089,
+      "pcoc": 0.9084333181381226
+    },
+    "bt_12": {
+      "count": 1869,
+      "auc": 0.7173601512318075,
+      "pcoc": 1.3800920248031616
+    },
+    "bt_13": {
+      "count": 9611,
+      "auc": 0.8778120646826223,
+      "pcoc": 0.9277782440185547
+    },
+    "bt_14": {
+      "count": 1483,
+      "auc": 0.7425942776261248,
+      "pcoc": 1.4368976354599
+    },
+    "bt_15": {
+      "count": 869,
+      "auc": 0.9315065755286406,
+      "pcoc": 0.8740354180335999
+    },
+    "bt_16": {
+      "count": 2537,
+      "auc": 0.5650868878357029,
+      "pcoc": 19.095340728759766
+    },
+    "bt_17": {
+      "count": 138,
+      "auc": NaN,
+      "pcoc": NaN
+    }
+  },
+  "fibinet": {
+    "auc": 0.8244355138855842,
+    "pcoc": 1.0839508771896362,
+    "logloss": 0.27677417880614424,
+    "training_time_sec": 1530.6138787269592,
+    "bt_grouped": {
+      "bt_0": {
+        "count": 56176,
+        "auc": 0.7137172384452861,
+        "pcoc": 1.6346993446350098
+      },
+      "bt_1": {
+        "count": 403102,
+        "auc": 0.7515336491450433,
+        "pcoc": 0.9899265170097351
+      },
+      "bt_2": {
+        "count": 128449,
+        "auc": 0.767724017252976,
+        "pcoc": 1.2485816478729248
+      },
+      "bt_3": {
+        "count": 88228,
+        "auc": 0.7146059714362224,
+        "pcoc": 0.8366461396217346
+      },
+      "bt_4": {
+        "count": 131326,
+        "auc": 0.7989002974578114,
+        "pcoc": 1.2255476713180542
+      },
+      "bt_5": {
+        "count": 37268,
+        "auc": 0.7312320534681854,
+        "pcoc": 1.5016944408416748
+      },
+      "bt_6": {
+        "count": 131062,
+        "auc": 0.7584813855249002,
+        "pcoc": 1.7877389192581177
+      },
+      "bt_8": {
+        "count": 63945,
+        "auc": 0.827869868644678,
+        "pcoc": 0.8187564611434937
+      },
+      "bt_9": {
+        "count": 4030,
+        "auc": 0.6077492419358967,
+        "pcoc": 1.3566392660140991
+      },
+      "bt_10": {
+        "count": 19769,
+        "auc": 0.7397862641379607,
+        "pcoc": 1.5799493789672852
+      },
+      "bt_11": {
+        "count": 151591,
+        "auc": 0.6890350417800339,
+        "pcoc": 1.0008286237716675
+      },
+      "bt_12": {
+        "count": 1869,
+        "auc": 0.6395082933571835,
+        "pcoc": 1.7151758670806885
+      },
+      "bt_13": {
+        "count": 9611,
+        "auc": 0.8337684855621463,
+        "pcoc": 1.3174357414245605
+      },
+      "bt_14": {
+        "count": 1483,
+        "auc": 0.6779749267010413,
+        "pcoc": 1.9524388313293457
+      },
+      "bt_15": {
+        "count": 869,
+        "auc": 0.7909821321501379,
+        "pcoc": 0.8330380916595459
+      },
+      "bt_16": {
+        "count": 2537,
+        "auc": 0.2885466034755134,
+        "pcoc": 31.876670837402344
+      },
+      "bt_17": {
+        "count": 138,
+        "auc": NaN,
+        "pcoc": NaN
+      }
+    }
+  },
+  "parameter_stats": {
+    "total_params": 38832240,
+    "use_senet": true,
+    "use_autofis": true,
+    "num_features": 30,
+    "num_interactions": 435
+  },
+  "top_interactions": [
+    {
+      "feat1": "bundle",
+      "feat2": "campaignid",
+      "prob": 0.5483035445213318
+    },
+    {
+      "feat1": "bundle",
+      "feat2": "carrier",
+      "prob": 0.5482220649719238
+    },
+    {
+      "feat1": "country-hour",
+      "feat2": "campaignsetid",
+      "prob": 0.5481004118919373
+    },
+    {
+      "feat1": "adsize",
+      "feat2": "campaignsetid",
+      "prob": 0.5444016456604004
+    },
+    {
+      "feat1": "bundle",
+      "feat2": "campaignsetid",
+      "prob": 0.5435816645622253
+    },
+    {
+      "feat1": "adsize",
+      "feat2": "subcategory_id",
+      "prob": 0.5432171821594238
+    },
+    {
+      "feat1": "campaignid",
+      "feat2": "adsize",
+      "prob": 0.5411711931228638
+    },
+    {
+      "feat1": "campaignsetid",
+      "feat2": "huf_deviceid_demand_pkgname_gmv_24h",
+      "prob": 0.5402896404266357
+    },
+    {
+      "feat1": "carrier",
+      "feat2": "subcategory_id",
+      "prob": 0.5401282906532288
+    },
+    {
+      "feat1": "bundle",
+      "feat2": "adid",
+      "prob": 0.5392130613327026
+    },
+    {
+      "feat1": "adid",
+      "feat2": "adsize",
+      "prob": 0.5378729701042175
+    },
+    {
+      "feat1": "campaignid",
+      "feat2": "campaignsetid",
+      "prob": 0.5377717018127441
+    },
+    {
+      "feat1": "city",
+      "feat2": "bundle",
+      "prob": 0.5371346473693848
+    },
+    {
+      "feat1": "campaignsetid",
+      "feat2": "duf_outer_dev_pkg_atc_60d",
+      "prob": 0.5370747447013855
+    },
+    {
+      "feat1": "adid",
+      "feat2": "huf_deviceid_demand_pkgname_gmv_24h",
+      "prob": 0.5369335412979126
+    },
+    {
+      "feat1": "campaignid",
+      "feat2": "huf_deviceid_demand_pkgname_gmv_24h",
+      "prob": 0.536070704460144
+    },
+    {
+      "feat1": "campaignsetid",
+      "feat2": "duf_outer_dev_pkg_cv_30d",
+      "prob": 0.5355820655822754
+    },
+    {
+      "feat1": "bundle",
+      "feat2": "language",
+      "prob": 0.535107433795929
+    },
+    {
+      "feat1": "campaignsetid",
+      "feat2": "duf_outer_dev_pkg_atc_30d",
+      "prob": 0.5350327491760254
+    },
+    {
+      "feat1": "bundle",
+      "feat2": "duf_inner_dev_pkg_re_15d",
+      "prob": 0.534833550453186
+    }
+  ]
+}

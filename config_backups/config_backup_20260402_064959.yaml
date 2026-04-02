@@ -1,0 +1,87 @@
+created_at: '2026-04-02T06:49:51.614343'
+experiments:
+  exp001:
+    completed: false
+    description: 自动化维度分配
+    max_restarts: 3
+    name: AutoEmb
+    priority: 1
+    result_dir: exp001_autoemb
+    script: scripts/run_exp001_autoemb_v3.py
+    tags:
+    - embedding
+    - auto
+    use_gpu: true
+  exp002:
+    completed: false
+    description: 数据分布搜索
+    max_restarts: 3
+    name: DDS
+    priority: 2
+    result_dir: exp002_dds
+    script: scripts/run_exp002_dds.py
+    tags:
+    - distribution
+    - search
+    use_gpu: true
+  exp003:
+    completed: true
+    description: 层次化 Embedding (deep chain)
+    max_restarts: 3
+    name: Hierarchical v2
+    priority: 3
+    result_dir: exp003_hierarchical_v2
+    script: scripts/run_exp003_hierarchical_v2.py
+    tags:
+    - hierarchical
+    - embedding
+    use_gpu: true
+  exp004:
+    completed: false
+    description: 元学习冷启动
+    max_restarts: 3
+    name: MetaEmb
+    priority: 4
+    result_dir: exp004_metaemb
+    script: scripts/run_exp004_metaemb.py
+    tags:
+    - meta-learning
+    - cold-start
+    use_gpu: false
+  exp005:
+    completed: false
+    description: 对比学习增强
+    max_restarts: 3
+    name: Contrastive
+    priority: 5
+    result_dir: exp005_contrastive
+    script: scripts/run_exp005_contrastive.py
+    tags:
+    - contrastive
+    - representation
+    use_gpu: false
+  exp006:
+    completed: false
+    description: 特征交互
+    max_restarts: 3
+    name: FiBiNET
+    priority: 6
+    result_dir: exp006_fibinet
+    script: scripts/run_exp006_fibinet.py
+    tags:
+    - fibinet
+    - interaction
+    use_gpu: false
+  exp007:
+    completed: false
+    description: 综合方案
+    max_restarts: 3
+    name: Combined
+    priority: 7
+    result_dir: exp007_combined
+    script: scripts/run_exp007_combined.py
+    tags:
+    - combined
+    - ensemble
+    use_gpu: false
+version: '1.0'

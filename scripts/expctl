@@ -1,0 +1,135 @@
+#!/bin/bash
+# 实验队列管理脚本
+
+PROJECT_DIR="/mnt/workspace/open_research/autoresearch/multi_grained_id"
+QUEUE_MANAGER="$PROJECT_DIR/scripts/experiment_queue_manager.py"
+EXP_MANAGER="$PROJECT_DIR/experiment_manager.py"
+
+cd "$PROJECT_DIR"
+
+case "$1" in
+    # ========== 队列管理 =========='
+    list)
+        python "$QUEUE_MANAGER" list $2
+        ;;
+    
+    add)
+        shift
+        python "$QUEUE_MANAGER" add $@
+        ;;
+    
+    update)
+        shift
+        python "$QUEUE_MANAGER" update $@
+        ;;
+    
+    remove)
+        shift
+        python "$QUEUE_MANAGER" remove $@
+        ;;
+    
+    export)
+        python "$QUEUE_MANAGER" export
+        echo "✅ 配置已导出，重启守护进程以生效"
+        ;;
+    
+    # ========== 状态监控 =========='
+    status)
+        python "$EXP_MANAGER" --status
+        ;;
+    
+    # ========== 守护进程控制 =========='
+    start)
+        ./scripts/manage_experiments.sh start
+        ;;
+    
+    stop)
+        ./scripts/manage_experiments.sh stop
+        ;;
+    
+    restart)
+        ./scripts/manage_experiments.sh restart
+        ;;
+    
+    log)
+        ./scripts/manage_experiments.sh log
+        ;;
+    
+    # ========== 单个实验控制 =========='
+    run)
+        shift
+        python "$EXP_MANAGER" --start $@
+        ;;
+    
+    kill)
+        shift
+        python "$EXP_MANAGER" --stop $@
+        ;;
+    
+    rerun)
+        shift
+        python "$EXP_MANAGER" --restart $@
+        ;;
+    
+    # ========== 快捷命令 =========='
+    dashboard)
+        # 实时仪表盘（每 5 秒刷新）
+        while true; do
+            clear
+            python "$EXP_MANAGER" --status
+            echo ""
+            echo "按 Ctrl+C 退出"
+            sleep 5
+        done
+        ;;
+    
+    complete)
+        # 标记实验为完成
+        shift
+        python "$QUEUE_MANAGER" update --id $@ --completed
+        echo "✅ 已标记完成，更新配置..."
+        python "$QUEUE_MANAGER" export
+        ;;
+    
+    help|--help|-h)
+        echo "实验管理系统 - 统一入口"
+        echo ""
+        echo "用法：$0 <命令> [参数]"
+        echo ""
+        echo "队列管理:"
+        echo "  list [--status pending|completed]    列出实验"
+        echo "  add --id XXX --name XXX ...          添加实验"
+        echo "  update --id XXX --priority N         更新实验"
+        echo "  remove --id XXX                      移除实验"
+        echo "  export                               导出配置"
+        echo ""
+        echo "状态监控:"
+        echo "  status                               查看当前状态"
+        echo "  dashboard                            实时仪表盘"
+        echo ""
+        echo "守护进程:"
+        echo "  start                                启动守护进程"
+        echo "  stop                                 停止守护进程"
+        echo "  restart                              重启守护进程"
+        echo "  log                                  查看日志"
+        echo ""
+        echo "实验控制:"
+        echo "  run expXXX                           启动实验"
+        echo "  kill expXXX                          停止实验"
+        echo "  rerun expXXX                         重启实验"
+        echo "  complete expXXX                      标记完成"
+        echo ""
+        echo "示例:"
+        echo "  $0 list --status pending             # 查看待运行实验"
+        echo "  $0 add --id exp009 --name Test ..."  # 添加新实验"
+        echo "  $0 status                            # 查看状态"
+        echo "  $0 start                             # 启动守护进程"
+        ;;
+    
+    *)
+        echo "未知命令：$1"
+        echo ""
+        $0 help
+        exit 1
+        ;;
+esac
