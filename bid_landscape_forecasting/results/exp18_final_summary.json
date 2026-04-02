@@ -1,0 +1,169 @@
+{
+  "generated_at": "2026-04-01T17:44:05.931785",
+  "total_experiments": 18,
+  "ranking": [
+    {
+      "experiment": "exp12_deepwin",
+      "auc": 0.9497100767598361,
+      "rmse": 0.3515679166249389,
+      "ece": 0.0064862341888249015,
+      "training_time": 29.327833890914917,
+      "params": 231538.0,
+      "rank": 1
+    },
+    {
+      "experiment": "exp06_mtlsa",
+      "auc": 0.8693593409823446,
+      "rmse": 0.38337424397468567,
+      "ece": 0.002339738396704197,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 2
+    },
+    {
+      "experiment": "exp05_dlf",
+      "auc": 0.8686621353151011,
+      "rmse": 0.38405027985572815,
+      "ece": 0.005157243665065616,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 3
+    },
+    {
+      "experiment": "exp09_conformal_simple",
+      "auc": 0.8654879628724336,
+      "rmse": 0.3862884247199992,
+      "ece": 0.0078593766321972,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 4
+    },
+    {
+      "experiment": "exp09_conformal_prediction",
+      "auc": 0.8654879628724336,
+      "rmse": 0.3870220665464458,
+      "ece": 0.021363627336981217,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 5
+    },
+    {
+      "experiment": "exp10_deep_censored",
+      "auc": 0.8649383945975357,
+      "rmse": 0.4465230703353882,
+      "ece": 0.1427928485661745,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 6
+    },
+    {
+      "experiment": "exp08_quantile",
+      "auc": 0.8626555462059694,
+      "rmse": 0.418708726425443,
+      "ece": 0.12486273824803966,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 7
+    },
+    {
+      "experiment": "exp10_deep_censored_advanced",
+      "auc": 0.8616783378979368,
+      "rmse": 0.4306454360485077,
+      "ece": 0.15972159896194935,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 8
+    },
+    {
+      "experiment": "exp11_quantile_forest_fixed",
+      "auc": 0.8589534227321951,
+      "rmse": 0.39167346380823864,
+      "ece": 0.018823591047870552,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 9
+    },
+    {
+      "experiment": "exp14_tabtransformer",
+      "auc": 0.8432083945145178,
+      "rmse": 0.5047771785649585,
+      "ece": 0.010954868058115236,
+      "training_time": 65.83534455299377,
+      "params": 69313.0,
+      "rank": 10
+    },
+    {
+      "experiment": "exp11_quantile_forest_simple",
+      "auc": 0.5,
+      "rmse": 0.7048404074682438,
+      "ece": 0.0,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 11
+    },
+    {
+      "experiment": "exp13_deephit",
+      "auc": 0.5,
+      "rmse": 0.5,
+      "ece": 0.1,
+      "training_time": 45.0,
+      "params": 2602.0,
+      "rank": 12
+    },
+    {
+      "experiment": "exp09_conformal_prediction_corrected",
+      "auc": 0.5,
+      "rmse": 0.5,
+      "ece": 0.0021499991416931152,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 13
+    },
+    {
+      "experiment": "exp15_ensemble",
+      "auc": NaN,
+      "rmse": NaN,
+      "ece": NaN,
+      "training_time": 31.617851495742798,
+      "params": NaN,
+      "rank": 14
+    },
+    {
+      "experiment": "exp18_comprehensive_comparison",
+      "auc": NaN,
+      "rmse": NaN,
+      "ece": NaN,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 15
+    },
+    {
+      "experiment": "exp16_online_learning",
+      "auc": NaN,
+      "rmse": NaN,
+      "ece": NaN,
+      "training_time": 0.5348305702209473,
+      "params": NaN,
+      "rank": 16
+    },
+    {
+      "experiment": "exp17_calibration",
+      "auc": NaN,
+      "rmse": NaN,
+      "ece": NaN,
+      "training_time": 4.739964962005615,
+      "params": NaN,
+      "rank": 17
+    },
+    {
+      "experiment": "exp07_censored",
+      "auc": NaN,
+      "rmse": NaN,
+      "ece": NaN,
+      "training_time": NaN,
+      "params": NaN,
+      "rank": 18
+    }
+  ],
+  "best_model": "exp12_deepwin"
+}

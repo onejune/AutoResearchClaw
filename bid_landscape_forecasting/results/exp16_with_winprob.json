@@ -1,0 +1,6 @@
+{
+  "experiment": "exp16_with_winprob",
+  "auc": 0.8387642442626775,
+  "baseline_auc": 0.8304190350010255,
+  "improvement": 0.008345209261651942
+}

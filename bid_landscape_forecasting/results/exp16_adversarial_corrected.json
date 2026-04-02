@@ -1,0 +1,27 @@
+{
+  "experiment": "exp16_adversarial_corrected",
+  "paper": "Neural Bid Landscape Learning with Counterfactual Imputation (ICLR 2026)",
+  "version": "corrected_v1",
+  "config": {
+    "max_samples": 100000,
+    "hidden_dim": 128,
+    "epochs": 50,
+    "batch_size": 512,
+    "lr_G": 0.0002,
+    "lr_D": 0.0002,
+    "lambda_adv": 0.1,
+    "random_state": 42
+  },
+  "metrics": {
+    "auc": 0.8344642602280781,
+    "best_auc": 0.8344642602280781
+  },
+  "training_time_seconds": 48.593743324279785,
+  "device": "cuda",
+  "key_improvements": [
+    "correct_generator_design",
+    "proper_counterfactual_inference",
+    "dual_objective_training",
+    "consistency_discriminator"
+  ]
+}

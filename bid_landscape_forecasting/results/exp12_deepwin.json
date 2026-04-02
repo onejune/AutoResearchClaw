@@ -1,0 +1,31 @@
+{
+  "experiment": "exp12_deepwin",
+  "paper": "DeepWin (ACM TIST 2026)",
+  "config": {
+    "data_path": "/mnt/data/oss_wanjun/pai_work/open_research/dataset/ivr_sample_v16_ctcvr_sample/train/sample.parquet",
+    "max_samples": 100000,
+    "n_bids": 5,
+    "batch_size": 256,
+    "lstm_hidden": 128,
+    "lstm_layers": 2,
+    "bid_embed_dim": 16,
+    "dropout": 0.2,
+    "epochs": 50,
+    "lr": 0.001,
+    "patience": 10,
+    "random_state": 42
+  },
+  "metrics": {
+    "win_auc": 0.9497100767598361,
+    "win_rmse": 0.3515679166249389,
+    "win_mae": 0.1236,
+    "win_ece": 0.0064862341888249015,
+    "win_mce": 0.028842755293442046,
+    "win_pcoc": 0.7032716361028873,
+    "win_brier": 0.08763856506077317,
+    "win_log_loss": NaN
+  },
+  "training_time_seconds": 29.327833890914917,
+  "device": "cuda",
+  "total_params": 231538
+}

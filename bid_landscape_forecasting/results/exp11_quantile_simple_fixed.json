@@ -1,0 +1,20 @@
+{
+  "experiment": "exp11_quantile_simple_fixed",
+  "method": "Gradient Boosting for Win Rate (Quantile-inspired)",
+  "version": "fixed_v2",
+  "config": {
+    "max_samples": 100000,
+    "n_estimators": 200,
+    "max_depth": 6,
+    "learning_rate": 0.1,
+    "subsample": 0.8,
+    "random_state": 42
+  },
+  "metrics": {
+    "auc": 0.8327423868926102,
+    "rmse": 0.406844653880425,
+    "ece": 0.009406956825509624
+  },
+  "training_time_seconds": 11.099412202835083,
+  "n_estimators_used": 83
+}

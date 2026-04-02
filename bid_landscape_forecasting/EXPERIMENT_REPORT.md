@@ -1,10 +1,11 @@
 # Bid Landscape Forecasting - 完整实验报告
 
 > **项目**: P12 Bid Landscape Forecasting  
-> **日期范围**: 2026-03-31  
+> **日期范围**: 2026-03-31 ~ 2026-04-01  
 > **数据集**: Synthetic Bid Landscape (50 万样本)  
 > **目标会议**: KDD / WWW / RecSys 2026  
-> **状态**: ✅ 10 个实验完成
+> **状态**: ✅ 11 个核心实验完成 (exp01-exp11)  
+> **更新**: 2026-04-01 清理 exp12-exp16 前沿探索实验
 
 ---
 

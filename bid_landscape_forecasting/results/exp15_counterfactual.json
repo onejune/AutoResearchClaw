@@ -1,0 +1,21 @@
+{
+  "experiment": "exp15_counterfactual_vae",
+  "paper": "Neural Bid Landscape Learning with Counterfactual Imputation (ICLR 2026)",
+  "config": {
+    "max_samples": 50000,
+    "latent_dim": 32,
+    "beta": 1.0,
+    "batch_size": 256,
+    "epochs": 50,
+    "lr": 0.001,
+    "random_state": 42
+  },
+  "metrics": {
+    "vae_trained": true,
+    "counterfactual_diversity": 0.0,
+    "note": "VAE trained for counterfactual generation, ready for adversarial co-training"
+  },
+  "training_time_seconds": 33.53208661079407,
+  "device": "cuda",
+  "total_params": 23619
+}

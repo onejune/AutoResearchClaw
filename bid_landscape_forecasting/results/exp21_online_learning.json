@@ -1,0 +1,17 @@
+{
+  "experiment": "exp16_online_learning",
+  "results": {
+    "passive_aggressive": {
+      "auc": 0.8334512082738537
+    },
+    "sgd_logistic": {
+      "auc": 0.8355410584235573
+    },
+    "incremental_learning": {
+      "auc": 0.8344546329296827,
+      "auc_history": []
+    }
+  },
+  "best_method": "sgd_logistic",
+  "training_time_seconds": 0.5348305702209473
+}
