@@ -1,0 +1,68 @@
+{
+  "started_at": "2026-04-02T07:07:38.340656",
+  "experiments": {
+    "exp001": {
+      "status": "running",
+      "pid": null,
+      "start_time": "2026-04-02T07:07:40.251910",
+      "end_time": null,
+      "restart_count": 0,
+      "last_error": null,
+      "updated_at": "2026-04-02T07:07:40.251885"
+    },
+    "exp002": {
+      "status": "running",
+      "pid": null,
+      "start_time": "2026-04-02T07:07:41.263009",
+      "end_time": null,
+      "restart_count": 0,
+      "last_error": null,
+      "updated_at": "2026-04-02T07:07:41.262982"
+    },
+    "exp003": {
+      "status": "pending",
+      "pid": null,
+      "start_time": null,
+      "end_time": null,
+      "restart_count": 0,
+      "last_error": null
+    },
+    "exp004": {
+      "status": "running",
+      "pid": null,
+      "start_time": "2026-04-02T07:07:42.274608",
+      "end_time": null,
+      "restart_count": 0,
+      "last_error": null,
+      "updated_at": "2026-04-02T07:07:42.274583"
+    },
+    "exp005": {
+      "status": "running",
+      "pid": null,
+      "start_time": "2026-04-02T07:07:43.286418",
+      "end_time": null,
+      "restart_count": 0,
+      "last_error": null,
+      "updated_at": "2026-04-02T07:07:43.286394"
+    },
+    "exp006": {
+      "status": "running",
+      "pid": null,
+      "start_time": "2026-04-02T07:07:44.298330",
+      "end_time": null,
+      "restart_count": 0,
+      "last_error": null,
+      "updated_at": "2026-04-02T07:07:44.298297"
+    },
+    "exp007": {
+      "status": "running",
+      "pid": null,
+      "start_time": "2026-04-02T06:45:00.384471",
+      "end_time": "2026-04-02T07:05:39.418304",
+      "restart_count": 0,
+      "last_error": "Process died unexpectedly",
+      "updated_at": "2026-04-02T07:07:45.319064"
+    }
+  },
+  "updated_at": "2026-04-02T07:07:45.319101"
+}

@@ -1,0 +1,119 @@
+{
+  "exp001": {
+    "name": "AutoEmb",
+    "script": "scripts/run_exp001_autoemb_v3.py",
+    "result_dir": "exp001_autoemb",
+    "priority": 1,
+    "description": "自动化维度分配",
+    "completed": false,
+    "max_restarts": 3,
+    "use_gpu": true,
+    "min_memory_mb": 4096,
+    "tags": [
+      "embedding",
+      "auto"
+    ]
+  },
+  "exp002": {
+    "name": "DDS",
+    "script": "scripts/run_exp002_dds.py",
+    "result_dir": "exp002_dds",
+    "priority": 2,
+    "description": "数据分布搜索",
+    "completed": false,
+    "max_restarts": 3,
+    "use_gpu": true,
+    "min_memory_mb": 4096,
+    "tags": [
+      "distribution",
+      "search"
+    ]
+  },
+  "exp003": {
+    "name": "Hierarchical v2",
+    "script": "scripts/run_exp003_hierarchical_v2.py",
+    "result_dir": "exp003_hierarchical_v2",
+    "priority": 3,
+    "description": "层次化 Embedding (deep chain)",
+    "completed": true,
+    "max_restarts": 3,
+    "use_gpu": true,
+    "min_memory_mb": 4096,
+    "tags": [
+      "hierarchical",
+      "embedding"
+    ]
+  },
+  "exp004": {
+    "name": "MetaEmb",
+    "script": "scripts/run_exp004_metaemb.py",
+    "result_dir": "exp004_metaemb",
+    "priority": 4,
+    "description": "元学习冷启动",
+    "completed": false,
+    "max_restarts": 3,
+    "use_gpu": false,
+    "min_memory_mb": 4096,
+    "tags": [
+      "meta-learning",
+      "cold-start"
+    ]
+  },
+  "exp005": {
+    "name": "Contrastive",
+    "script": "scripts/run_exp005_contrastive.py",
+    "result_dir": "exp005_contrastive",
+    "priority": 5,
+    "description": "对比学习增强",
+    "completed": false,
+    "max_restarts": 3,
+    "use_gpu": false,
+    "min_memory_mb": 4096,
+    "tags": [
+      "contrastive",
+      "representation"
+    ]
+  },
+  "exp006": {
+    "name": "FiBiNET",
+    "script": "scripts/run_exp006_fibinet.py",
+    "result_dir": "exp006_fibinet",
+    "priority": 6,
+    "description": "特征交互",
+    "completed": false,
+    "max_restarts": 3,
+    "use_gpu": false,
+    "min_memory_mb": 4096,
+    "tags": [
+      "fibinet",
+      "interaction"
+    ]
+  },
+  "exp007": {
+    "name": "Combined",
+    "script": "scripts/run_exp007_combined.py",
+    "result_dir": "exp007_combined",
+    "priority": 7,
+    "description": "综合方案",
+    "completed": false,
+    "max_restarts": 3,
+    "use_gpu": false,
+    "min_memory_mb": 4096,
+    "tags": [
+      "combined",
+      "ensemble"
+    ]
+  },
+  "exp008": {
+    "name": "DeepFM",
+    "script": "scripts/run_exp008_deepfm.py",
+    "result_dir": "exp008_deepfm",
+    "priority": 8,
+    "description": "DeepFM 模型对比",
+    "completed": false,
+    "max_restarts": 3,
+    "use_gpu": false,
+    "min_memory_mb": 4096,
+    "tags": []
+  }
+}
