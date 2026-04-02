@@ -1,0 +1,29 @@
+{
+  "experiment": "exp16_adversarial_final",
+  "paper": "Neural Bid Landscape Learning with Counterfactual Imputation (ICLR 2026)",
+  "version": "final_v2",
+  "config": {
+    "max_samples": 100000,
+    "hidden_dim": 256,
+    "epochs": 100,
+    "batch_size": 1024,
+    "lr": 0.0005,
+    "k": 5.0,
+    "lambda_value_reg": 0.01,
+    "random_state": 42
+  },
+  "metrics": {
+    "auc": 0.8569746360289535,
+    "auc_sigmoid": 0.4818619238468457,
+    "auc_classifier": 0.8569746360289535,
+    "best_auc": 0.4818619238468457,
+    "best_value_correlation": 0.012301794904335953
+  },
+  "training_time_seconds": 38.16351056098938,
+  "device": "cuda",
+  "methodology": [
+    "counterfactual_value_inference",
+    "bid_win_consistency_loss",
+    "sigmoid_relationship_modeling"
+  ]
+}

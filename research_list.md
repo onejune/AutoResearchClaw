@@ -1,7 +1,7 @@
 # Research List
 
 > 所有研究方向的状态追踪与核心内容记录。及时更新。
-> 最后更新：2026-03-31
+> 最后更新：2026-04-02
 
 ---
 
@@ -21,8 +21,8 @@
 | P9 | DSP 分广告主自适应建模 | 🔬 调研中 | ivr_sample_v16（内部） | KDD / WWW / RecSys | - |
 | P10 | IVR 自监督对比学习 | ✅ 完成 | ivr_sample_v16_ctcvr | KDD / WWW | `ivr_ssl_cvr/` |
 | P11 | CTR/CVR预估校准研究 | ✅ 完成 | IVR (326 万样本) | KDD / WWW | `ctr_cvr_calibration/` |
-| P12 | Bid Landscape Forecasting | 🔬 实验中 | IVR (合成数据) | KDD/WWW/RecSys | `bid_landscape_forecasting/` |
-| P13 | Focal Loss 及其变体在 CTR 预估类别不均衡问题中的应用研究 | ✅ 完成 | IVR (326 万样本) | KDD / WWW | `imbalance_research/` |
+| P12 | Bid Landscape Forecasting | ✅ 完成 | IVR (合成数据，50 万样本) | KDD/WWW/RecSys | `bid_landscape_forecasting/` |
+| P13 | Focal Loss 及其变体在 CTR 预估类别不均衡问题中的应用研究 | 🔴 批量实验中 | IVR (326 万样本) | KDD / WWW | `imbalance_research/` |
 | P14 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
 | ~~P-1~~ | ~~CVR 延迟反馈（FDAM）~~ | ~~⛔ 暂停~~ | ~~Criteo KDD 2014~~ | ~~KDD 2026~~ | ~~-~~ |
 
@@ -246,7 +246,7 @@
 | **核心问题** | CTR/CVR 预估中正负样本极度不均衡（11% CTCVR 正样本率），传统 BCE Loss 导致模型偏向多数类 |
 | **方法** | Focal Loss variants (alpha/gamma 扫描, asymmetric/balanced/dynamic/smoothed) |
 | **数据集** | IVR CTCVR (326万训练 + 123万测试，126个类别特征) |
-| **当前状态** | **✅ 已完成** |
+| **当前状态** | **🔴 批量实验中** (21/23 完成) |
 | **最佳结果** | WideDeep + BCE: 0.8262 AUC / Focal Loss (α=0.25): 0.8259 AUC |
 | **代码路径** | `imbalance_research/` |
 

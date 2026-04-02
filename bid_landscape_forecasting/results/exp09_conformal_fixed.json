@@ -1,0 +1,18 @@
+{
+  "experiment": "exp09_conformal_fixed",
+  "method": "Conformal Prediction for Win Rate Estimation",
+  "version": "fixed_v2",
+  "config": {
+    "max_samples": 100000,
+    "alpha": 0.1,
+    "random_state": 42
+  },
+  "metrics": {
+    "auc": 0.83380668749747,
+    "coverage_rate": 0.90135,
+    "target_coverage": 0.9,
+    "avg_interval_width": 0.8742720464602649,
+    "ece": 0.0056953532688849276
+  },
+  "training_time_seconds": 5.414655447006226
+}

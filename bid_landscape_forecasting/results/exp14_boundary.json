@@ -1,0 +1,52 @@
+{
+  "experiment": "exp14_boundary_constraints",
+  "paper": "Win Rate Estimation via Censored Data Modeling (WWW 2025)",
+  "config": {
+    "max_samples": 100000,
+    "hidden_dims": [
+      128,
+      64
+    ],
+    "lambda_bound": 0.5,
+    "batch_size": 256,
+    "epochs": 30,
+    "lr": 0.001,
+    "patience": 8,
+    "random_state": 42
+  },
+  "metrics": {
+    "overall_auc": 0.7460421433758958,
+    "bid_10_auc": 0.759295878234254,
+    "bid_10_count": 2009,
+    "bid_25_auc": 0.7501201136714009,
+    "bid_25_count": 3095,
+    "bid_50_auc": 0.7340376597114063,
+    "bid_50_count": 4862,
+    "bid_75_auc": 0.7520808185999543,
+    "bid_75_count": 5035,
+    "bid_90_auc": 0.7436792473972006,
+    "bid_90_count": 4999,
+    "prob_very_low_auc": 0.5,
+    "prob_very_low_calibration": 0.0010235339254546089,
+    "prob_very_low_count": 4412,
+    "prob_low_auc": 0.5,
+    "prob_low_calibration": -0.0001827489845867003,
+    "prob_low_count": 2710,
+    "prob_medium_auc": 0.529059608417496,
+    "prob_medium_calibration": -0.019037930051774177,
+    "prob_medium_count": 5647,
+    "prob_high_auc": 0.5,
+    "prob_high_calibration": 0.02003280517350825,
+    "prob_high_count": 3088,
+    "prob_very_high_auc": 0.5,
+    "prob_very_high_calibration": 0.01590434608038227,
+    "prob_very_high_count": 4143
+  },
+  "training_time_seconds": 30.66677498817444,
+  "device": "cuda",
+  "total_params": 9089,
+  "features": [
+    "inequality_constraints",
+    "long_tail_analysis"
+  ]
+}

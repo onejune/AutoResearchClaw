@@ -1,0 +1,29 @@
+{
+  "experiment": "exp17_calibration",
+  "results": {
+    "lr_uncalibrated": {
+      "ece": 0.005425456429595123
+    },
+    "lr_platt": {
+      "ece": 0.00808225411048708,
+      "improvement": -0.002656797680891957
+    },
+    "lr_isotonic": {
+      "ece": 0.011595464809796575,
+      "improvement": -0.006170008380201452
+    },
+    "mlp_uncalibrated": {
+      "ece": 0.021883891523492925
+    },
+    "mlp_platt": {
+      "ece": 0.02563918289988198,
+      "improvement": -0.0037552913763890562
+    },
+    "mlp_isotonic": {
+      "ece": 0.011013642830895464,
+      "improvement": 0.010870248692597461
+    }
+  },
+  "best_method": "lr_uncalibrated",
+  "training_time_seconds": 4.739964962005615
+}

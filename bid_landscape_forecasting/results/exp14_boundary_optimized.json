@@ -1,0 +1,26 @@
+{
+  "experiment": "exp14_boundary_optimized",
+  "paper": "Win Rate Estimation via Censored Data Modeling (WWW 2025)",
+  "config": {
+    "max_samples": 150000,
+    "lambda_bound": 0.3,
+    "batch_size": 512,
+    "epochs": 40,
+    "lr": 0.001,
+    "random_state": 42
+  },
+  "metrics": {
+    "auc": 0.8410650433933631,
+    "head_auc": 0.8333481482534988,
+    "tail_auc": 0.8448837984580797,
+    "n_features": 7
+  },
+  "training_time_seconds": 58.774163484573364,
+  "device": "cuda",
+  "improvements": [
+    "more_features",
+    "adaptive_lambda",
+    "log_transform",
+    "ratio_features"
+  ]
+}

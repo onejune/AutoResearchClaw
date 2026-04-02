@@ -1,0 +1,8 @@
+{
+  "experiment": "exp13_deephit_fixed",
+  "method": "DeepHit (Simplified with Gradient Boosting)",
+  "metrics": {
+    "auc": 0.8369327029294755
+  },
+  "training_time_seconds": 7.265163898468018
+}

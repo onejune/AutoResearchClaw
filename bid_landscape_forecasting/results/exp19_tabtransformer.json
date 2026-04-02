@@ -1,0 +1,30 @@
+{
+  "experiment": "exp14_tabtransformer",
+  "paper": "TabTransformer (KDD 2020)",
+  "config": {
+    "max_samples": 100000,
+    "d_model": 64,
+    "n_heads": 4,
+    "n_layers": 2,
+    "ff_dim": 128,
+    "dropout": 0.1,
+    "batch_size": 256,
+    "epochs": 50,
+    "lr": 0.001,
+    "patience": 10,
+    "random_state": 42
+  },
+  "metrics": {
+    "win_auc": 0.8432083945145178,
+    "win_rmse": 0.5047771785649585,
+    "win_mae": 0.2548,
+    "win_ece": 0.010954868058115236,
+    "win_mce": 0.02994870814946618,
+    "win_pcoc": 0.7482098037358039,
+    "win_brier": 0.16120905233751914,
+    "win_log_loss": 0.48447136448905803
+  },
+  "training_time_seconds": 65.83534455299377,
+  "device": "cuda",
+  "total_params": 69313
+}

@@ -1,0 +1,13 @@
+{
+  "experiment": "exp16_adversarial_cotraining",
+  "paper": "Neural Bid Landscape Learning with Counterfactual Imputation (ICLR 2026)",
+  "metrics": {
+    "auc": 0.5
+  },
+  "training_time_seconds": 1.9619252681732178,
+  "features": [
+    "generator",
+    "discriminator",
+    "adversarial_training"
+  ]
+}
