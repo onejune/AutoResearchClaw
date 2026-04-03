@@ -1,0 +1,18 @@
+广告推荐中的用户LTV（生命周期价值）建模旨在预测用户未来可能带来的收益（例如游戏付费金额），以优化广告投放策略。
+LTV预估存在着数据稀疏、零膨胀（zero-inflated）和长尾分布（long-tailed distribution）等挑战，下面汇总了几个业界有代表性的LTV建模方案：
+	
+1️⃣ ZILN (Zero-Inflated Lognormal)，Google, 2019
+- 使用零膨胀对数正态分布拟合LTV，DNN输出分布参数，损失函数为负对数似然，端到端建模付费概率与金额。
+- 论文：https://arxiv.org/pdf/1912.07753
+	
+2️⃣ ODMN & MDME， Kuaishou, 2022
+- ODMN建模多时间跨度LTV间的有序依赖；MDME用分而治之思想（分桶采样）处理极不平衡分布。
+- 论文：https://arxiv.org/pdf/2208.13358
+	
+3️⃣ ExpLTV 	Tencent, 2023
+- 创新性将大R用户识别作为门控网络，引导不同特质的用户进入专属的LTV专家进行预估。
+- 论文：https://arxiv.org/pdf/2308.12729
+	
+4️⃣ CMLTV (Contrastive Multi-view) 	Huawei, 2023
+- 对比学习多视角框架，集成多个异构回归器（分布/对数/分类），提升模型鲁棒性，为即插即用模块。
+- 论文：https://arxiv.org/pdf/2306.14400

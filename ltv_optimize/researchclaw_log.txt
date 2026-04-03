@@ -1,0 +1,3 @@
+Preflight check... Model qwen3.5-27b failed: unknown url type: '${AIHUB_BASE_URL}/chat/completions'. Trying next.
+Model qwen3.5-plus failed: unknown url type: '${AIHUB_BASE_URL}/chat/completions'. Trying next.
+FAILED — All models failed: All models failed. Last error: unknown url type: '${AIHUB_BASE_URL}/chat/completions'

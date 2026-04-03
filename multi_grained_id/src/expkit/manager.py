@@ -22,10 +22,7 @@ from .hardware import HardwareMonitor
 from .experiment import ExperimentConfig, ExperimentState
 from .scheduler import ResourceScheduler
 from .progress import LogProgressParser
-
-
-# 默认日志目录
-DEFAULT_LOGS_DIR = Path("/tmp/exp_logs")
+from .config import ExpKitConfig
 
 
 class ExperimentManager:
@@ -38,14 +35,16 @@ class ExperimentManager:
         Args:
             project_root: 项目根目录路径
         """
-        self.project_root = project_root
-        self.results_dir = project_root / "results"
-        self.logs_dir = DEFAULT_LOGS_DIR
-        self.state_file = project_root / "experiment_manager_state.json"
-        self.config_file = project_root / "experiments_config.json"
+        self.cfg = ExpKitConfig(project_root)
+        self.cfg.ensure_dirs()
 
-        # 确保日志目录存在
-        self.logs_dir.mkdir(parents=True, exist_ok=True)
+        self.project_root = self.cfg.project_root
+        self.results_dir = self.cfg.results_dir
+        self.logs_dir = self.cfg.exp_logs_dir
+        self.state_file = self.cfg.state_file
+        self.config_file = self.cfg.experiments_json
+
+        print(f"📁 项目：{self.cfg.project_name}  ({self.project_root})")
 
         # 加载实验配置
         self.experiments: Dict[str, ExperimentConfig] = {}
@@ -453,14 +452,16 @@ class ExperimentManager:
             try:
                 with open(results_json, 'r') as f:
                     data = json.load(f)
-                    if "auc" in data or "AUC" in data:
+                    if any(k in data for k in self.cfg.completion_keys):
                         return True
             except Exception:
                 pass
 
         return False
 
-    def monitor_and_restart(self, max_restarts: int = 3) -> None:
+    def monitor_and_restart(self, max_restarts: int = None) -> None:
+        if max_restarts is None:
+            max_restarts = self.cfg.max_restarts
         """监控实验并自动重启失败的"""
         for exp_id, exp_config in self.experiments.items():
             if exp_config.completed:
@@ -484,7 +485,12 @@ class ExperimentManager:
                     time.sleep(5)
 
                     # 使用调度器分配资源
-                    assignment = self.scheduler.get_assignment(exp_config)
+                    assignment = self.scheduler.get_assignment(
+                        exp_config,
+                        gpu_idle_util=self.cfg.gpu_idle_util,
+                        gpu_idle_mem_mb=self.cfg.gpu_idle_mem_mb,
+                        cpu_idle_util=self.cfg.cpu_idle_util,
+                    )
                     if assignment:
                         if assignment["use_gpu"]:
                             self.start_experiment(exp_id, use_gpu=True, gpu_idx=assignment["gpu_idx"])
@@ -500,7 +506,7 @@ class ExperimentManager:
 
             elif current_status == "running" and actually_running:
                 if self.check_experiment_completed(exp_id):
-                    print(f"✅ {exp_id} 已完成!")
+                    print(f"✅ [{self.cfg.project_name}] {exp_id} 已完成!")
                     self._update_experiment_status(exp_id, "completed")
                     if exp_id in self.running_pids:
                         del self.running_pids[exp_id]
@@ -535,7 +541,12 @@ class ExperimentManager:
             assigned = False
 
             # 使用调度器分配资源
-            assignment = self.scheduler.get_assignment(exp_config)
+            assignment = self.scheduler.get_assignment(
+                exp_config,
+                gpu_idle_util=self.cfg.gpu_idle_util,
+                gpu_idle_mem_mb=self.cfg.gpu_idle_mem_mb,
+                cpu_idle_util=self.cfg.cpu_idle_util,
+            )
             if assignment:
                 if assignment["use_gpu"]:
                     if self.start_experiment(exp_id, use_gpu=True, gpu_idx=assignment["gpu_idx"]):
@@ -552,7 +563,7 @@ class ExperimentManager:
     def show_status(self) -> None:
         """显示当前状态"""
         print("\n" + "="*80)
-        print("📊 实验管理器状态")
+        print(f"📊 实验管理器状态  [{self.cfg.project_name}]")
         print("="*80)
 
         # 使用 HardwareMonitor 显示 GPU 状态
@@ -568,7 +579,7 @@ class ExperimentManager:
 
         # CPU 状态
         cpu = self.monitor.cpu
-        cpu_status = "✅ 空闲" if cpu.utilization < 70 else "🔴 忙碌"
+        cpu_status = "✅ 空闲" if cpu.utilization < self.cfg.cpu_idle_util else "🔴 忙碌"
         print(f"\n💻  CPU 状态：{cpu_status}")
         print(f"   利用率：{cpu.utilization:.1f}%")
         print(f"   内存：{cpu.memory_used_mb:.0f}MB / {cpu.memory_total_mb:.0f}MB")
@@ -605,9 +616,11 @@ class ExperimentManager:
 
         print("="*80)
 
-    def run_daemon(self, interval: int = 30) -> None:
+    def run_daemon(self, interval: int = None) -> None:
         """运行守护进程"""
-        print("🛡️  实验管理器守护进程启动...")
+        if interval is None:
+            interval = self.cfg.daemon_interval
+        print(f"🛡️  实验管理器守护进程启动  [{self.cfg.project_name}]")
         print(f"   检查间隔：{interval}秒")
         print(f"   按 Ctrl+C 停止\n")
 
@@ -618,7 +631,7 @@ class ExperimentManager:
             while True:
                 try:
                     self.show_status()
-                    self.monitor_and_restart(max_restarts=3)
+                    self.monitor_and_restart()
                     self.auto_schedule()
 
                     print(f"\n⏰ 下次检查：{datetime.now().strftime('%H:%M:%S')}")

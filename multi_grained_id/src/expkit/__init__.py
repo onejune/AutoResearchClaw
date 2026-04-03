@@ -9,8 +9,9 @@ from .experiment import ExperimentConfig, ExperimentState
 from .manager import ExperimentManager
 from .scheduler import ResourceScheduler
 from .progress import LogProgressParser
+from .config import ExpKitConfig
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 __all__ = [
     "HardwareMonitor",
     "DeviceInfo",
@@ -20,5 +21,6 @@ __all__ = [
     "ExperimentState",
     "ExperimentManager",
     "ResourceScheduler",
-    "LogProgressParser"
+    "LogProgressParser",
+    "ExpKitConfig",
 ]

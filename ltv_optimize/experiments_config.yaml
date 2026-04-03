@@ -1,0 +1,81 @@
+experiments:
+  exp001:
+    completed: false
+    description: Baseline models (Linear, XGBoost, Two-stage, DNN)
+    max_restarts: 3
+    min_memory_mb: 4096
+    name: Baseline
+    priority: 1
+    result_dir: exp001_baseline
+    script: scripts/run_exp001_baseline.py
+    tags:
+      - baseline
+      - xgboost
+      - two-stage
+    use_gpu: false
+  
+  exp002:
+    completed: false
+    description: Zero-Inflated Lognormal (ZILN) - Google 2019
+    max_restarts: 3
+    min_memory_mb: 8192
+    name: ZILN
+    priority: 2
+    result_dir: exp002_ziln
+    script: scripts/run_exp002_ziln.py
+    tags:
+      - ziln
+      - zero-inflated
+      - google
+    use_gpu: true
+  
+  exp003:
+    completed: false
+    description: ODMN + MDME - Kuaishou 2022
+    max_restarts: 3
+    min_memory_mb: 8192
+    name: ODMN_MDME
+    priority: 3
+    result_dir: exp003_odmn_mdme
+    script: scripts/run_exp003_odmn_mdme.py
+    tags:
+      - odmn
+      - mdme
+      - multi-timeframe
+      - kuaishou
+    use_gpu: true
+  
+  exp004:
+    completed: false
+    description: ExpLTV with MoE - Tencent 2023
+    max_restarts: 3
+    min_memory_mb: 8192
+    name: ExpLTV
+    priority: 4
+    result_dir: exp004_expltv
+    script: scripts/run_exp004_expltv.py
+    tags:
+      - expltv
+      - moe
+      - whale-detection
+      - tencent
+    use_gpu: true
+  
+  exp005:
+    completed: false
+    description: CMLTV Contrastive Learning - Huawei 2023
+    max_restarts: 3
+    min_memory_mb: 8192
+    name: CMLTV
+    priority: 5
+    result_dir: exp005_cmltv
+    script: scripts/run_exp005_cmltv.py
+    tags:
+      - cmltv
+      - contrastive
+      - multi-view
+      - huawei
+    use_gpu: true
+
+updated_at: '2026-04-02T20:35:00.000000'
+version: '1.0'
