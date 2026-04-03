@@ -17,11 +17,16 @@ def main():
     print("Experiment 001: Baseline Models")
     print("="*80)
     
+    # 是否使用采样模式 (快速测试用)
+    USE_SAMPLE = True  # 设置为 False 以运行全量数据
+    SAMPLE_SIZE = 1_000_000 if USE_SAMPLE else None
+    
     # Step 1: 数据预处理
-    print("\n[Step 1] Data Preprocessing")
+    print(f"\n[Step 1] Data Preprocessing{' (SAMPLE MODE)' if USE_SAMPLE else ''}")
     from data.loader import LTVDataLoader
     
     loader = LTVDataLoader()
+    loader.load_raw_data(sample_size=SAMPLE_SIZE)
     train_df, val_df, test_df = loader.preprocess(train_days=6, test_days=3, ltv_window_days=7)
     
     # 创建 LTV 标签

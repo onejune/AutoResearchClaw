@@ -21,19 +21,43 @@ class LTVDataLoader:
         self.data_path = Path(data_path)
         self.raw_data = None
         
-    def load_raw_data(self) -> pd.DataFrame:
-        """加载原始数据"""
+    def load_raw_data(self, sample_size: int = None) -> pd.DataFrame:
+        """加载原始数据
+        
+        Args:
+            sample_size: 如果指定，则只加载前 sample_size 条记录用于快速测试
+        """
         if self.raw_data is not None:
             return self.raw_data
             
-        print(f"Loading data from {self.data_path}...")
-        # CSV 没有 header，需要指定列名
-        self.raw_data = pd.read_csv(
-            self.data_path,
-            header=None,
-            names=['user_id', 'item_id', 'category_id', 'behavior_type', 'timestamp']
-        )
-        print(f"Loaded {len(self.raw_data):,} records")
+        print(f"Loading data from {self.data_path}...", end=" ")
+        
+        if sample_size:
+            # 只加载前 N 行用于快速测试
+            self.raw_data = pd.read_csv(
+                self.data_path,
+                header=None,
+                names=['user_id', 'item_id', 'category_id', 'behavior_type', 'timestamp'],
+                nrows=sample_size
+            )
+            print(f"Loaded SAMPLE of {len(self.raw_data):,} records (first {sample_size})")
+        else:
+            # 全量加载 - 使用 chunked 读取节省内存
+            chunks = []
+            chunk_size = 10_000_000  # 每次读取 1000 万行
+            
+            for chunk in pd.read_csv(
+                self.data_path,
+                header=None,
+                names=['user_id', 'item_id', 'category_id', 'behavior_type', 'timestamp'],
+                chunksize=chunk_size
+            ):
+                chunks.append(chunk)
+                print(f"Loaded {len(chunks)*chunk_size:,} records...", end="\r")
+            
+            self.raw_data = pd.concat(chunks, ignore_index=True)
+            print(f"\nLoaded {len(self.raw_data):,} records total")
+        
         return self.raw_data
     
     def preprocess(self, 
@@ -88,42 +112,65 @@ class LTVDataLoader:
     
     def create_ltv_labels(self, 
                          df: pd.DataFrame, 
-                         window_days: int = 7) -> pd.DataFrame:
+                         window_days: int = 7,
+                         cutoff_date = None) -> pd.DataFrame:
         """
         为每个用户创建 LTV 标签（未来 window_days 内的购买次数）
+        
+        Args:
+            df: 用户行为数据
+            window_days: LTV 预测窗口天数
+            cutoff_date: 观察点日期，如果为 None 则使用数据集的 70% 时间点
         """
         from datetime import timedelta
         
-        # 计算每个用户的最后行为日期
-        user_last_date = df.groupby('user_id')['date'].max().reset_index()
-        user_last_date.columns = ['user_id', 'last_behavior_date']
+        print("Calculating LTV labels...")
         
-        # 先合并到完整数据集
-        df_with_last = df.merge(user_last_date, on='user_id', how='left')
+        # 如果未指定 cutoff_date，使用数据集时间范围的 70% 处
+        if cutoff_date is None:
+            all_dates = sorted(df['date'].unique())
+            cutoff_idx = int(len(all_dates) * 0.7)
+            cutoff_date = all_dates[cutoff_idx]
+            print(f"Using automatic cutoff date: {cutoff_date}")
+        else:
+            print(f"Using specified cutoff date: {cutoff_date}")
         
-        # 计算 LTV 窗口结束日期
-        df_with_last['ltv_end_date'] = df_with_last['last_behavior_date'] + timedelta(days=window_days)
+        ltv_end_date = cutoff_date + timedelta(days=window_days)
+        print(f"LTV window: {cutoff_date} to {ltv_end_date}")
         
-        # 筛选购买行为
-        buys = df_with_last[df_with_last['behavior_type'] == 'buy'][['user_id', 'date', 'last_behavior_date', 'ltv_end_date']].copy()
+        # 按用户分组计算 LTV
+        def calculate_user_ltv(user_df):
+            """计算单个用户的 LTV"""
+            user_id = user_df['user_id'].iloc[0]
+            
+            # 观察点之后的购买行为
+            future_buys = user_df[
+                (user_df['behavior_type'] == 'buy') &
+                (user_df['date'] > cutoff_date) &
+                (user_df['date'] <= ltv_end_date)
+            ]
+            
+            return pd.Series({
+                'user_id': user_id,
+                'ltv_value': len(future_buys)
+            })
         
-        # 标记在窗口内的购买
-        buys['in_window'] = (buys['date'] > buys['last_behavior_date']) & (buys['date'] <= buys['ltv_end_date'])
+        # 只处理在 cutoff_date 之前有行为的用户
+        historical_users = df[df['date'] <= cutoff_date]['user_id'].unique()
+        historical_df = df[df['user_id'].isin(historical_users)]
         
-        # 计算每个用户在窗口内的购买次数
-        ltv_labels = buys[buys['in_window']].groupby('user_id').size().reset_index(name='ltv_value')
-        
-        # 合并所有用户（包括 LTV=0 的）
-        all_users = pd.DataFrame({'user_id': df['user_id'].unique()})
-        ltv_labels = all_users.merge(ltv_labels, on='user_id', how='left')
-        ltv_labels['ltv_value'] = ltv_labels['ltv_value'].fillna(0).astype(int)
+        # 对用户应用 LTV 计算
+        ltv_labels = historical_df.groupby('user_id').apply(calculate_user_ltv).reset_index(drop=True)
         
         print(f"LTV distribution:")
+        print(f"  Total users: {len(ltv_labels):,}")
         print(f"  Zero-inflation: {(ltv_labels['ltv_value'] == 0).sum() / len(ltv_labels) * 100:.2f}%")
+        print(f"  Non-zero users: {(ltv_labels['ltv_value'] > 0).sum():,}")
         print(f"  Mean LTV: {ltv_labels['ltv_value'].mean():.2f}")
         print(f"  Max LTV: {ltv_labels['ltv_value'].max()}")
+        print(f"  LTV value range: {ltv_labels['ltv_value'].min()} - {ltv_labels['ltv_value'].max()}")
         
-        return ltv_labels
+        return ltv_labels[['user_id', 'ltv_value']]
     
     def extract_features(self, 
                         df: pd.DataFrame,

@@ -266,7 +266,7 @@ def run_all_baselines(data_path: str = '/mnt/workspace/open_research/autoresearc
     result = baselines.train_linear_regression(X_train, y_train, X_val, y_val)
     if result:
         results.append(result)
-        print(f"AUC: {result.get('auc', 'N/A'):.4f}")
+        print(f"AUC: {result.get('auc', 0.0):.4f}")
         print(f"PCOC@10: {result.get('pcoc_10', 'N/A'):.4f}")
         print(f"RMSE: {result.get('rmse', 'N/A'):.4f}")
     
@@ -276,7 +276,7 @@ def run_all_baselines(data_path: str = '/mnt/workspace/open_research/autoresearc
     result = baselines.train_xgboost(X_train, y_train, X_val, y_val)
     if result:
         results.append(result)
-        print(f"AUC: {result.get('auc', 'N/A'):.4f}")
+        print(f"AUC: {result.get('auc', 0.0):.4f}")
         print(f"PCOC@10: {result.get('pcoc_10', 'N/A'):.4f}")
         print(f"RMSE: {result.get('rmse', 'N/A'):.4f}")
     
@@ -286,7 +286,7 @@ def run_all_baselines(data_path: str = '/mnt/workspace/open_research/autoresearc
     result = baselines.train_two_stage(X_train, y_train, X_val, y_val)
     if result:
         results.append(result)
-        print(f"AUC: {result.get('auc', 'N/A'):.4f}")
+        print(f"AUC: {result.get('auc', 0.0):.4f}")
         print(f"PCOC@10: {result.get('pcoc_10', 'N/A'):.4f}")
         print(f"RMSE: {result.get('rmse', 'N/A'):.4f}")
     
@@ -296,7 +296,7 @@ def run_all_baselines(data_path: str = '/mnt/workspace/open_research/autoresearc
     result = baselines.train_dnn(X_train, y_train, X_val, y_val)
     if result:
         results.append(result)
-        print(f"AUC: {result.get('auc', 'N/A'):.4f}")
+        print(f"AUC: {result.get('auc', 0.0):.4f}")
         print(f"PCOC@10: {result.get('pcoc_10', 'N/A'):.4f}")
         print(f"RMSE: {result.get('rmse', 'N/A'):.4f}")
     
