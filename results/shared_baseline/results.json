@@ -1,8 +1,0 @@
-{
-  "auc": 0.8458612654559977,
-  "pcoc": 1.082139492034912,
-  "logloss": 0.2648220437052084,
-  "training_time_sec": 882.2977237701416,
-  "device": "cuda:0",
-  "device_name": "Tesla T4"
-}
