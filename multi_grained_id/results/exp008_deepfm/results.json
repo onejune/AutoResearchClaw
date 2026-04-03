@@ -1,0 +1,32 @@
+{
+  "experiment": "exp008_deepfm",
+  "config": {
+    "label_col": "ctcvr_label",
+    "batch_size": 512,
+    "lr": 5e-05,
+    "epochs": 1,
+    "embedding_dim": 64,
+    "hidden_units": [
+      1024,
+      512,
+      256,
+      128
+    ],
+    "dropout": 0.3,
+    "seed": 42
+  },
+  "device": "cuda:0",
+  "device_name": "Tesla T4",
+  "baseline": {
+    "auc": 0.8458612654559977,
+    "pcoc": 1.082139492034912,
+    "logloss": 0.2648220437052084,
+    "training_time_sec": 882.2977237701416,
+    "device": "cuda:0",
+    "device_name": "Tesla T4"
+  },
+  "auc": 0.7663380900868878,
+  "pcoc": 1.4906853437423706,
+  "logloss": 0.5059911983141424,
+  "training_time_sec": 891.5286571979523
+}

@@ -24,12 +24,21 @@ class ResourceScheduler:
         """
         self.hardware = hardware
 
-    def get_assignment(self, exp: ExperimentConfig) -> Optional[Dict]:
+    def get_assignment(
+        self,
+        exp: ExperimentConfig,
+        gpu_idle_util: float = 10.0,
+        gpu_idle_mem_mb: float = 500.0,
+        cpu_idle_util: float = 70.0,
+    ) -> Optional[Dict]:
         """
         获取实验的资源分配方案
 
         Args:
             exp: 实验配置
+            gpu_idle_util: GPU 空闲判定利用率阈値 (%)
+            gpu_idle_mem_mb: GPU 空闲判定显存阈値 (MB)
+            cpu_idle_util: CPU 空闲判定利用率阈値 (%)
 
         Returns:
             {"use_gpu": True, "gpu_idx": 0} 或 {"use_gpu": False} 或 None（无资源）
@@ -39,19 +48,21 @@ class ResourceScheduler:
 
         if exp.use_gpu:
             # 尝试分配 GPU
-            idle_gpus = self.hardware.get_idle_gpus(max_util=10.0, max_mem_mb=500)
+            idle_gpus = self.hardware.get_idle_gpus(
+                max_util=gpu_idle_util, max_mem_mb=gpu_idle_mem_mb
+            )
             if idle_gpus:
                 return {"use_gpu": True, "gpu_idx": idle_gpus[0]}
 
             # GPU 不足时降级到 CPU
-            if self.hardware.is_cpu_idle(max_util=70.0):
+            if self.hardware.is_cpu_idle(max_util=cpu_idle_util):
                 return {"use_gpu": False}
 
             # 资源不足
             return None
         else:
             # 不需要 GPU，检查 CPU
-            if self.hardware.is_cpu_idle(max_util=70.0):
+            if self.hardware.is_cpu_idle(max_util=cpu_idle_util):
                 return {"use_gpu": False}
 
             # CPU 也不空闲

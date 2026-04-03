@@ -31,14 +31,38 @@ class ExperimentConfig:
 
 class ExperimentQueueManager:
     """实验队列管理器 - 支持动态增删改查"""
-    
-    CONFIG_FILE = Path("/mnt/workspace/open_research/autoresearch/multi_grained_id/experiments_config.yaml")
-    BACKUP_DIR = Path("/mnt/workspace/open_research/autoresearch/multi_grained_id/config_backups")
-    
-    def __init__(self):
+
+    def __init__(self, project_root: Path = None):
+        # 自动推断项目根目录：本脚本在 scripts/ 下，上一级即项目根
+        if project_root is None:
+            project_root = Path(__file__).resolve().parent.parent
+        self.project_root = project_root
+
+        # 读取集中配置
+        self._raw_conf = self._parse_conf(project_root / "expkit.conf")
+        self.CONFIG_FILE = project_root / self._raw_conf.get("EXPERIMENTS_YAML", "experiments_config.yaml")
+        self.JSON_FILE = project_root / self._raw_conf.get("EXPERIMENTS_JSON", "experiments_config.json")
+        self.BACKUP_DIR = project_root / "config_backups"
+
         self.BACKUP_DIR.mkdir(parents=True, exist_ok=True)
         self.experiments: Dict[str, ExperimentConfig] = {}
         self._load_config()
+
+    @staticmethod
+    def _parse_conf(conf_file: Path) -> dict:
+        """解析 expkit.conf"""
+        result = {}
+        if not conf_file.exists():
+            return result
+        with open(conf_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" in line:
+                    key, _, value = line.partition("=")
+                    result[key.strip()] = value.strip()
+        return result
     
     def _load_config(self):
         """加载配置文件"""
@@ -267,14 +291,13 @@ class ExperimentQueueManager:
         data = {}
         for exp_id, exp_config in self.experiments.items():
             data[exp_id] = asdict(exp_config)
-        
-        if output_file is None:
-            output_file = "/mnt/workspace/open_research/autoresearch/multi_grained_id/experiments_config.json"
-        
-        with open(output_file, 'w', encoding='utf-8') as f:
+
+        target = Path(output_file) if output_file else self.JSON_FILE
+
+        with open(target, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
-        
-        print(f"✅ 已导出到：{output_file}")
+
+        print(f"✅ 已导出到：{target}")
 
 
 def main():

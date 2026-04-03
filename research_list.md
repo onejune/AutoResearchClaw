@@ -7,24 +7,25 @@
 
 ## 研究方向总览
 
-| # | 方向 | 状态 | 数据集 | 目标会议 | 代码路径 |
-|---|------|------|--------|---------|---------|
-| P0 | 多任务 CVR 建模 | ⏳ 等数据 | Ali-CCP | KDD / WWW | `exp_multitask/` |
-| P1 | 连续特征自动离散化 | 🔬 实验中 | Criteo Standard | KDD / WWW / SIGIR | `exp_continuous_features/` |
-| P2 | Meta-Learning 冷启动 CVR | 🔬 实验中 | IVR（ivr_sample_v16） | KDD / WWW / RecSys | `exp_meta_coldstart/` |
-| P3 | 稀疏转化信号自监督增强 | 📋 待排期 | Ali-CCP | KDD / WWW | - |
-| P4 | 稀疏反馈 + 知识蒸馏 | 📋 待排期 | Ali-CCP | KDD / SIGIR | - |
-| P5 | 个性化频次上限预测 | 📋 待排期 | Ali-CCP | KDD / RecSys | - |
-| P6 | 频次控制 + 多目标优化 | 📋 待排期 | Ali-CCP | KDD / WWW | - |
-| P7 | 延迟奖励 CVR 建模（RL） | 📋 待排期 | Ali-CCP / Criteo | KDD / AAAI | - |
-| P8 | 频次控制 RL 策略 | 📋 待排期 | Ali-CCP | KDD / WWW | - |
-| P9 | DSP 分广告主自适应建模 | 🔬 调研中 | ivr_sample_v16（内部） | KDD / WWW / RecSys | - |
-| P10 | IVR 自监督对比学习 | ✅ 完成 | ivr_sample_v16_ctcvr | KDD / WWW | `ivr_ssl_cvr/` |
-| P11 | CTR/CVR预估校准研究 | ✅ 完成 | IVR (326 万样本) | KDD / WWW | `ctr_cvr_calibration/` |
-| P12 | Bid Landscape Forecasting | ✅ 完成 | IVR (合成数据，50 万样本) | KDD/WWW/RecSys | `bid_landscape_forecasting/` |
-| P13 | Focal Loss 及其变体在 CTR 预估类别不均衡问题中的应用研究 | 🔴 批量实验中 | IVR (326 万样本) | KDD / WWW | `imbalance_research/` |
-| P14 | 生成式推荐（LLM × 推荐系统） | 📋 待启动 | Amazon / IVR | RecSys / KDD | - |
-| ~~P-1~~ | ~~CVR 延迟反馈（FDAM）~~ | ~~⛔ 暂停~~ | ~~Criteo KDD 2014~~ | ~~KDD 2026~~ | ~~-~~ |
+| #       | 方向　　　　　　　　　　　　　　　　　　　　　　　　　　 | 状态　　　　　| 数据集　　　　　　　　　　| 目标会议　　　　　 | 代码路径　　　　　　　　　　 |
+| ---------| ----------------------------------------------------------| ---------------| ---------------------------| --------------------| ------------------------------|
+| P0      | 多任务 CVR 建模　　　　　　　　　　　　　　　　　　　　　| ⏳ 等数据　　　| Ali-CCP　　　　　　　　　 | KDD / WWW　　　　　| `exp_multitask/`　　　　　　 |
+| P1      | 连续特征自动离散化　　　　　　　　　　　　　　　　　　　 | 🔬 实验中　　 | Criteo Standard　　　　　 | KDD / WWW / SIGIR　| `exp_continuous_features/`　 |
+| P2      | Meta-Learning 冷启动 CVR　　　　　　　　　　　　　　　　 | 🔬 实验中　　 | IVR（ivr_sample_v16）　　 | KDD / WWW / RecSys | `exp_meta_coldstart/`　　　　|
+| P3      | 稀疏转化信号自监督增强　　　　　　　　　　　　　　　　　 | 📋 待排期　　 | Ali-CCP　　　　　　　　　 | KDD / WWW　　　　　| -　　　　　　　　　　　　　　|
+| P4      | 稀疏反馈 + 知识蒸馏　　　　　　　　　　　　　　　　　　　| 📋 待排期　　 | Ali-CCP　　　　　　　　　 | KDD / SIGIR　　　　| -　　　　　　　　　　　　　　|
+| P5      | 个性化频次上限预测　　　　　　　　　　　　　　　　　　　 | 📋 待排期　　 | Ali-CCP　　　　　　　　　 | KDD / RecSys　　　 | -　　　　　　　　　　　　　　|
+| P6      | 频次控制 + 多目标优化　　　　　　　　　　　　　　　　　　| 📋 待排期　　 | Ali-CCP　　　　　　　　　 | KDD / WWW　　　　　| -　　　　　　　　　　　　　　|
+| P7      | 延迟奖励 CVR 建模（RL）　　　　　　　　　　　　　　　　　| 📋 待排期　　 | Ali-CCP / Criteo　　　　　| KDD / AAAI　　　　 | -　　　　　　　　　　　　　　|
+| P8      | 频次控制 RL 策略　　　　　　　　　　　　　　　　　　　　 | 📋 待排期　　 | Ali-CCP　　　　　　　　　 | KDD / WWW　　　　　| -　　　　　　　　　　　　　　|
+| P9      | DSP 分广告主自适应建模　　　　　　　　　　　　　　　　　 | 🔬 调研中　　 | ivr_sample_v16（内部）　　| KDD / WWW / RecSys | -　　　　　　　　　　　　　　|
+| P10     | IVR 自监督对比学习　　　　　　　　　　　　　　　　　　　 | ✅ 完成　　　　| ivr_sample_v16_ctcvr　　　| KDD / WWW　　　　　| `ivr_ssl_cvr/`　　　　　　　 |
+| P11     | CTR/CVR预估校准研究　　　　　　　　　　　　　　　　　　　| ✅ 完成　　　　| IVR (326 万样本)　　　　　| KDD / WWW　　　　　| `ctr_cvr_calibration/`　　　 |
+| P12     | Bid Landscape Forecasting　　　　　　　　　　　　　　　　| ✅ 完成　　　　| IVR (合成数据，50 万样本) | KDD/WWW/RecSys　　 | `bid_landscape_forecasting/` |
+| P13     | Focal Loss 及其变体在 CTR 预估类别不均衡问题中的应用研究 | 🔴 批量实验中 | IVR (326 万样本)　　　　　| KDD / WWW　　　　　| `imbalance_research/`　　　　|
+| P14     | 生成式推荐（LLM × 推荐系统）　　　　　　　　　　　　　　 | 📋 待启动　　 | Amazon / IVR　　　　　　　| RecSys / KDD　　　 | -　　　　　　　　　　　　　　|
+| P15     | LTV 优化建模　　　　　　　　　　　　　　　　　　　　　　 | 📋 待启动　　 | Taobao UserBehavior　　　 | KDD / WWW / RecSys | `ltv_optimize/`　　　　　　　|
+| ~~P-1~~ | ~~CVR 延迟反馈（FDAM）~~　　　　　　　　　　　　　　　　 | ~~⛔ 暂停~~　　| ~~Criteo KDD 2014~~　　　 | ~~KDD 2026~~　　　 | ~~-~~　　　　　　　　　　　　|
 
 **状态说明：** 🔬 实验中 / ⏳ 等数据/条件 / 📋 待启动 / ✅ 完成 / ⛔ 暂停
 
@@ -169,6 +170,24 @@
 
 ---
 
+### P15 · POSO 复现与优化（冷启动推荐）
+
+| 项目 | 内容 |
+|------|------|
+| **核心问题** | 新用户冷启动时，样本不平衡导致个性化特征被"淹没"，传统方法难以平衡新用户/老用户分布 |
+| **论文来源** | [POSO: personalized cold start modules for large-scale recommender systems](https://arxiv.org/abs/2108.04690) (快手，RecSys 2021) |
+| **核心思想** | 多用户组专用子模块 + 个性化门控融合，将不平衡特征投影到均衡模块 |
+| **对比方法** | Baseline (Wide&Deep, DeepFM) / POSO 复现 / POSO+AdaptiveGating / POSO+MetaLearning / POSO+Distillation |
+| **创新方向** | 1. 自适应门控机制 (Attention-based)；2. 元学习初始化新用户模块；3. 知识蒸馏 (老用户→新用户) |
+| **数据集** | IVR (ivr_sample_v16_ctcvr_sample)，按 session_count 划分新用户/老用户 |
+| **评估指标** | AUC/PCOC (全局+business_type 维度)，重点关注 New User AUC |
+| **代码路径** | `poso-reproduction/` (research_design.md, experiment_report.md 已创建) |
+| **当前状态** | 📋 规划完成，环境搭建中 |
+| **目标会议** | KDD / WWW / RecSys |
+| **预期提升** | 新用户 AUC +5-10%，整体 AUC +2-5% |
+
+---
+
 ### P10 · 生成式推荐（LLM × 推荐系统）
 
 | 项目 | 内容 |
@@ -273,3 +292,19 @@
 | **最佳结果** | ep=8，AUC=0.7304，仍低于 ES-DFM 1.14 千分点 |
 | **数据集** | Criteo KDD 2014（1589万行） |
 | **代码** | `/mnt/workspace/git_project/AutoResearchClaw/cvr-delayed-feedback-kdd2026/` |
+
+---
+
+### P15 · LTV 优化建模 📋 待启动
+
+| 项目 | 内容 |
+|------|------|
+| **核心问题** | 广告推荐中的用户生命周期价值 (LTV) 预测，处理零膨胀和长尾分布挑战 |
+| **对比方法** | ZILN (Google) / ODMN+MDME (Kuaishou) / ExpLTV (Tencent) / CMLTV (Huawei) |
+| **创新方向** | 系统性 benchmark + 方法组合探索 + 业务场景适配分析 |
+| **数据集** | Taobao UserBehavior (~1 亿记录，987K 用户，32% 零膨胀率) |
+| **当前状态** | 项目初始化完成，数据探索完成，基线框架就绪 |
+| **代码路径** | `ltv_optimize/` |
+| **实验设计** | exp001: Baseline / exp002: ZILN / exp003: ODMN+MDME / exp004: ExpLTV / exp005: CMLTV |
+| **关键发现** | 零膨胀率 31.94%，Top 1% 用户贡献 6.61% 购买，平均 LTV=3.0 |
+| **评估指标** | AUC, PCOC@K (全局+business_type), RMSE, Log-Likelihood |

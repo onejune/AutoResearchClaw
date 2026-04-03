@@ -153,13 +153,13 @@ class HardwareMonitor:
         self.cpu.memory_used_mb = memory.used / (1024**2)
         self.cpu.memory_available_mb = memory.available / (1024**2)
 
-    def get_idle_gpus(self, max_util: float = 10.0, max_mem_mb: float = 500) -> List[int]:
+    def get_idle_gpus(self, max_util: float = 30.0, max_mem_mb: float = 2000) -> List[int]:
         """
         获取空闲 GPU 索引列表
 
         Args:
-            max_util: 最大利用率阈值 (%)
-            max_mem_mb: 最大显存占用阈值 (MB)
+            max_util: 最大利用率阈值 (%) - 默认 30%，更宽松
+            max_mem_mb: 最大显存占用阈值 (MB) - 默认 2000MB，适应 PyTorch 初始化开销
 
         Returns:
             空闲 GPU 索引列表
