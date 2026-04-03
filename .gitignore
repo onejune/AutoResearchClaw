@@ -1,14 +1,48 @@
 __pycache__/
 *.pyc
+*.pyo
 
-# 模型权重文件（体积过大，不入库）
+# 模型权重文件
 *.pt
 *.pth
 *.ckpt
 *.bin
+*.safetensors
 
 # 数据文件
 *.csv
 *.parquet
 *.feather
+*.arrow
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# 压缩包
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.bz2
+*.7z
+*.rar
+
+# 图片/音视频
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mp4
+*.mp3
+*.wav
+
+# 日志
+*.log
+logs/
+
+# 其他大文件兜底：超过 1MB 的文件通过 pre-commit 拦截（见下方说明）
 
